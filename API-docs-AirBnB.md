@@ -316,6 +316,7 @@ Returns the details of a spot specified by its id.
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-19 20:39:36" ,
       "numReviews": 5,
+      "avgStarRating": 4.5,
       "images": [
         "image url"
       ],
