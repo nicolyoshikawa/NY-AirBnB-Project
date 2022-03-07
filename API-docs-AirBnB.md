@@ -415,19 +415,6 @@ Creates and returns a new spot.
     }
     ```
 
-* Error response: Couldn't find a Spot with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Spot couldn't be found",
-      "statusCode": 404
-    }
-    ```
-
 ## Edit a Spot
 
 Updates and returns an existing spot.
