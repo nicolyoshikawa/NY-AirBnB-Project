@@ -1162,8 +1162,8 @@ Create and return a new image for a spot specified by id.
     ```json
     {
       "id": 1,
-      "itemId": 1,
-      "itemType": "Spot",
+      "imageableId": 1,
+      "imageableType": "Spot",
       "url": "image url",
     }
     ```
@@ -1209,8 +1209,8 @@ Create and return a new image for a review specified by id.
     ```json
     {
       "id": 1,
-      "itemId": 1,
-      "itemType": "Review",
+      "imageableId": 1,
+      "imageableType": "Review",
       "url": "image url",
     }
     ```
@@ -1248,7 +1248,7 @@ Delete an existing image.
 
 * Require Authentication: true
 * Require proper authorization: Image must belong to the current user through
-  the image's item
+  the image's imageableId and imageableType
 * Request
   * Method: ?
   * URL: ?

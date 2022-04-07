@@ -305,7 +305,8 @@ Create and return a new image for a spot specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the spot is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `itemId`, `itemType`, and `url`
+- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and 
+  `url`
 - [ ] Error response with status 404 is given when a spot does not exist with 
   the provided `id`
 
@@ -317,7 +318,8 @@ Create and return a new image for a review specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the review is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `itemId`, `itemType`, and `url`
+- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and 
+  `url`
 - [ ] Error response with status 404 is given when a review does not exist with 
   the provided `id`
 - [ ] Error response with status 400 is given when the maximum number of images 
