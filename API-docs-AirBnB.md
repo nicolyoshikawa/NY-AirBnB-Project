@@ -6,7 +6,9 @@
 
 ## API Documentation
 
-## All endpoints that require authentication
+## FEATURE 0: USER AUTHORIZATION
+
+### All endpoints that require authentication
 
 All endpoints that require a current user to be logged in.
 
@@ -24,7 +26,7 @@ All endpoints that require a current user to be logged in.
     }
     ```
 
-## All endpoints that require proper authorization
+### All endpoints that require proper authorization
 
 All endpoints that require authentication and the current user does not have the
 correct role(s) or permission(s).
@@ -43,7 +45,7 @@ correct role(s) or permission(s).
     }
     ```
 
-## Get the Current User
+### Get the Current User
 
 Returns the information about the current user that is logged in.
 
@@ -68,7 +70,7 @@ Returns the information about the current user that is logged in.
     }
     ```
 
-## Log In a User
+### Log In a User
 
 Logs in a current user with valid credentials and returns the current user's
 information.
@@ -134,7 +136,7 @@ information.
     }
     ```
 
-## Sign Up a User
+### Sign Up a User
 
 Creates a new user, logs them in as the current user, and returns the current
 user's information.
@@ -206,7 +208,9 @@ user's information.
     }
     ```
 
-## Get all Spots
+## FEATURE 1: SPOTS FEATURE
+
+### Get all Spots
 
 Returns all the spots.
 
@@ -245,7 +249,7 @@ Returns all the spots.
     }
     ```
 
-## Get all Spots owned by the Current User
+### Get all Spots owned by the Current User
 
 Returns all the spots owned (created) by the current user.
 
@@ -284,7 +288,7 @@ Returns all the spots owned (created) by the current user.
     }
     ```
 
-## Get details of a Spot from an id
+### Get details of a Spot from an id
 
 Returns the details of a spot specified by its id.
 
@@ -341,7 +345,7 @@ Returns the details of a spot specified by its id.
     }
     ```
 
-## Create a Spot
+### Create a Spot
 
 Creates and returns a new spot.
 
@@ -387,7 +391,7 @@ Creates and returns a new spot.
       "description": "Place where web developers are created",
       "price": 123,
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36" 
+      "updatedAt": "2021-11-19 20:39:36"
     }
     ```
 
@@ -415,7 +419,7 @@ Creates and returns a new spot.
     }
     ```
 
-## Edit a Spot
+### Edit a Spot
 
 Updates and returns an existing spot.
 
@@ -462,7 +466,7 @@ Updates and returns an existing spot.
       "description": "Place where web developers are created",
       "price": 123,
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40" 
+      "updatedAt": "2021-11-20 10:06:40"
     }
     ```
 
@@ -503,7 +507,7 @@ Updates and returns an existing spot.
     }
     ```
 
-## Delete a Spot
+### Delete a Spot
 
 Deletes an existing spot.
 
@@ -523,7 +527,7 @@ Deletes an existing spot.
     ```json
     {
       "message": "Successfully deleted",
-      "statusCode": 200 
+      "statusCode": 200
     }
     ```
 
@@ -540,7 +544,9 @@ Deletes an existing spot.
     }
     ```
 
-## Get all Reviews of the Current User
+## FEATURE 2: REVIEWS FEATURE
+
+### Get all Reviews of the Current User
 
 Returns all the reviews written by the current user.
 
@@ -592,7 +598,7 @@ Returns all the reviews written by the current user.
     }
     ```
 
-## Get all Reviews by a Spot's id
+### Get all Reviews by a Spot's id
 
 Returns all the reviews that belong to a spot specified by id.
 
@@ -645,7 +651,7 @@ Returns all the reviews that belong to a spot specified by id.
     }
     ```
 
-## Create a Review for a Spot based on the Spot's id
+### Create a Review for a Spot based on the Spot's id
 
 Create and return a new review for a spot specified by id.
 
@@ -678,7 +684,7 @@ Create and return a new review for a spot specified by id.
       "review": "This was an awesome spot!",
       "stars": 5,
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36" 
+      "updatedAt": "2021-11-19 20:39:36"
     }
     ```
 
@@ -725,7 +731,7 @@ Create and return a new review for a spot specified by id.
     }
     ```
 
-## Edit a Review
+### Edit a Review
 
 Update and return an existing review.
 
@@ -793,7 +799,7 @@ Update and return an existing review.
     }
     ```
 
-## Delete a Review
+### Delete a Review
 
 Delete an existing review.
 
@@ -813,7 +819,7 @@ Delete an existing review.
     ```json
     {
       "message": "Successfully deleted",
-      "statusCode": 200 
+      "statusCode": 200
     }
     ```
 
@@ -829,8 +835,9 @@ Delete an existing review.
       "statusCode": 404
     }
     ```
+## FEATURE 3: BOOKINGS FEATURE
 
-## Get all of the Current User's Bookings
+### Get all of the Current User's Bookings
 
 Return all the bookings that the current user has made.
 
@@ -875,7 +882,7 @@ Return all the bookings that the current user has made.
     }
     ```
 
-## Get all Bookings for a Spot based on the Spot's id
+### Get all Bookings for a Spot based on the Spot's id
 
 Return all the bookings for a spot specified by id.
 
@@ -943,7 +950,7 @@ Return all the bookings for a spot specified by id.
     }
     ```
 
-## Create a Booking from a Spot based on the Spot's id
+### Create a Booking from a Spot based on the Spot's id
 
 Create and return a new booking from a spot specified by id.
 
@@ -952,7 +959,14 @@ Create and return a new booking from a spot specified by id.
 * Request
   * Method: ?
   * URL: ?
-  * Body: none
+  * Body:
+
+    ```json
+    {
+      "startDate": "2021-11-19",
+      "endDate": "2021-11-19"
+    }
+    ```
 
 * Successful Response
   * Status Code: 200
@@ -969,6 +983,22 @@ Create and return a new booking from a spot specified by id.
       "endDate": "2021-11-19",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-19 20:39:36"
+    }
+    ```
+
+* Error response: Body validation errors
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {
+        "endDate": "endDate cannot come before startDate"
+      }
     }
     ```
 
@@ -1002,7 +1032,7 @@ Create and return a new booking from a spot specified by id.
     }
     ```
 
-## Edit a Booking
+### Edit a Booking
 
 Update and return an existing booking.
 
@@ -1037,6 +1067,22 @@ Update and return an existing booking.
       "endDate": "2021-11-19",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-20 10:06:40"
+    }
+    ```
+
+* Error response: Body validation errors
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {
+        "endDate": "endDate cannot come before startDate"
+      }
     }
     ```
 
@@ -1083,7 +1129,7 @@ Update and return an existing booking.
     }
     ```
 
-## Delete a Booking
+### Delete a Booking
 
 Delete an existing booking.
 
@@ -1134,7 +1180,9 @@ Delete an existing booking.
     }
     ```
 
-## Add an Image to a Spot based on the Spot's id
+## FEATURE 4: IMAGES FEATURE
+
+### Add an Image to a Spot based on the Spot's id
 
 Create and return a new image for a spot specified by id.
 
@@ -1181,7 +1229,7 @@ Create and return a new image for a spot specified by id.
     }
     ```
 
-## Add an Image to a Review based on the Review's id
+### Add an Image to a Review based on the Review's id
 
 Create and return a new image for a review specified by id.
 
@@ -1242,7 +1290,7 @@ Create and return a new image for a review specified by id.
     }
     ```
 
-## Delete an Image
+### Delete an Image
 
 Delete an existing image.
 
