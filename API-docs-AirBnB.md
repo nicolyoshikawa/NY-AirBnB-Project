@@ -321,8 +321,12 @@ Returns the details of a spot specified by its id.
       "updatedAt": "2021-11-19 20:39:36" ,
       "numReviews": 5,
       "avgStarRating": 4.5,
-      "images": [
-        "image url"
+      "Images": [
+        {
+          "id": 1,
+          "imageableId": 1,
+          "url": "image url"
+        }
       ],
       "Owner": {
         "id": 1,
@@ -590,9 +594,13 @@ Returns all the reviews written by the current user.
             "name": "App Academy",
             "price": 123
           },
-          "images": [
-            "image url"
-          ]
+          "Images": [
+            {
+              "id": 1,
+              "imageableId": 1,
+              "url": "image url"
+            }
+          ],
         }
       ]
     }
@@ -630,9 +638,13 @@ Returns all the reviews that belong to a spot specified by id.
             "firstName": "John",
             "lastName": "Smith"
           },
-          "images": [
-            "image url"
-          ]
+          "Images": [
+            {
+              "id": 1,
+              "imageableId": 1,
+              "url": "image url"
+            }
+          ],
         }
       ]
     }
@@ -671,7 +683,7 @@ Create and return a new review for a spot specified by id.
     ```
 
 * Successful Response
-  * Status Code: 200
+  * Status Code: 201
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -874,7 +886,7 @@ Return all the bookings that the current user has made.
           },
           "userId": 2,
           "startDate": "2021-11-19",
-          "endDate": "2021-11-19",
+          "endDate": "2021-11-20",
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36"
         }
@@ -904,7 +916,7 @@ Return all the bookings for a spot specified by id.
         {
           "spotId": 1,
           "startDate": "2021-11-19",
-          "endDate": "2021-11-19"
+          "endDate": "2021-11-20"
         }
       ]
     }
@@ -929,7 +941,7 @@ Return all the bookings for a spot specified by id.
           "spotId": 1,
           "userId": 2,
           "startDate": "2021-11-19",
-          "endDate": "2021-11-19",
+          "endDate": "2021-11-20",
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36"
         }
@@ -964,7 +976,7 @@ Create and return a new booking from a spot specified by id.
     ```json
     {
       "startDate": "2021-11-19",
-      "endDate": "2021-11-19"
+      "endDate": "2021-11-20"
     }
     ```
 
@@ -980,7 +992,7 @@ Create and return a new booking from a spot specified by id.
       "spotId": 1,
       "userId": 2,
       "startDate": "2021-11-19",
-      "endDate": "2021-11-19",
+      "endDate": "2021-11-20",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-19 20:39:36"
     }
@@ -997,7 +1009,7 @@ Create and return a new booking from a spot specified by id.
       "message": "Validation error",
       "statusCode": 400,
       "errors": {
-        "endDate": "endDate cannot come before startDate"
+        "endDate": "endDate cannot be on or before startDate"
       }
     }
     ```
@@ -1048,7 +1060,7 @@ Update and return an existing booking.
     ```json
     {
       "startDate": "2021-11-19",
-      "endDate": "2021-11-19"
+      "endDate": "2021-11-20"
     }
     ```
 
@@ -1064,7 +1076,7 @@ Update and return an existing booking.
       "spotId": 1,
       "userId": 2,
       "startDate": "2021-11-19",
-      "endDate": "2021-11-19",
+      "endDate": "2021-11-20",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-20 10:06:40"
     }
@@ -1100,7 +1112,7 @@ Update and return an existing booking.
     ```
 
 * Error response: Can't edit a booking that's past the end date
-  * Status Code: 400
+  * Status Code: 403
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1108,7 +1120,7 @@ Update and return an existing booking.
     ```json
     {
       "message": "Past bookings can't be modified",
-      "statusCode": 400
+      "statusCode": 403
     }
     ```
 
@@ -1167,8 +1179,8 @@ Delete an existing booking.
     }
     ```
 
-* Error response: Can't delete a booking that's past the start date
-  * Status Code: 400
+* Error response: Bookings that have been started can't be deleted
+  * Status Code: 403
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1176,7 +1188,7 @@ Delete an existing booking.
     ```json
     {
       "message": "Bookings that have been started can't be deleted",
-      "statusCode": 400
+      "statusCode": 403
     }
     ```
 
@@ -1211,7 +1223,6 @@ Create and return a new image for a spot specified by id.
     {
       "id": 1,
       "imageableId": 1,
-      "imageableType": "Spot",
       "url": "image url",
     }
     ```
@@ -1258,7 +1269,6 @@ Create and return a new image for a review specified by id.
     {
       "id": 1,
       "imageableId": 1,
-      "imageableType": "Review",
       "url": "image url",
     }
     ```
@@ -1278,7 +1288,7 @@ Create and return a new image for a review specified by id.
 
 * Error response: Cannot add any more images because there is a maximum of 10
   images per resource
-  * Status Code: 400
+  * Status Code: 403
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1286,7 +1296,7 @@ Create and return a new image for a review specified by id.
     ```json
     {
       "message": "Maximum number of images for this resource was reached",
-      "statusCode": 400
+      "statusCode": 403
     }
     ```
 
@@ -1295,8 +1305,7 @@ Create and return a new image for a review specified by id.
 Delete an existing image.
 
 * Require Authentication: true
-* Require proper authorization: Image must belong to the current user through
-  the image's imageableId and imageableType
+* Require proper authorization: Image must belong to the current user
 * Request
   * Method: ?
   * URL: ?
@@ -1395,8 +1404,8 @@ Return spots filtered by query parameters.
         "minLat": "Minimum latitude is invalid",
         "minLng": "Maximum longitude is invalid",
         "maxLng": "Minimum longitude is invalid",
-        "minPrice": "Maximum price must be greater than 0",
-        "maxPrice": "Minimum price must be greater than 0"
+        "minPrice": "Maximum price must be greater than or equal to 0",
+        "maxPrice": "Minimum price must be greater than or equal to 0"
       }
     }
     ```

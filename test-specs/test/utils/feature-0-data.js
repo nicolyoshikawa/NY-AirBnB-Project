@@ -1,11 +1,44 @@
 module.exports = {
-  "featureName": "User Authorization",
+  "featureName": "User Authentication",
   "endpoints": [
     {
       "endpointName": "Get the Current User",
-      // Fill this out:
-      "method": "",
-      "URL": "",
+      "method": "GET",
+      "URL": "/me",
+      "requiresAuthentication": false,
+      "requiresLogin": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "specs": [
+        {
+          "specName": "Successful Response",
+          "request": {
+            "query": null,
+            "headers": null,
+            "body": null
+          },
+          "response": {
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "statusCode": 200,
+            "body": {
+              "id": 1,
+              "firstName": "John",
+              "lastName": "Smith",
+              "email": "john.smith@user.io"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpointName": "Get the Current User",
+      "method": "GET",
+      "URL": "/me",
       "requiresAuthentication": false,
       "specs": [
         {
@@ -19,22 +52,16 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
-            "body": {
-              "id": 1,
-              "firstName": "John",
-              "lastName": "Smith",
-              "email": "john.smith@gmail.com"
-            }
+            "statusCode": 200,
+            "body": null
           }
         }
       ]
     },
     {
       "endpointName": "Log in a User",
-      // Fill this out:
-      "method": "",
-      "URL": "",
+      "method": "POST",
+      "URL": "/login",
       "requiresAuthentication": false,
       "specs": [
         {
@@ -45,7 +72,7 @@ module.exports = {
               "Content-Type": "application/json"
             },
             "body": {
-              "email": "john.smith@gmail.com",
+              "email": "john.smith@user.io",
               "password": "secret password"
             }
           },
@@ -53,7 +80,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "id": 1,
               "firstName": "John",
@@ -79,7 +106,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "401",
+            "statusCode": 401,
             "body": {
               "message": "Invalid credentials",
               "statusCode": 401
@@ -109,7 +136,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,
@@ -124,9 +151,8 @@ module.exports = {
     },
     {
       "endpointName": "Sign Up a User",
-      // Fill this out:
-      "method": "",
-      "URL": "",
+      "method": "POST",
+      "URL": "/signup",
       "requiresAuthentication": false,
       "specs": [
         {
@@ -147,7 +173,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "id": 1,
               "firstName": "John",
@@ -175,7 +201,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "403",
+            "statusCode": 403,
             "body": {
               "message": "User already exists",
               "statusCode": 403,
@@ -210,7 +236,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,

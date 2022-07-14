@@ -5,6 +5,6 @@ module.exports = {
   },
   "isLng": function(value) {
     const lngRegex = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
-    return lngRegex.test(value)
+    return lngRegex.test(value);
   }
 }

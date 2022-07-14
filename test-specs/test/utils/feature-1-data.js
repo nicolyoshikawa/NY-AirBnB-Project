@@ -21,7 +21,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "Spots": [
                 {
@@ -55,7 +55,9 @@ module.exports = {
             "body.Spots.lng.validate": { isLng },
             "body.Spots.previewImage.validate": {
               "isURL": true
-            }
+            },
+            "body.page.allowNull": true,
+            "body.size.allowNull": true
           }
         }
       ]
@@ -66,6 +68,11 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -78,7 +85,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "Spots": [
                 {
@@ -135,7 +142,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "id": 1,
               "ownerId": 1,
@@ -152,8 +159,13 @@ module.exports = {
               "updatedAt": "2021-11-19 20:39:36",
               "numReviews": 5,
               "avgStarRating": 4.5,
-              "images": [
-                "image url"
+              "Images": [
+                {
+                  "id": 1,
+                  "imageableId": 1,
+                  "imageableType": "Review",
+                  "url": "image url"
+                }
               ],
               "Owner": {
                 "id": 1,
@@ -170,7 +182,8 @@ module.exports = {
             "body.updatedAt.validate": {
               "isISO8601": true
             },
-            "body.images.validate": {
+            "body.Images.minLength": 1,
+            "body.Images.url.validate": {
               "isURL": true
             }
           }
@@ -195,7 +208,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Spot couldn't be found",
               "statusCode": 404
@@ -215,11 +228,15 @@ module.exports = {
       ]
     },
     {
-      "endpointName": "Create and return a new spot",
+      "endpointName": "Create and return a new Spot",
       // Fill this out:
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        "email": "authorized@user.io",
+        "password": "password"
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -244,7 +261,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "201",
+            "statusCode": 201,
             "body": {
               "id": 1,
               "ownerId": 1,
@@ -279,8 +296,8 @@ module.exports = {
               "Content-Type": "application/json"
             },
             "body": {
-              "lat": null,
-              "lng": null,
+              "lat": "An invalid latitude",
+              "lng": "An invalid longitude",
               "name": "An invalid, very long name that will result in an error because it is more than 50 characters",
             }
           },
@@ -288,7 +305,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,
@@ -308,12 +325,22 @@ module.exports = {
       ]
     },
     {
-      "endpointName": "Updates and returns an existing spot",
+      "endpointName": "Updates and returns an existing Spot",
       // Fill this out:
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
       "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -338,7 +365,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "201",
+            "statusCode": 200,
             "body": {
               "id": 1,
               "ownerId": 1,
@@ -382,7 +409,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,
@@ -395,6 +422,11 @@ module.exports = {
                 "lng": "Longitude is not valid",
                 "name": "Name must be less than 50 characters",
                 "price": "Price per day is required"
+              }
+            },
+            "body.statusCode.validate": {
+              "bodyStatusCode": function(value){
+                return value === 400;
               }
             }
           }
@@ -419,7 +451,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Spot couldn't be found",
               "statusCode": 404
@@ -439,12 +471,22 @@ module.exports = {
       ]
     },
     {
-      "endpointName": "Delete a spot",
+      "endpointName": "Delete a Spot",
       // Fill this out:
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
       "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -457,7 +499,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "message": "Successfully deleted",
               "statusCode": 200
@@ -477,13 +519,19 @@ module.exports = {
       ]
     },
     {
-      "endpointName": "Delete a Spot from a non-existent id",
+      "endpointName": "Get the Deleted Spot",
       // Fill this out:
       "method": "",
       "URL": "",
-      "requiresAuthentication": true,
+      "requiresAuthentication": false,
       "specs": [
         {
+          "specName": "Error Response",
+          "request": {
+            "query": null,
+            "headers": null,
+            "body": null
+          },
           "specName": "Error Response: Couldn't find a Spot with the specified id",
           "request": {
             "query": null,
@@ -494,7 +542,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Spot couldn't be found",
               "statusCode": 404
@@ -512,6 +560,48 @@ module.exports = {
           }
         }
       ]
-    },   
+    },
+    {
+      "endpointName": "Delete a Spot from a non-existent id",
+      // Fill this out:
+      "method": "",
+      "URL": "",
+      "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "specs": [
+        {
+          "specName": "Error Response: Couldn't find a Spot with the specified id",
+          "request": {
+            "query": null,
+            "headers": null,
+            "body": null
+          },
+          "response": {
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "statusCode": 404,
+            "body": {
+              "message": "Spot couldn't be found",
+              "statusCode": 404
+            },
+            "body.message.validate": {
+              "errorMessage": function(value){
+                return value === "Spot couldn't be found";
+              }
+            },
+            "body.statusCode.validate": {
+              "bodyStatusCode": function(value){
+                return value === 404;
+              }
+            }
+          }
+        }
+      ]
+    },
   ]
 };

@@ -19,7 +19,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "Reviews": [
                 {
@@ -35,18 +35,28 @@ module.exports = {
                     "firstName": "John",
                     "lastName": "Smith"
                   },
-                  "images": [
-                    "image url"
+                  "Images": [
+                    {
+                      "id": 1,
+                      "imageableId": 1,
+                      "imageableType": "Review",
+                      "url": "image url"
+                    }
                   ]
                 }
               ]
             },
+            "body.Reviews.minLength": 1,
             "body.Reviews.createdAt.validate": {
               "isISO8601": true
             },
             "body.Reviews.updatedAt.validate": {
               "isISO8601": true
             },
+            "body.Reviews.Images.minLength": 1,
+            "body.Reviews.Images.url.validate": {
+              "isURL": true
+            }
           }
         }
       ]
@@ -69,7 +79,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Spot couldn't be found",
               "statusCode": 404
@@ -94,6 +104,11 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -106,7 +121,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "Reviews": [
                 {
@@ -122,8 +137,13 @@ module.exports = {
                     "firstName": "John",
                     "lastName": "Smith"
                   },
-                  "images": [
-                    "image url"
+                  "Images": [
+                    {
+                      "id": 1,
+                      "imageableId": 1,
+                      "imageableType": "Review",
+                      "url": "image url"
+                    }
                   ]
                 }
               ]
@@ -135,7 +155,8 @@ module.exports = {
             "body.Reviews.updatedAt.validate": {
               "isISO8601": true
             },
-            "body.Reviews.images.validate": {
+            "body.Reviews.Images.minLength": 1,
+            "body.Reviews.Images.url.validate": {
               "isURL": true
             }
           }
@@ -148,6 +169,11 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -165,7 +191,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 201,
             "body": {
               "id": 1,
               "userId": 1,
@@ -180,6 +206,11 @@ module.exports = {
             },
             "body.updatedAt.validate": {
               "isISO8601": true
+            },
+            "body.spotId.validate": {
+              "isCorrectSpotId": function(value){
+                return value === 1;
+              }
             }
           }
         },
@@ -198,13 +229,51 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,
               "errors": {
                 "review": "Review text is required",
                 "stars": "Stars must be an integer from 1 to 5"
+              }
+            },
+            "body.statusCode.validate": {
+              "bodyStatusCode": function(value){
+                return value === 400;
+              }
+            }
+          }
+        },
+        {
+          "specName": "Error response: Review from the current user already exists for the Spot",
+          "request": {
+            "query": null,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "review": "This was an awesome spot!",
+              "stars": 5
+            }
+          },
+          "response": {
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "statusCode": 403,
+            "body": {
+              "message": "User already has a review for this spot",
+              "statusCode": 403
+            },
+            "body.message.validate": {
+              "errorMessage": function(value){
+                return value === "User already has a review for this spot";
+              }
+            },
+            "body.statusCode.validate": {
+              "bodyStatusCode": function(value){
+                return value === 403;
               }
             }
           }
@@ -229,7 +298,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Spot couldn't be found",
               "statusCode": 404
@@ -249,54 +318,22 @@ module.exports = {
       ]
     },
     {
-      "endpointName": "Create a Review for a Spot that the Current User already reviewed",
-      // Fill this out:
-      "method": "",
-      "URL": "",
-      "requiresAuthentication": true,
-      "specs": [
-        {
-          "specName": "Duplicate Review Prohibited",
-          "request": {
-            "query": null,
-            "headers": {
-              "Content-Type": "application/json"
-            },
-            "body": {
-              "review": "This was an awesome spot!",
-              "stars": 5
-            }
-          },
-          "response": {
-            "headers": {
-              "Content-Type": "application/json"
-            },
-            "statusCode": "403",
-            "body": {
-              "message": "User already has a review for this spot",
-              "statusCode": 403
-            },
-            "body.message.validate": {
-              "errorMessage": function(value){
-                return value === "User already has a review for this spot";
-              }
-            },
-            "body.statusCode.validate": {
-              "bodyStatusCode": function(value){
-                return value === 403;
-              }
-            }
-          }
-        },
-      ]
-    },
-    {
       "endpointName": "Updates and returns an existing Review",
       // Fill this out:
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
       "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -314,7 +351,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "id": 1,
               "userId": 1,
@@ -329,6 +366,11 @@ module.exports = {
             },
             "body.updatedAt.validate": {
               "isISO8601": true
+            },
+            "body.spotId.validate": {
+              "isCorrectSpotId": function(value){
+                return value === 1;
+              }
             }
           }
         },
@@ -347,13 +389,18 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,
               "errors": {
                 "review": "Review text is required",
                 "stars": "Stars must be an integer from 1 to 5"
+              }
+            },
+            "body.statusCode.validate": {
+              "bodyStatusCode": function(value){
+                return value === 400;
               }
             }
           }
@@ -378,7 +425,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Review couldn't be found",
               "statusCode": 404
@@ -404,6 +451,16 @@ module.exports = {
       "URL": "",
       "requiresAuthentication": true,
       "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -416,7 +473,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "message": "Successfully deleted",
               "statusCode": 200
@@ -436,11 +493,64 @@ module.exports = {
       ]
     },
     {
+      "endpointName": "Update the Deleted Review",
+      // Fill this out:
+      "method": "",
+      "URL": "",
+      "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "specs": [
+        {
+          "specName": "Error Response",
+          "request": {
+            "query": null,
+            "headers": null,
+            "body": null
+          },
+          "specName": "Error Response: Couldn't find a Review with the specified id",
+          "request": {
+            "query": null,
+            "headers": null,
+            "body": null
+          },
+          "response": {
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "statusCode": 404,
+            "body": {
+              "message": "Review couldn't be found",
+              "statusCode": 404
+            },
+            "body.message.validate": {
+              "errorMessage": function(value){
+                return value === "Review couldn't be found";
+              }
+            },
+            "body.statusCode.validate": {
+              "bodyStatusCode": function(value){
+                return value === 404;
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "endpointName": "Delete a Review from a non-existent id",
       // Fill this out:
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Error Response: Couldn't find a Review with the specified id",
@@ -453,7 +563,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Review couldn't be found",
               "statusCode": 404

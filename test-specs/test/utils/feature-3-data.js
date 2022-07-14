@@ -4,14 +4,14 @@ module.exports = {
   "featureName": "Bookings Feature",
   "endpoints": [
     {
-      "endpointName": "Get all Bookings for a Spot by Spot id",
+      "endpointName": "Get all Bookings for a Spot by Spot id (not logged in)",
       // Fill this out:
       "method": "",
       "URL": "",
       "requiresAuthentication": false,
       "specs": [
         {
-          "specName": "Successful Response if NOT the owner",
+          "specName": "Successful Response if you NOT logged in",
           "request": {
             "query": null,
             "headers": null,
@@ -21,18 +21,95 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "Bookings": [
                 {
                   "spotId": 1,
                   "startDate": "2021-11-19",
-                  "endDate": "2021-11-19"
+                  "endDate": "2021-11-20"
                 }
               ]
             },
+            "body.Bookings.minLength": 2,
+            "body.Bookings.startDate.validate": {
+              "isDate": true
+            },
+            "body.Bookings.endDate.validate": {
+              "isDate": true
+            },
+            "body.Bookings.spotId.validate": {
+              "isCorrectSpotId": function(value){
+                return value === 1;
+              }
+            }
           }
         },
+      ]
+    },
+    {
+      "endpointName": "Get all Bookings for a Spot by Spot id (not owner)",
+      // Fill this out:
+      "method": "",
+      "URL": "",
+      "requiresAuthentication": false,
+      "requiresLogin": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "specs": [
+        {
+          "specName": "Successful Response if you ARE NOT the owner",
+          "request": {
+            "query": null,
+            "headers": null,
+            "body": null
+          },
+          "response": {
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "statusCode": 200,
+            "body": {
+              "Bookings": [
+                {
+                  "spotId": 1,
+                  "startDate": "2021-11-19",
+                  "endDate": "2021-11-20"
+                }
+              ]
+            },
+            "body.Bookings.minLength": 2,
+            "body.Bookings.startDate.validate": {
+              "isDate": true
+            },
+            "body.Bookings.endDate.validate": {
+              "isDate": true
+            },
+            "body.Bookings.spotId.validate": {
+              "isCorrectSpotId": function(value){
+                return value === 1;
+              }
+            }
+          }
+        },
+      ]
+    },
+    {
+      "endpointName": "Get all Bookings for a Spot by Spot id (owner)",
+      // Fill this out:
+      "method": "",
+      "URL": "",
+      "requiresAuthentication": false,
+      "requiresLogin": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "specs": [
         {
           "specName": "Successful Response if you ARE the owner",
           "request": {
@@ -44,7 +121,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "Bookings": [
                 {
@@ -57,11 +134,29 @@ module.exports = {
                   "spotId": 1,
                   "userId": 2,
                   "startDate": "2021-11-19",
-                  "endDate": "2021-11-19",
+                  "endDate": "2021-11-20",
                   "createdAt": "2021-11-19 20:39:36",
                   "updatedAt": "2021-11-19 20:39:36"
                 }
               ]
+            },
+            "body.Bookings.minLength": 2,
+            "body.Bookings.startDate.validate": {
+              "isDate": true
+            },
+            "body.Bookings.endDate.validate": {
+              "isDate": true
+            },
+            "body.Bookings.createdAt.validate": {
+              "isISO8601": true
+            },
+            "body.Bookings.updatedAt.validate": {
+              "isISO8601": true
+            },
+            "body.Bookings.spotId.validate": {
+              "isCorrectSpotId": function(value){
+                return value === 1;
+              }
             }
           }
         },
@@ -85,7 +180,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Spot couldn't be found",
               "statusCode": 404
@@ -110,6 +205,11 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -122,7 +222,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "Bookings": [
                 {
@@ -143,24 +243,30 @@ module.exports = {
                   },
                   "userId": 2,
                   "startDate": "2021-11-19",
-                  "endDate": "2021-11-19",
+                  "endDate": "2021-11-20",
                   "createdAt": "2021-11-19 20:39:36",
                   "updatedAt": "2021-11-19 20:39:36"
                 }
               ]
             },
-            "body.Reviews.minLength": 2,
+            "body.Bookings.minLength": 2,
+            "body.Bookings.startDate.validate": {
+              "isDate": true
+            },
+            "body.Bookings.endDate.validate": {
+              "isDate": true
+            },
             "body.Bookings.createdAt.validate": {
               "isISO8601": true
             },
             "body.Bookings.updatedAt.validate": {
               "isISO8601": true
             },
-            "body.Bookings.Spot.previewImage.validate": {
-              "isURL": true
-            },
             "body.Bookings.Spot.lat.validate": { isLat },
             "body.Bookings.Spot.lng.validate": { isLng },
+            "body.Bookings.Spot.previewImage.validate": {
+              "isURL": true
+            }
           }
         }
       ]
@@ -171,6 +277,11 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -181,28 +292,39 @@ module.exports = {
             },
             "body": {
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19"
+              "endDate": "2021-11-20"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 201,
             "body": {
               "id": 1,
               "spotId": 1,
               "userId": 2,
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19",
+              "endDate": "2021-11-20",
               "createdAt": "2021-11-19 20:39:36",
               "updatedAt": "2021-11-19 20:39:36"
+            },
+            "body.startDate.validate": {
+              "isDate": true
+            },
+            "body.endDate.validate": {
+              "isDate": true
             },
             "body.createdAt.validate": {
               "isISO8601": true
             },
             "body.updatedAt.validate": {
               "isISO8601": true
+            },
+            "body.spotId.validate": {
+              "isCorrectSpotId": function(value){
+                return value === 1;
+              }
             }
           }
         },
@@ -214,20 +336,20 @@ module.exports = {
               "Content-Type": "application/json"
             },
             "body": {
-              "startDate": "2030-11-19",
-              "endDate": "2030-11-17"
+              "startDate": "2020-11-19",
+              "endDate": "2020-11-17"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,
               "errors": {
-                "endDate": "endDate cannot come before startDate",
+                "endDate": "endDate cannot be on or before startDate",
               }
             }
           }
@@ -239,7 +361,12 @@ module.exports = {
       // Fill this out:
       "method": "",
       "URL": "",
-      "requiresAuthentication": false,
+      "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Error Response: Couldn't find a Spot with the specified id",
@@ -248,14 +375,14 @@ module.exports = {
             "headers": null,
             "body": {
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19"
+              "endDate": "2021-11-20"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Spot couldn't be found",
               "statusCode": 404
@@ -280,9 +407,14 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
-          "specName": "Duplicate Review Prohibited",
+          "specName": "Booking with conflicting Start Date Prohibited",
           "request": {
             "query": null,
             "headers": {
@@ -290,19 +422,54 @@ module.exports = {
             },
             "body": {
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19"
+              "endDate": "2021-11-21"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "403",
+            "statusCode": 403,
             "body": {
               "message": "Sorry, this spot is already booked for the specified dates",
               "statusCode": 403,
               "errors": {
-                "startDate": "Start date conflicts with an existing booking",
+                "startDate": "Start date conflicts with an existing booking"
+              }
+            },
+            "body.message.validate": {
+              "errorMessage": function(value){
+                return value === "Sorry, this spot is already booked for the specified dates";
+              }
+            },
+            "body.statusCode.validate": {
+              "bodyStatusCode": function(value){
+                return value === 403;
+              }
+            }
+          }
+        },
+        {
+          "specName": "Booking with conflicting End Date Prohibited",
+          "request": {
+            "query": null,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "startDate": "2021-11-18",
+              "endDate": "2021-11-21"
+            }
+          },
+          "response": {
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "statusCode": 403,
+            "body": {
+              "message": "Sorry, this spot is already booked for the specified dates",
+              "statusCode": 403,
+              "errors": {
                 "endDate": "End date conflicts with an existing booking"
               }
             },
@@ -327,6 +494,16 @@ module.exports = {
       "URL": "",
       "requiresAuthentication": true,
       "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -337,20 +514,20 @@ module.exports = {
             },
             "body": {
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19"
+              "endDate": "2021-11-20"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "id": 1,
               "spotId": 1,
               "userId": 2,
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19",
+              "endDate": "2021-11-20",
               "createdAt": "2021-11-19 20:39:36",
               "updatedAt": "2021-11-20 10:06:40"
             },
@@ -378,7 +555,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 400,
             "body": {
               "message": "Validation Error",
               "statusCode": 400,
@@ -395,7 +572,12 @@ module.exports = {
       // Fill this out:
       "method": "",
       "URL": "",
-      "requiresAuthentication": false,
+      "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Error Response: Couldn't find a booking with the specified id",
@@ -406,14 +588,14 @@ module.exports = {
             },
             "body": {
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19"
+              "endDate": "2021-11-20"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Booking couldn't be found",
               "statusCode": 404
@@ -433,11 +615,22 @@ module.exports = {
       ]
     },
     {
-      "endpointName": "Edit details for a Booking past the endDate",
+      "endpointName": "Edit details for a Booking past the End Date",
       // Fill this out:
       "method": "",
       "URL": "",
-      "requiresAuthentication": false,
+      "requiresAuthentication": true,
+      "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Error Response: Past bookings can't be modified",
@@ -447,18 +640,18 @@ module.exports = {
               "Content-Type": "application/json"
             },
             "body": {
-              "startDate": "2021-11-19",
-              "endDate": "2021-11-19"
+              "startDate": "2021-01-10",
+              "endDate": "2021-02-01"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 403,
             "body": {
               "message": "Past bookings can't be modified",
-              "statusCode": 400
+              "statusCode": 403
             },
             "body.message.validate": {
               "errorMessage": function(value){
@@ -467,7 +660,7 @@ module.exports = {
             },
             "body.statusCode.validate": {
               "bodyStatusCode": function(value){
-                return value === 400;
+                return value === 403;
               }
             }
           }
@@ -475,11 +668,22 @@ module.exports = {
       ]
     },
     {
-      "endpointName": "Edit details for a Booking to create a booking conflict",
+      "endpointName": "Edit details for a Booking to cause a booking conflict with another Booking",
       // Fill this out:
       "method": "",
       "URL": "",
-      "requiresAuthentication": false,
+      "requiresAuthentication": true,
+      "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Error Response: Sorry, this spot is already booked for the specified dates",
@@ -490,14 +694,14 @@ module.exports = {
             },
             "body": {
               "startDate": "2021-11-19",
-              "endDate": "2021-11-19"
+              "endDate": "2021-11-20"
             }
           },
           "response": {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "403",
+            "statusCode": 403,
             "body": {
               "message": "Sorry, this spot is already booked for the specified dates",
               "statusCode": 403
@@ -523,6 +727,16 @@ module.exports = {
       "URL": "",
       "requiresAuthentication": true,
       "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Successful Response",
@@ -535,7 +749,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "200",
+            "statusCode": 200,
             "body": {
               "message": "Successfully deleted",
               "statusCode": 200
@@ -560,6 +774,11 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Error Response: Couldn't find a Booking with the specified id",
@@ -572,7 +791,7 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "404",
+            "statusCode": 404,
             "body": {
               "message": "Booking couldn't be found",
               "statusCode": 404
@@ -597,6 +816,17 @@ module.exports = {
       "method": "",
       "URL": "",
       "requiresAuthentication": true,
+      "requiresAuthorization": true,
+      "authorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
+      "unauthorizedUser": {
+        // Fill this out:
+        "email": "",
+        "password": ""
+      },
       "specs": [
         {
           "specName": "Error Response: Bookings that have been started can't be deleted",
@@ -609,10 +839,10 @@ module.exports = {
             "headers": {
               "Content-Type": "application/json"
             },
-            "statusCode": "400",
+            "statusCode": 403,
             "body": {
               "message": "Bookings that have been started can't be deleted",
-              "statusCode": 400
+              "statusCode": 403
             },
             "body.message.validate": {
               "errorMessage": function(value){
@@ -621,7 +851,7 @@ module.exports = {
             },
             "body.statusCode.validate": {
               "bodyStatusCode": function(value){
-                return value === 400;
+                return value === 403;
               }
             }
           }
