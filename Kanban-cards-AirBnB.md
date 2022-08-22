@@ -98,8 +98,7 @@ Create and return a new image for a spot specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the spot is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `imageableId`, and
-  `url`
+- [ ] Image data returned includes the `id` and `url`
 - [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
@@ -124,8 +123,8 @@ Returns the details of a spot specified by its id.
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   and `updatedAt`
 - [ ] Spot data returns aggregate data for `numReviews` and `avgStarRating`
-- [ ] Spot data returns associated data for `Images`, an array of Images
-  including the `id`, `imageableId`, and `url`
+- [ ] Spot data returns associated data for `SpotImages`, an array of image
+  data including the `id` and `url`
 - [ ] Spot data returns associated data for `Owner`, including the `id`,
   `firstName`, and `lastName`
 - [ ] Error response with status 404 is given when a spot does not exist with
@@ -183,8 +182,7 @@ Create and return a new image for a review specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the review is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `imageableId`, and
-  `url`
+- [ ] Image data returned includes the `id` and `url`
 - [ ] Error response with status 404 is given when a review does not exist with
   the provided `id`
 - [ ] Error response with status 400 is given when the maximum number of images
@@ -204,8 +202,8 @@ Returns all the reviews written by the current user.
 - [ ] Review data returns associated data for `Spot`, including the `id`,
   `ownerId`, `address`, `city`, `state`, `country`, `lat`, `lng`, `name`, and
   `price`
-- [ ] Review data returns associated data for `Images`, an array of Images
-  including the `id`, `imageableId`, and `url`
+- [ ] Review data returns associated data for `ReviewImages`, an array of image
+  data including the `id` and `url`
 
 
 ### Get all Reviews by a Spot's id
@@ -218,8 +216,8 @@ Returns all the reviews that belong to a spot specified by id.
   `stars`, `createdAt`, and `updatedAt`
 - [ ] Review data returns associated data for `User`, including the `id`,
   `firstName`, and `lastName`
-- [ ] Review data returns associated data for `Images`, an array of Images
-  including the `id`, `imageableId`, and `url`
+- [ ] Review data returns associated data for `ReviewImages`, an array of image
+  data including the `id` and `url`
 - [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
@@ -329,16 +327,28 @@ Delete an existing booking.
   `startDate` (no deleting of current or past bookings)
 
 
-### Delete an Image
+### Delete an Image for a Spot
 
-Delete an existing image.
+Delete an existing image for a Spot.
 
 - [ ] An authenticated user is required for a successful response
-- [ ] Only the owner of the image is authorized to delete
+- [ ] Only the owner of the spot is authorized to delete
 - [ ] Image record is removed from the database after request
 - [ ] Success response includes a `message` indicating a successful deletion
-- [ ] Error response with status 404 is given when an image does not exist with
-  the provided `id`
+- [ ] Error response with status 404 is given when a spot image does not exist
+  with the provided `id`
+
+
+### Delete an Image for a Review
+
+Delete an existing image for a Review.
+
+- [ ] An authenticated user is required for a successful response
+- [ ] Only the owner of the review is authorized to delete
+- [ ] Image record is removed from the database after request
+- [ ] Success response includes a `message` indicating a successful deletion
+- [ ] Error response with status 404 is given when a review image does not exist
+  with the provided `id`
 
 
 ### Add Query Filters to Get All Spots
