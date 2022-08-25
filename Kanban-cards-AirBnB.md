@@ -98,7 +98,7 @@ Create and return a new image for a spot specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the spot is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id` and `url`
+- [ ] Image data returned includes the `id`, `url`, and `preview`
 - [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
@@ -124,7 +124,7 @@ Returns the details of a spot specified by its id.
   and `updatedAt`
 - [ ] Spot data returns aggregate data for `numReviews` and `avgStarRating`
 - [ ] Spot data returns associated data for `SpotImages`, an array of image
-  data including the `id` and `url`
+  data including the `id`, `url`, and `preview`
 - [ ] Spot data returns associated data for `Owner`, including the `id`,
   `firstName`, and `lastName`
 - [ ] Error response with status 404 is given when a spot does not exist with
@@ -200,8 +200,8 @@ Returns all the reviews written by the current user.
 - [ ] Review data returns associated data for `User`, including the `id`,
   `firstName`, and `lastName`
 - [ ] Review data returns associated data for `Spot`, including the `id`,
-  `ownerId`, `address`, `city`, `state`, `country`, `lat`, `lng`, `name`, and
-  `price`
+  `ownerId`, `address`, `city`, `state`, `country`, `lat`, `lng`, `name`,
+  `price`, and `previewImage`
 - [ ] Review data returns associated data for `ReviewImages`, an array of image
   data including the `id` and `url`
 

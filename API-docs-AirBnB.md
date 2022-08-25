@@ -347,7 +347,13 @@ Returns the details of a spot specified by its id.
       "SpotImages": [
         {
           "id": 1,
-          "url": "image url"
+          "url": "image url",
+          "preview": true
+        },
+        {
+          "id": 2,
+          "url": "image url",
+          "preview": false
         }
       ],
       "Owner": {
@@ -460,7 +466,8 @@ Create and return a new image for a spot specified by id.
 
     ```json
     {
-      "url": "image url"
+      "url": "image url",
+      "preview": true
     }
     ```
 
@@ -474,6 +481,7 @@ Create and return a new image for a spot specified by id.
     {
       "id": 1,
       "url": "image url",
+      "preview": true
     }
     ```
 
@@ -659,14 +667,15 @@ Returns all the reviews written by the current user.
             "lat": 37.7645358,
             "lng": -122.4730327,
             "name": "App Academy",
-            "price": 123
+            "price": 123,
+            "previewImage": "image url"
           },
-          "SpotImages": [
+          "ReviewImages": [
             {
               "id": 1,
               "url": "image url"
             }
-          ],
+          ]
         }
       ]
     }
@@ -836,7 +845,7 @@ Create and return a new image for a review specified by id.
     ```json
     {
       "id": 1,
-      "url": "image url",
+      "url": "image url"
     }
     ```
 
