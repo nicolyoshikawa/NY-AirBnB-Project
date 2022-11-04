@@ -131,10 +131,10 @@ information.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "credential": "Email or username is required",
-        "password": "Password is required"
-      }
+      "errors": [
+        "Email or username is required",
+        "Password is required"
+      ]
     }
     ```
 
@@ -188,9 +188,9 @@ user's information.
     {
       "message": "User already exists",
       "statusCode": 403,
-      "errors": {
-        "email": "User with that email already exists"
-      }
+      "errors": [
+        "User with that email already exists"
+      ]
     }
     ```
 
@@ -204,9 +204,9 @@ user's information.
     {
       "message": "User already exists",
       "statusCode": 403,
-      "errors": {
-        "username": "User with that username already exists"
-      }
+      "errors": [
+        "User with that username already exists"
+      ]
     }
     ```
 
@@ -220,12 +220,12 @@ user's information.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "email": "Invalid email",
-        "username": "Username is required",
-        "firstName": "First Name is required",
-        "lastName": "Last Name is required"
-      }
+      "errors": [
+        "Invalid email",
+        "Username is required",
+        "First Name is required",
+        "Last Name is required"
+      ]
     }
     ```
 
@@ -437,17 +437,17 @@ Creates and returns a new spot.
     {
       "message": "Validation Error",
       "statusCode": 400,
-      "errors": {
-        "address": "Street address is required",
-        "city": "City is required",
-        "state": "State is required",
-        "country": "Country is required",
-        "lat": "Latitude is not valid",
-        "lng": "Longitude is not valid",
-        "name": "Name must be less than 50 characters",
-        "description": "Description is required",
-        "price": "Price per day is required"
-      }
+      "errors": [
+        "Street address is required",
+        "City is required",
+        "State is required",
+        "Country is required",
+        "Latitude is not valid",
+        "Longitude is not valid",
+        "Name must be less than 50 characters",
+        "Description is required",
+        "Price per day is required"
+      ]
     }
     ```
 
@@ -559,17 +559,17 @@ Updates and returns an existing spot.
     {
       "message": "Validation Error",
       "statusCode": 400,
-      "errors": {
-        "address": "Street address is required",
-        "city": "City is required",
-        "state": "State is required",
-        "country": "Country is required",
-        "lat": "Latitude is not valid",
-        "lng": "Longitude is not valid",
-        "name": "Name must be less than 50 characters",
-        "description": "Description is required",
-        "price": "Price per day is required"
-      }
+      "errors": [
+        "Street address is required",
+        "City is required",
+        "State is required",
+        "Country is required",
+        "Latitude is not valid",
+        "Longitude is not valid",
+        "Name must be less than 50 characters",
+        "Description is required",
+        "Price per day is required"
+      ]
     }
     ```
 
@@ -784,10 +784,10 @@ Create and return a new review for a spot specified by id.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "review": "Review text is required",
-        "stars": "Stars must be an integer from 1 to 5",
-      }
+      "errors": [
+        "Review text is required",
+        "Stars must be an integer from 1 to 5",
+      ]
     }
     ```
 
@@ -924,10 +924,10 @@ Update and return an existing review.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "review": "Review text is required",
-        "stars": "Stars must be an integer from 1 to 5",
-      }
+      "errors": [
+        "Review text is required",
+        "Stars must be an integer from 1 to 5",
+      ]
     }
     ```
 
@@ -1142,9 +1142,9 @@ Create and return a new booking from a spot specified by id.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "endDate": "endDate cannot be on or before startDate"
-      }
+      "errors": [
+        "endDate cannot be on or before startDate"
+      ]
     }
     ```
 
@@ -1171,10 +1171,10 @@ Create and return a new booking from a spot specified by id.
     {
       "message": "Sorry, this spot is already booked for the specified dates",
       "statusCode": 403,
-      "errors": {
-        "startDate": "Start date conflicts with an existing booking",
-        "endDate": "End date conflicts with an existing booking"
-      }
+      "errors": [
+        "Start date conflicts with an existing booking",
+        "End date conflicts with an existing booking"
+      ]
     }
     ```
 
@@ -1226,9 +1226,9 @@ Update and return an existing booking.
     {
       "message": "Validation error",
       "statusCode": 400,
-      "errors": {
-        "endDate": "endDate cannot come before startDate"
-      }
+      "errors": [
+        "endDate cannot come before startDate"
+      ]
     }
     ```
 
@@ -1268,10 +1268,10 @@ Update and return an existing booking.
     {
       "message": "Sorry, this spot is already booked for the specified dates",
       "statusCode": 403,
-      "errors": {
-        "startDate": "Start date conflicts with an existing booking",
-        "endDate": "End date conflicts with an existing booking"
-      }
+      "errors": [
+        "Start date conflicts with an existing booking",
+        "End date conflicts with an existing booking"
+      ]
     }
     ```
 
@@ -1462,15 +1462,15 @@ Return spots filtered by query parameters.
     {
       "message": "Validation Error",
       "statusCode": 400,
-      "errors": {
-        "page": "Page must be greater than or equal to 0",
-        "size": "Size must be greater than or equal to 0",
-        "maxLat": "Maximum latitude is invalid",
-        "minLat": "Minimum latitude is invalid",
-        "minLng": "Maximum longitude is invalid",
-        "maxLng": "Minimum longitude is invalid",
-        "minPrice": "Maximum price must be greater than or equal to 0",
-        "maxPrice": "Minimum price must be greater than or equal to 0"
-      }
+      "errors": [
+        "Page must be greater than or equal to 0",
+        "Size must be greater than or equal to 0",
+        "Maximum latitude is invalid",
+        "Minimum latitude is invalid",
+        "Maximum longitude is invalid",
+        "Minimum longitude is invalid",
+        "Maximum price must be greater than or equal to 0",
+        "Minimum price must be greater than or equal to 0"
+      ]
     }
     ```
