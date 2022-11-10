@@ -55,7 +55,7 @@ Returns the information about the current user that is logged in.
   * URL: ?
   * Body: none
 
-* Successful Response
+* Successful Response when there is a logged in user
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
@@ -63,11 +63,25 @@ Returns the information about the current user that is logged in.
 
     ```json
     {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com",
-      "username": "JohnSmith"
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "john.smith@gmail.com",
+        "username": "JohnSmith"
+      }
+    }
+    ```
+
+* Successful Response when there is no logged in user
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "user": null
     }
     ```
 
@@ -99,12 +113,14 @@ information.
 
     ```json
     {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com",
-      "username": "JohnSmith",
-      "token": ""
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "john.smith@gmail.com",
+        "username": "JohnSmith",
+        "token": ""
+      }
     }
     ```
 
@@ -169,12 +185,14 @@ user's information.
 
     ```json
     {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com",
-      "username": "JohnSmith",
-      "token": ""
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "john.smith@gmail.com",
+        "username": "JohnSmith",
+        "token": ""
+      }
     }
     ```
 
