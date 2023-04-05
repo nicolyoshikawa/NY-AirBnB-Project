@@ -1,4 +1,4 @@
-# `<name of application here>`
+# `NY - AirBnB of Some Sort`
 
 ## Database Schema Design
 
