@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![data-schema](https://user-images.githubusercontent.com/112415366/230266601-12fa0345-2010-44f1-b39b-da8a4bac7a48.png)
+![data-schema]
 
 ## API Documentation
 
@@ -1492,3 +1492,4 @@ Return spots filtered by query parameters.
       ]
     }
     ```
+[data-schema]: https://user-images.githubusercontent.com/112415366/230266601-12fa0345-2010-44f1-b39b-da8a4bac7a48.png
