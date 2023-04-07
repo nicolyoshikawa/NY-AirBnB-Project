@@ -1492,4 +1492,4 @@ Return spots filtered by query parameters.
       ]
     }
     ```
-[data-schema]: https://user-images.githubusercontent.com/112415366/230279221-a01d03df-3363-48e9-99aa-acf6f0926696.png
+[data-schema]: https://user-images.githubusercontent.com/112415366/230531065-b3473650-fb35-4701-8b17-5a766aff7975.png
