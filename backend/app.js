@@ -40,6 +40,10 @@ app.use(
   })
 );
 
+//route middleware
+
 app.use(routes);
+
+// error middleware
 
 module.exports = app;
