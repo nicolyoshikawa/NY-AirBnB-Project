@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: `GET`
-  * URL: `/users/:id`
+  * URL: `/users/currentUser`
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -93,7 +93,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: `POST`
-  * URL: `/`
+  * URL: `/users/login`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -296,7 +296,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: `GET`
-  * URL: `/users/:id/spots`
+  * URL: `/spots/currentUser`
   * Body: none
 
 * Successful Response
@@ -523,7 +523,7 @@ Updates and returns an existing spot.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: `PUT || PATCH`
+  * Method: `PUT`
   * URL: `/spots/:id`
   * Headers:
     * Content-Type: application/json
@@ -650,7 +650,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: `GET`
-  * URL: `/users/:id/reviews`
+  * URL: `/reviews/currentUser`
   * Body: none
 
 * Successful Response
@@ -901,7 +901,7 @@ Update and return an existing review.
 * Require Authentication: true
 * Require proper authorization: Review must belong to the current user
 * Request
-  * Method: `PUT || PATCH`
+  * Method: `PUT`
   * URL: `/reviews/:id`
   * Headers:
     * Content-Type: application/json
@@ -1008,7 +1008,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: `GET`
-  * URL: `/users/:id/bookings`
+  * URL: `/bookings/currentUser`
   * Body: none
 
 * Successful Response
@@ -1203,7 +1203,7 @@ Update and return an existing booking.
 * Require Authentication: true
 * Require proper authorization: Booking must belong to the current user
 * Request
-  * Method: `PUT || PATCH`
+  * Method: `PUT`
   * URL: `/bookings/:id`
   * Headers:
     * Content-Type: application/json
@@ -1492,4 +1492,4 @@ Return spots filtered by query parameters.
       ]
     }
     ```
-[data-schema]: https://user-images.githubusercontent.com/112415366/230531065-b3473650-fb35-4701-8b17-5a766aff7975.png
+[data-schema]: https://user-images.githubusercontent.com/112415366/230734937-d1eefa6f-4f1e-4822-9fb9-cc6c3dc40f42.png
