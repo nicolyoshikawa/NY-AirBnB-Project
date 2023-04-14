@@ -1,16 +1,13 @@
 // backend/routes/api/index.js
 const router = require('express').Router();
-
-// backend/routes/api/index.js
-// router.post('/test', function(req, res) {
-//     res.json({ requestBody: req.body });
-// });
+const sessionRouter = require('./session.js');
+const usersRouter = require('./users.js');
+const { restoreUser } = require("../../utils/auth.js");
 
 // const { setTokenCookie } = require('../../utils/auth.js');
 // const { User } = require('../../db/models');
-const { restoreUser } = require('../../utils/auth.js');
 
-router.use(restoreUser);
+router.use(restoreUser); //global middleware
 
 // GET /api/set-token-cookie
 // router.get('/set-token-cookie', async (_req, res) => {
@@ -35,6 +32,14 @@ router.use(restoreUser);
 //     return res.json(req.user);
 //   }
 // );
+
+router.use('/session', sessionRouter);
+
+router.use('/users', usersRouter);
+
+router.post('/test', (req, res) => {
+  res.json({ requestBody: req.body });
+});
 
 
 module.exports = router;
