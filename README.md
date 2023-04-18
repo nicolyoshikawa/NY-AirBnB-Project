@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: `GET`
-  * URL: `/users/currentUser`
+  * URL: `/session/currentUser`
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -93,7 +93,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: `POST`
-  * URL: `/users/login`
+  * URL: `/session`
   * Headers:
     * Content-Type: application/json
   * Body:
