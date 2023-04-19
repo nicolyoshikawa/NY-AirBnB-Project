@@ -42,33 +42,29 @@ const validateSignup = [
 ];
 
 // Sign up
-router.post('', validateSignup, async (req, res) => {
+router.post('', validateSignup, async (req, res, next) => {
     const { email, password, username, firstName, lastName } = req.body;
 
     //User already exists with the specified email
     let emailExists = await User.findOne({ where: {email}});
     if(emailExists) {
-      res.status(403);
-      return res.json({
-        "message": "User already exists",
-        "statusCode": 403,
-        "errors": [
-          "User with that email already exists"
-        ]
-      });
+      const err = new Error("User already exists");
+      err.status = 403;
+      err.errors = [
+        "User with that email already exists"
+      ];
+      return next(err);
     };
 
     //User already exists with the specified username
     let usernameExists = await User.findOne({ where: {username}});
     if(usernameExists) {
-      res.status(403);
-      return res.json({
-        "message": "User already exists",
-        "statusCode": 403,
-        "errors": [
-          "User with that username already exists"
-        ]
-      });
+      const err = new Error("User already exists");
+      err.status = 403;
+      err.errors = [
+        "User with that username already exists"
+      ];
+      return next(err);
     }
 
     const hashedPassword = bcrypt.hashSync(password);
@@ -90,16 +86,5 @@ router.post('', validateSignup, async (req, res) => {
         user: safeUser
     });
 });
-
-
-// router.get("/currentUser", async (req, res) => {
-//   const token = req.body.token;
-//   const currentUser = await User.findOne({
-//     where: {
-//       token
-//     }
-//   });
-//   res.json(currentUser);
-// });
 
 module.exports = router;
