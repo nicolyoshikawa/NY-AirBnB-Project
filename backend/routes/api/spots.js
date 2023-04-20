@@ -4,7 +4,8 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot, SpotImage } = require('../../db/models');
+const { User, Spot, SpotImage, Review, sequelize } = require('../../db/models');
+const { all } = require('./spots');
 
 const router = express.Router();
 
@@ -35,7 +36,21 @@ const validateSpots = [
 
 router.get('/', async (req, res) => {
     const all = {};
-    const allSpots = await Spot.findAll();
+    const allSpots = await Spot.findAll({
+        include: [
+            {
+                model: Review,
+                attributes: []
+            }
+        ],
+        attributes: {
+            include: [
+                [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
+            ]
+        },
+        group: ['Spot.id']
+
+    });
     all.Spots = allSpots;
     res.json(all);
 });
@@ -49,20 +64,34 @@ router.get('/:id', async (req, res, next) => {
 
     const currentSpot = await Spot.findByPk(id, {
         include: [
-            { model: SpotImage },
-            { model: User, as: "Owner" }
-        ]
+            { model: SpotImage, attributes: ['id', 'url']},
+            { model: User, as: "Owner" , attributes: ['id', 'firstName', 'lastName']}
+        ],
+        attributes: { exclude: ['previewImg'] }
     });
     if(!currentSpot) {
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
-    };
+    } else {
+        const avg = await Review.findOne({
+            where: { spotId: currentSpot.id },
+            attributes: [
+                [sequelize.fn("COUNT", sequelize.col("Review.spotId")), "numReviews"],
+                [sequelize.fn("AVG", sequelize.col("Review.stars")), "avgRating"]
+            ]
+        });
 
-    res.json(currentSpot);
+        const data = currentSpot.toJSON();
+        const avgData = avg.toJSON();
+        data.numReviews = avgData.numReviews;
+        data.avgStarRating = avgData.avgRating;
+
+        res.json(data);
+    };
 });
 
-router.post('/', validateSpots, requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, validateSpots, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     const ownerId = 4;
     const newSpot = await Spot.create({ address, city, state, country, lat, lng, name, description, price, ownerId });
