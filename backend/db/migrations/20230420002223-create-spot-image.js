@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      spotImageId: {
+      spotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         onDelete: "cascade",

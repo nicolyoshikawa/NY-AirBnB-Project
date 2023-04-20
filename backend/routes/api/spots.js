@@ -47,9 +47,7 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     const id = +req.params.id;
 
-    const currentSpot = await Spot.findOne({
-        where: { id },
-        required: true,
+    const currentSpot = await Spot.findByPk(id, {
         include: [
             { model: SpotImage },
             { model: User, as: "Owner" }
