@@ -40,14 +40,25 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        min: -90,
+        max: 90
+      }
     },
     lng: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        min: -180,
+        max: 180
+      }
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
+      validate: {
+        max: 50
+      }
     },
     description: {
       type: DataTypes.STRING,
@@ -58,8 +69,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     previewImg: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
