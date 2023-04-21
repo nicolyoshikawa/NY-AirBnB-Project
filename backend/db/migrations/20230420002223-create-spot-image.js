@@ -27,6 +27,10 @@ module.exports = {
           model: "Spots"
         }
       },
+      preview: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
