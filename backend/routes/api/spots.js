@@ -121,4 +121,67 @@ router.post('/', requireAuth, validateSpots, async (req, res, next) => {
     return res.json(newSpot);
 });
 
+
+router.put('/:id', requireAuth, validateSpots, async (req, res, next) => {
+    const loggedInUser = req.user.id;
+    const spotId = +req.params.id;
+    let address = req.body.address;
+    let city = req.body.city;
+    let state = req.body.state;
+    let country = req.body.country;
+    let lat = req.body.lat;
+    let lng = req.body.lng;
+    let name = req.body.name;
+    let description = req.body.description;
+    let price = req.body.price;
+
+    const spotByID = await Spot.findByPk(spotId);
+
+    if(!spotByID){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    } else if(loggedInUser !== spotByID.ownerId){
+        const err = new Error("Authentication required");
+        err.status = 403;
+        return next(err);
+    } else {
+        if(address) spotByID.address = address;
+        if(city) spotByID.city = city;
+        if(state) spotByID.state = state;
+        if(country) spotByID.country = country;
+        if(lat) spotByID.lat = lat;
+        if(lng) spotByID.lng = lng;
+        if(name) spotByID.name = name;
+        if(description) spotByID.description = description;
+        if(price) spotByID.price = price;
+
+        const updated = await spotByID.save();
+        res.json(updated);
+    }
+  }
+);
+
+router.delete('/:id', requireAuth, async (req, res, next) => {
+    const loggedInUser = req.user.id;
+    const spotId = +req.params.id;
+    const spotByID = await Spot.findByPk(spotId);
+
+    if(!spotByID){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+    if(loggedInUser !== spotByID.ownerId){
+        const err = new Error("Authentication required");
+        err.status = 403;
+        return next(err);
+    }
+
+    await spotByID.destroy();
+    res.status(200);
+    return res.json({ message: "Successfully deleted"});
+  }
+);
+
 module.exports = router;
