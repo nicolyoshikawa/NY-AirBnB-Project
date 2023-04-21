@@ -40,12 +40,20 @@ router.get('/', async (req, res) => {
             {
                 model: Review,
                 attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: ['url'],
+                where: {
+                    preview: true
+                }
             }
         ],
         attributes: {
             include: [
                 [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-            ]
+            ],
+
         },
         group: ['Spot.id']
 
@@ -63,6 +71,13 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
             {
                 model: Review,
                 attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: ['url'],
+                where: {
+                    preview: true
+                }
             }
         ],
         attributes: {
@@ -86,7 +101,7 @@ router.get('/:id', async (req, res, next) => {
 
     const currentSpot = await Spot.findByPk(id, {
         include: [
-            { model: SpotImage, attributes: ['id', 'url']},
+            { model: SpotImage, attributes: ['id', 'url', 'preview']},
             { model: User, as: "Owner" , attributes: ['id', 'firstName', 'lastName']}
         ],
         attributes: { exclude: ['previewImg'] }
@@ -142,7 +157,7 @@ router.put('/:id', requireAuth, validateSpots, async (req, res, next) => {
         err.status = 404;
         return next(err);
     } else if(loggedInUser !== spotByID.ownerId){
-        const err = new Error("Authentication required");
+        const err = new Error("Forbidden");
         err.status = 403;
         return next(err);
     } else {
@@ -173,7 +188,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         return next(err);
     }
     if(loggedInUser !== spotByID.ownerId){
-        const err = new Error("Authentication required");
+        const err = new Error("Forbidden");
         err.status = 403;
         return next(err);
     }
