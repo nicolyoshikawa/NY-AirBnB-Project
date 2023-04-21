@@ -5,7 +5,6 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Spot, SpotImage, Review, sequelize } = require('../../db/models');
-const { all } = require('./spots');
 
 const router = express.Router();
 
@@ -56,6 +55,29 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/currentUser', requireAuth, async (req, res, next) => {
+    const ownerId = req.user.id;
+    const ownedSpot = {};
+    const spotOwnedByUser = await Spot.findAll({
+        where: { ownerId },
+        include: [
+            {
+                model: Review,
+                attributes: []
+            }
+        ],
+        attributes: {
+            include: [
+                [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
+            ]
+        },
+        group: ['Spot.id']
+    })
+    if(spotOwnedByUser.length < 1) {
+        const err = new Error("You currently do not own a spot");
+        return next(err);
+    }
+    ownedSpot.Spots = spotOwnedByUser;
+    res.json(ownedSpot);
 
 });
 
@@ -92,10 +114,10 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.post('/', requireAuth, validateSpots, async (req, res, next) => {
+    const ownerId = req.user.id;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-    const ownerId = 4;
     const newSpot = await Spot.create({ address, city, state, country, lat, lng, name, description, price, ownerId });
-
+    res.status(201);
     return res.json(newSpot);
 });
 
