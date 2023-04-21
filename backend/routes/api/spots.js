@@ -33,6 +33,7 @@ const validateSpots = [
   handleValidationErrors
 ];
 
+//Get all spots
 router.get('/', async (req, res) => {
     const all = {};
     const allSpots = await Spot.findAll({
@@ -42,26 +43,39 @@ router.get('/', async (req, res) => {
                 attributes: []
             },
             {
-                model: SpotImage,
-                attributes: ['url'],
-                where: {
-                    preview: true
-                }
-            }
+                model: SpotImage
+            },
         ],
         attributes: {
             include: [
                 [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-            ],
-
+            ]
         },
         group: ['Spot.id']
 
     });
-    all.Spots = allSpots;
+
+    let spotsList = [];
+    allSpots.forEach( spot  => {
+        spotsList.push(spot.toJSON());
+    });
+    spotsList.forEach( spot => {
+        spot.SpotImages.forEach(image => {
+            if(image.preview === true){
+                spot.previewImage = image.url
+            }
+        });
+        if(!spot.previewImage){
+            spot.previewImage = "no image found"
+        }
+
+        delete spot.SpotImages;
+    })
+    all.Spots = spotsList
     res.json(all);
 });
 
+//Get spots owned by current user
 router.get('/currentUser', requireAuth, async (req, res, next) => {
     const ownerId = req.user.id;
     const ownedSpot = {};
@@ -73,12 +87,8 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
                 attributes: []
             },
             {
-                model: SpotImage,
-                attributes: ['url'],
-                where: {
-                    preview: true
-                }
-            }
+                model: SpotImage
+            },
         ],
         attributes: {
             include: [
@@ -91,11 +101,30 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
         const err = new Error("You currently do not own a spot");
         return next(err);
     }
-    ownedSpot.Spots = spotOwnedByUser;
+
+    let spotsList = [];
+    spotOwnedByUser.forEach( spot  => {
+        spotsList.push(spot.toJSON());
+    });
+    // console.log(spotsList)
+    spotsList.forEach( spot => {
+        spot.SpotImages.forEach(image => {
+            if(image.preview === true){
+                spot.previewImage = image.url
+            }
+        });
+        if(!spot.previewImage){
+            spot.previewImage = "no image found"
+        }
+
+        delete spot.SpotImages;
+    })
+    ownedSpot.Spots = spotsList;
     res.json(ownedSpot);
 
 });
 
+//Get details for a spot from an ID
 router.get('/:id', async (req, res, next) => {
     const id = +req.params.id;
 
@@ -103,8 +132,7 @@ router.get('/:id', async (req, res, next) => {
         include: [
             { model: SpotImage, attributes: ['id', 'url', 'preview']},
             { model: User, as: "Owner" , attributes: ['id', 'firstName', 'lastName']}
-        ],
-        attributes: { exclude: ['previewImg'] }
+        ]
     });
     if(!currentSpot) {
         const err = new Error("Spot couldn't be found");
@@ -128,6 +156,31 @@ router.get('/:id', async (req, res, next) => {
     };
 });
 
+//add an image to a spot
+router.post('/:id/images', requireAuth, async (req, res, next) => {
+    const spotId = +req.params.id;
+    const loggedInUser = req.user.id;
+    const { url, preview } = req.body;
+    let image = {};
+
+    const spotByID = await Spot.findByPk(spotId);
+    if(!spotByID){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    } else if(loggedInUser !== spotByID.ownerId){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        return next(err);
+    }
+    const newImage = await SpotImage.create({ url, spotId, preview });
+    image.id = newImage.id;
+    image.url = newImage.url;
+    image.preview = newImage.preview;
+    return res.json(image);
+});
+
+//create a spot
 router.post('/', requireAuth, validateSpots, async (req, res, next) => {
     const ownerId = req.user.id;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -136,7 +189,7 @@ router.post('/', requireAuth, validateSpots, async (req, res, next) => {
     return res.json(newSpot);
 });
 
-
+//edit a spot
 router.put('/:id', requireAuth, validateSpots, async (req, res, next) => {
     const loggedInUser = req.user.id;
     const spotId = +req.params.id;
@@ -177,6 +230,7 @@ router.put('/:id', requireAuth, validateSpots, async (req, res, next) => {
   }
 );
 
+//delete a spot
 router.delete('/:id', requireAuth, async (req, res, next) => {
     const loggedInUser = req.user.id;
     const spotId = +req.params.id;
@@ -195,7 +249,10 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 
     await spotByID.destroy();
     res.status(200);
-    return res.json({ message: "Successfully deleted"});
+    return res.json({
+        message: "Successfully deleted",
+        statusCode: 200
+    });
   }
 );
 
