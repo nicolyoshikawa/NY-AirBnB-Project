@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot, SpotImage, Review, sequelize } = require('../../db/models');
+const { User, Spot, SpotImage, Review, sequelize, ReviewImage } = require('../../db/models');
 
 const router = express.Router();
 
@@ -32,6 +32,70 @@ const validateSpots = [
         .withMessage("Price per day is required"),
   handleValidationErrors
 ];
+
+const validateReview = [
+    check('review').exists({ checkFalsy: true })
+        .withMessage("Review text is required"),
+    check('stars').exists({ checkFalsy: true })
+        .withMessage("Stars must be an integer from 1 to 5")
+        .bail()
+        .isLength({ min: 1,max: 5 })
+        .withMessage('Stars must be an integer from 1 to 5'),
+  handleValidationErrors
+];
+
+//create a review for a spot
+router.post('/:id/reviews', requireAuth, validateReview, async (req, res, next) => {
+    const userId = req.user.id;
+    const spotId = +req.params.id;
+    const { review, stars } = req.body;
+
+    const spotByID = await Spot.findByPk(spotId);
+    if(!spotByID){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+
+    const reviewByID = await Review.findOne({
+        where: { userId, spotId }
+    });
+
+    if(reviewByID){
+        const err = new Error("User already has a review for this spot");
+        err.status = 403;
+        return next(err);
+    }
+
+    const newReview = await Review.create({ userId, spotId, review, stars});
+    res.status(201);
+    res.json(newReview);
+});
+
+//get all review by spot ID
+router.get('/:id/reviews', requireAuth, async (req, res, next) => {
+    const spotId = +req.params.id;
+    const allReviews = {};
+    const spotByID = await Spot.findByPk(spotId);
+    if(!spotByID){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+
+    const reviewByID = await Review.findAll({
+        where: { spotId },
+        include: [
+            { model: User },
+            {
+                model: ReviewImage,
+                attributes: ["id", 'url']
+            },
+        ]
+    });
+    allReviews.Reviews = reviewByID
+    res.json(allReviews);
+});
 
 //Get all spots
 router.get('/', async (req, res) => {
@@ -139,7 +203,7 @@ router.get('/:id', async (req, res, next) => {
         err.status = 404;
         return next(err);
     } else {
-        const avg = await Review.findOne({
+        const avg = await Review.findAll({
             where: { spotId: currentSpot.id },
             attributes: [
                 [sequelize.fn("COUNT", sequelize.col("Review.spotId")), "numReviews"],
@@ -148,7 +212,8 @@ router.get('/:id', async (req, res, next) => {
         });
 
         const data = currentSpot.toJSON();
-        const avgData = avg.toJSON();
+        // console.log(avg)
+        const avgData = avg[0].toJSON();
         data.numReviews = avgData.numReviews;
         data.avgStarRating = avgData.avgRating;
 
