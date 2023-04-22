@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot, ReviewImage, Review, sequelize } = require('../../db/models');
+const { User, Spot, ReviewImage, Review, SpotImage, sequelize } = require('../../db/models');
 
 const router = express.Router();
 
@@ -33,7 +33,10 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
             },
             {
                 model: Spot,
-                attributes: { exclude: ['description', 'createdAt', 'updatedAt']}
+                attributes: { exclude: ['description', 'createdAt', 'updatedAt'] },
+                include: [
+                    { model: SpotImage, where: { preview: true } }
+                ],
             },
             {
                 model: ReviewImage,
@@ -46,24 +49,23 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
         return next(err);
     }
 
-    // let spotsList = [];
-    // allSpots.forEach( spot  => {
-    //     spotsList.push(spot.toJSON());
-    // });
-    // spotsList.forEach( spot => {
-    //     spot.SpotImages.forEach(image => {
-    //         if(image.preview === true){
-    //             spot.previewImage = image.url
-    //         }
-    //     });
-    //     if(!spot.previewImage){
-    //         spot.previewImage = "no image found"
-    //     }
+    let obj = [];
+    reviewUser.forEach(review => {
+        let reviewObj = review.toJSON();
+        let spotObj = reviewObj.Spot;
+        spotObj.SpotImages.forEach(image => {
+            if(image.preview === true){
+                spotObj.previewImage = image.url;
+            }
+        });
+        if(!spotObj.previewImage){
+            spotObj.previewImage = "no image found"
+        }
+        delete spotObj.SpotImages;
+        obj.push(reviewObj);
+    });
 
-    //     delete spot.SpotImages;
-    // })
-
-    reviews.Reviews = reviewUser;
+    reviews.Reviews = obj;
     res.json(reviews);
 
 });
