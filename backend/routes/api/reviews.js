@@ -44,10 +44,10 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
             },
         ]
     })
-    if(reviewUser.length < 1) {
-        const err = new Error("You currently have not written a review");
-        return next(err);
-    }
+    // if(reviewUser.length < 1) {
+    //     const err = new Error("You currently have not written a review");
+    //     return next(err);
+    // }
 
     let obj = [];
     reviewUser.forEach(review => {
@@ -79,14 +79,7 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
     const reviewByID = await Review.findOne({
         where: { userId, id: reviewId }
     });
-    const reviewCount = await ReviewImage.count({
-        where: { reviewId }
-    });
-    if(reviewCount >= 10){
-        const err = new Error("Maximum number of images for this resource was reached");
-        err.status = 403;
-        return next(err);
-    }
+
     if(!reviewByID){
         const err = new Error("Review couldn't be found");
         err.status = 404;
@@ -95,7 +88,17 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
         const err = new Error("Forbidden");
         err.status = 403;
         return next(err);
+    };
+
+    const reviewImageCount = await ReviewImage.count({
+        where: { reviewId }
+    });
+    if(reviewImageCount >= 10){
+        const err = new Error("Maximum number of images for this resource was reached");
+        err.status = 403;
+        return next(err);
     }
+
     const newReviewImage = await ReviewImage.create({ reviewId, url });
     image.id = newReviewImage.id;
     image.url = newReviewImage.url;
