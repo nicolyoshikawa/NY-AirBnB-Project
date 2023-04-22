@@ -324,29 +324,29 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 );
 
 //delete a spot image
-router.delete('/:id/images/:imageId', requireAuth, async (req, res, next) => {
-    const loggedInUser = req.user.id;
-    const spotId = +req.params.id;
-    const spotByID = await Spot.findByPk(spotId);
+// router.delete('/:id/images/:imageId', requireAuth, async (req, res, next) => {
+//     const loggedInUser = req.user.id;
+//     const spotId = +req.params.id;
+//     const spotByID = await Spot.findByPk(spotId);
 
-    if(!spotByID){
-        const err = new Error("Spot couldn't be found");
-        err.status = 404;
-        return next(err);
-    }
-    if(loggedInUser !== spotByID.ownerId){
-        const err = new Error("Forbidden");
-        err.status = 403;
-        return next(err);
-    }
+//     if(!spotByID){
+//         const err = new Error("Spot couldn't be found");
+//         err.status = 404;
+//         return next(err);
+//     }
+//     if(loggedInUser !== spotByID.ownerId){
+//         const err = new Error("Forbidden");
+//         err.status = 403;
+//         return next(err);
+//     }
 
-    await spotByID.destroy();
-    res.status(200);
-    return res.json({
-        message: "Successfully deleted",
-        statusCode: 200
-    });
-  }
-);
+//     await spotByID.destroy();
+//     res.status(200);
+//     return res.json({
+//         message: "Successfully deleted",
+//         statusCode: 200
+//     });
+//   }
+// );
 
 module.exports = router;
