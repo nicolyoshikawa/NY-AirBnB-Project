@@ -341,7 +341,9 @@ router.delete('/:id/images/:imageId', requireAuth, async (req, res, next) => {
         return next(err);
     }
 
-    const imageByID = await SpotImage.findByPk(imageId);
+    const imageByID = await SpotImage.findByPk(imageId, {
+        where: spotId
+    });
     if(!imageByID){
         const err = new Error("Spot Image couldn't be found");
         err.status = 404;
