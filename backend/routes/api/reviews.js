@@ -35,7 +35,7 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
                 model: Spot,
                 attributes: { exclude: ['description', 'createdAt', 'updatedAt'] },
                 include: [
-                    { model: SpotImage, where: { preview: true } }
+                    { model: SpotImage }
                 ],
             },
             {
@@ -52,15 +52,21 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
     let obj = [];
     reviewUser.forEach(review => {
         let reviewObj = review.toJSON();
+
         let spotObj = reviewObj.Spot;
-        spotObj.SpotImages.forEach(image => {
-            if(image.preview === true){
-                spotObj.previewImage = image.url;
-            }
-        });
+
+        if(spotObj && spotObj.SpotImages){
+            spotObj.SpotImages.forEach(image => {
+                if(image.preview === true){
+                    spotObj.previewImage = image.url;
+                }
+            });
+        }
+
         if(!spotObj.previewImage){
             spotObj.previewImage = "no image found"
         }
+
         delete spotObj.SpotImages;
         obj.push(reviewObj);
     });
@@ -154,5 +160,41 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         statusCode: 200
     });
 });
+
+//delete a review image
+router.delete('/:id/images/:imageId', requireAuth, async (req, res, next) => {
+    const userId = req.user.id;
+    const reviewId = +req.params.id;
+    const imageId = +req.params.imageId;
+    const reviewByID = await Review.findByPk(reviewId);
+
+    if(!reviewByID){
+        const err = new Error("Review couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+    if(userId !== reviewByID.userId){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        return next(err);
+    }
+
+    const imageByID = await ReviewImage.findByPk(imageId, {
+        where: reviewId
+    });
+    if(!imageByID){
+        const err = new Error("Review Image couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+
+    await imageByID.destroy();
+    res.status(200);
+    return res.json({
+        message: "Successfully deleted",
+        statusCode: 200
+    });
+  }
+);
 
 module.exports = router;
