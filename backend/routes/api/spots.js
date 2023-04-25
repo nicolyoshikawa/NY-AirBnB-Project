@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot, SpotImage, Review, sequelize, ReviewImage } = require('../../db/models');
+const { User, Spot, SpotImage, Review, sequelize, Booking, ReviewImage } = require('../../db/models');
 
 const router = express.Router();
 
@@ -72,6 +72,23 @@ router.post('/:id/reviews', requireAuth, validateReview, async (req, res, next) 
     res.json(newReview);
 });
 
+//create a booking for a spot
+router.post('/:id/bookings', requireAuth, validateReview, async (req, res, next) => {
+    const userId = req.user.id;
+    const spotId = +req.params.id;
+    const { startDate, endDate } = req.body;
+
+    const spotByID = await Spot.findByPk(spotId);
+    if(!spotByID){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+
+    const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
+    res.json(newBooking);
+});
+
 //get all review by spot ID
 router.get('/:id/reviews', requireAuth, async (req, res, next) => {
     const spotId = +req.params.id;
@@ -97,6 +114,39 @@ router.get('/:id/reviews', requireAuth, async (req, res, next) => {
     });
     allReviews.Reviews = reviewByID
     res.json(allReviews);
+});
+
+//get all bookings by spot ID
+router.get('/:id/bookings', requireAuth, async (req, res, next) => {
+    const spotId = +req.params.id;
+    const userId = req.user.id;
+    const allBookings = {};
+
+    const spotByID = await Spot.findByPk(spotId);
+
+    if(!spotByID) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+    if(spotByID.ownerId === userId){
+        const ownerBookingByID = await Booking.findAll({
+            where: { spotId, userId },
+            include: {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            }
+        });
+        allBookings.Bookings = ownerBookingByID;
+        return res.json(allBookings);
+    } else {
+        const notOwnerBookingByID = await Booking.findAll({
+            where: { spotId },
+            attributes: ['spotId', "startDate", "endDate"]
+        });
+        allBookings.Bookings = notOwnerBookingByID;
+        res.json(allBookings);
+    }
 });
 
 //Get all spots
@@ -162,17 +212,13 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
             ]
         },
         group: ['Spot.id']
-    })
-    // if(spotOwnedByUser.length < 1) {
-    //     const err = new Error("You currently do not own a spot");
-    //     return next(err);
-    // }
+    });
 
     let spotsList = [];
     spotOwnedByUser.forEach( spot  => {
         spotsList.push(spot.toJSON());
     });
-    // console.log(spotsList)
+
     spotsList.forEach( spot => {
         spot.SpotImages.forEach(image => {
             if(image.preview === true){

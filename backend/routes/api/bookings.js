@@ -39,10 +39,6 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
             }
         ]
     })
-    // if(reviewUser.length < 1) {
-    //     const err = new Error("You currently have not written a review");
-    //     return next(err);
-    // }
 
     let obj = [];
     userBookings.forEach(booked => {
@@ -75,7 +71,11 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
 router.put('/:id', requireAuth, validateBooking, async (req, res, next) => {
     const userId = req.user.id;
     const bookingId = +req.params.id;
-    const { startDate, endDate } = req.body;
+    let { startDate, endDate } = req.body;
+
+    let today = moment().format("YYYY-MM-DD");
+    startDate = moment(startDate).format("YYYY-MM-DD");
+    endDate = moment(endDate).format("YYYY-MM-DD");
 
     const bookingByID = await Booking.findByPk(bookingId, {
         where: { userId }
@@ -91,15 +91,16 @@ router.put('/:id', requireAuth, validateBooking, async (req, res, next) => {
         err.status = 403;
         return next(err);
     }
-    // if(date >= bookingByID.startDate){
-    //     const err = new Error("Past bookings can't be modified");
-    //     err.status = 403;
-    //     return next(err);
-    // }
-    // if(startDate) bookingByID.startDate = startDate;
-    // if(endDate) bookingByID.endDate = endDate;
+    if(today >= startDate){
+        const err = new Error("Past bookings can't be modified");
+        err.status = 403;
+        return next(err);
+    }
 
-    // const updated = await bookingByID.save();
+    if(startDate) bookingByID.startDate = startDate;
+    if(endDate) bookingByID.endDate = endDate;
+
+    const updated = await bookingByID.save();
     return res.json(updated);
 
 });
@@ -109,9 +110,14 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
     const userId = req.user.id;
     const bookingId = +req.params.id;
     let today = new Date();
+    today.toLocaleString('en-US', { timeZone: "UTC" });
 
     const bookingByID = await Booking.findByPk(bookingId, {
-        where: { userId }
+        where: { userId },
+        include: {
+            model: Spot,
+            attributes: []
+        }
     });
 
     if(!bookingByID){
@@ -119,17 +125,18 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-    if(userId !== bookingByID.userId){
+    if(userId !== bookingByID.userId || userId !== bookingByID.Spot.ownerId){
         const err = new Error("Forbidden");
         err.status = 403;
         return next(err);
     }
-    if(today >= bookingByID.startDate){
-        const err = new Error("Bookings that have been started can't be deleted");
-        err.status = 403;
-        return next(err);
-    }
+    // if(today >= startDate){
+    //     const err = new Error("Bookings that have been started can't be deleted");
+    //     err.status = 403;
+    //     return next(err);
+    // }
 
+    res.json(bookingByID)
     // await bookingByID.destroy();
     res.status(200);
     return res.json({
