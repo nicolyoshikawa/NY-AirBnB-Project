@@ -73,7 +73,7 @@ router.post('/:id/reviews', requireAuth, validateReview, async (req, res, next) 
 });
 
 //create a booking for a spot
-router.post('/:id/bookings', requireAuth, validateReview, async (req, res, next) => {
+router.post('/:id/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const userId = req.user.id;
     const spotId = +req.params.id;
     const { startDate, endDate } = req.body;
