@@ -1,7 +1,9 @@
 // backend/routes/api/users.js
 const express = require('express');
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
+// const { query } = require('express-validator/check');
 const { handleValidationErrors } = require('../../utils/validation');
+const { Op } = require("sequelize");
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Spot, SpotImage, Review, sequelize, Booking, ReviewImage } = require('../../db/models');
@@ -62,6 +64,26 @@ const validateBooking = [
         .bail()
         .isDate()
         .withMessage("startDate is an invalid date"),
+  handleValidationErrors
+];
+
+const validateQueryParameter = [
+    query('page').optional().isInt({ min: 0})
+        .withMessage("Page must be greater than or equal to 0"),
+    query('size').optional().isInt({ min: 0})
+        .withMessage("Size must be greater than or equal to 0"),
+    query('minLat').optional().isDecimal()
+        .withMessage("Minimum latitude is invalid"),
+    query('maxLat').optional().isDecimal()
+        .withMessage("Maximum latitude is invalid"),
+    query('minLng').optional().isDecimal()
+        .withMessage("Minimum longitude is invalid"),
+    query('maxLng').optional().isDecimal()
+        .withMessage("Maximum longitude is invalid"),
+    query('minPrice').optional().isFloat({ min: 0})
+        .withMessage("Minimum price must be greater than or equal to 0"),
+    query('maxPrice').optional().isFloat({ min: 0})
+        .withMessage("Maximum price must be greater than or equal to 0"),
   handleValidationErrors
 ];
 
@@ -216,9 +238,32 @@ router.get('/:id/bookings', requireAuth, async (req, res, next) => {
 });
 
 //Get all spots
-router.get('/', async (req, res) => {
+router.get('/', validateQueryParameter, async (req, res) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+    let pagination = {};
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if(!page || page < 0 || Number.isNaN(page)) page = 0;
+    if(!size || size < 0 || Number.isNaN(size)) size = 20;
+    if(page > 10) page = 10;
+    if(size > 20) size = 20;
+
+    pagination.limit = size;
+    pagination.offset = size * (page - 1);
+
+    let where = {};
+    if(minLat) where.lat = {[Op.gte]: minLat};
+    if(maxLat) where.lat = {[Op.lte]: maxLat};
+    if(minLng) where.lng = {[Op.gte]: minLng};
+    if(maxLng) where.lng = {[Op.lte]: maxLng};
+    if(minPrice) where.price = {[Op.gte]: minPrice};
+    if(maxPrice) where.price = {[Op.lte]: maxPrice};
+
     const all = {};
     const allSpots = await Spot.findAll({
+        where,
         include: [
             {
                 model: Review,
@@ -233,7 +278,9 @@ router.get('/', async (req, res) => {
                 [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
             ]
         },
-        group: ['Spot.id']
+        group: ['Spot.id'],
+        subQuery: false,
+        ...pagination
 
     });
 
@@ -253,7 +300,11 @@ router.get('/', async (req, res) => {
 
         delete spot.SpotImages;
     })
-    all.Spots = spotsList
+    all.Spots = spotsList;
+
+    all.page = page;
+    all.size = size;
+
     res.json(all);
 });
 
@@ -326,7 +377,7 @@ router.get('/:id', async (req, res, next) => {
         });
 
         const data = currentSpot.toJSON();
-        // console.log(avg)
+
         const avgData = avg[0].toJSON();
         data.numReviews = avgData.numReviews;
         data.avgStarRating = avgData.avgRating;
