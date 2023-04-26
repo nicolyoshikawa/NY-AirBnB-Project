@@ -44,12 +44,8 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
             },
         ]
     })
-    // if(reviewUser.length < 1) {
-    //     const err = new Error("You currently have not written a review");
-    //     return next(err);
-    // }
 
-    let obj = [];
+    let arr = [];
     reviewUser.forEach(review => {
         let reviewObj = review.toJSON();
 
@@ -68,10 +64,10 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
         }
 
         delete spotObj.SpotImages;
-        obj.push(reviewObj);
+        arr.push(reviewObj);
     });
 
-    reviews.Reviews = obj;
+    reviews.Reviews = arr;
     res.json(reviews);
 
 });
