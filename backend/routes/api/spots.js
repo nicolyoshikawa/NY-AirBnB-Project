@@ -217,8 +217,24 @@ router.get('/:id/bookings', requireAuth, async (req, res, next) => {
 
 //Get all spots
 router.get('/', async (req, res) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+    let pagination = {};
+    let where = {};
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if(!page || page < 0 || Number.isNaN(page)) page = 0;
+    if(!size || size < 0 || Number.isNaN(size)) size = 20;
+    if(page > 10) page = 10;
+    if(size > 20) size = 20;
+
+    pagination.limit = size;
+    pagination.offset = size * (page - 1);
+
     const all = {};
     const allSpots = await Spot.findAll({
+        where,
         include: [
             {
                 model: Review,
@@ -233,7 +249,9 @@ router.get('/', async (req, res) => {
                 [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
             ]
         },
-        group: ['Spot.id']
+        group: ['Spot.id'],
+        subQuery: false,
+        ...pagination
 
     });
 
@@ -253,7 +271,11 @@ router.get('/', async (req, res) => {
 
         delete spot.SpotImages;
     })
-    all.Spots = spotsList
+    all.Spots = spotsList;
+
+    all.page = page;
+    all.size = size;
+
     res.json(all);
 });
 
