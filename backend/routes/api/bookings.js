@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const moment = require('moment');
+const { Op } = require("sequelize");
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Spot, ReviewImage, Review, SpotImage, Booking, sequelize } = require('../../db/models');
@@ -9,14 +9,24 @@ const { User, Spot, ReviewImage, Review, SpotImage, Booking, sequelize } = requi
 const router = express.Router();
 
 const validateBooking = [
-    // check('review').exists({ checkFalsy: true })
-    //     .withMessage("Review text is required"),
-    // check('stars').exists({ checkFalsy: true })
-    //     .withMessage("Stars must be an integer from 1 to 5")
-    //     .bail()
-    //     .isLength({ min: 1,max: 5 })
-    //     .withMessage('Stars must be an integer from 1 to 5'),
-//   handleValidationErrors
+    check('endDate').exists({ checkFalsy: true })
+        .withMessage("endDate is required")
+        .bail()
+        .isDate()
+        .withMessage("endDate is an invalid date")
+        .bail()
+        .custom((value, { req }) => {
+            if(new Date(value) <= new Date(req.body.startDate)) {
+                throw new Error ("endDate cannot come before startDate");
+            }
+            return true;
+        }),
+    check('startDate').exists({ checkFalsy: true })
+        .withMessage("startDate is required")
+        .bail()
+        .isDate()
+        .withMessage("startDate is an invalid date"),
+  handleValidationErrors
 ];
 
 //Get current user's bookings
@@ -73,9 +83,9 @@ router.put('/:id', requireAuth, validateBooking, async (req, res, next) => {
     const bookingId = +req.params.id;
     let { startDate, endDate } = req.body;
 
-    let today = moment().format("YYYY-MM-DD");
-    startDate = moment(startDate).format("YYYY-MM-DD");
-    endDate = moment(endDate).format("YYYY-MM-DD");
+    let today = new Date()
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
 
     const bookingByID = await Booking.findByPk(bookingId, {
         where: { userId }
@@ -91,10 +101,47 @@ router.put('/:id', requireAuth, validateBooking, async (req, res, next) => {
         err.status = 403;
         return next(err);
     }
-    if(today >= startDate){
+    if(today > bookingByID.endDate){
         const err = new Error("Past bookings can't be modified");
         err.status = 403;
         return next(err);
+    }
+    if(endDate < startDate){
+        const err = new Error("endDate cannot be on or before startDate");
+        err.status = 404;
+        return next(err);
+    }
+
+    const bookingsBySpotId = await Booking.findAll({
+        where: { spotId: bookingByID.spotId, id: { [Op.not]: bookingId} },
+    });
+
+    for(let i = 0; i < bookingsBySpotId.length; i++){
+        let currSpot = bookingsBySpotId[i];
+        if(startDate <= currSpot.endDate && startDate >= currSpot.startDate){
+            const err = new Error("Sorry, this spot is already booked for the specified dates");
+            err.status = 403;
+            err.errors = [
+                "Start date conflicts with an existing booking"
+            ];
+            return next(err);
+        }
+        if(endDate <= currSpot.endDate && endDate >= currSpot.startDate){
+            const err = new Error("Sorry, this spot is already booked for the specified dates");
+            err.status = 403;
+            err.errors = [
+                "End date conflicts with an existing booking"
+            ];
+            return next(err);
+        }
+        if(endDate >= currSpot.endDate && startDate <= currSpot.startDate){
+            const err = new Error("Sorry, this spot is already booked for the specified dates");
+            err.status = 403;
+            err.errors = [
+                "End date conflicts with an existing booking"
+            ];
+            return next(err);
+        }
     }
 
     if(startDate) bookingByID.startDate = startDate;

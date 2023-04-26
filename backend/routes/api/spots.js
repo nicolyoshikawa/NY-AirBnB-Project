@@ -44,6 +44,27 @@ const validateReview = [
   handleValidationErrors
 ];
 
+const validateBooking = [
+    check('endDate').exists({ checkFalsy: true })
+        .withMessage("endDate is required")
+        .bail()
+        .isDate()
+        .withMessage("endDate is an invalid date")
+        .bail()
+        .custom((value, { req }) => {
+            if(new Date(value) <= new Date(req.body.startDate)) {
+                throw new Error ("endDate cannot be on or before startDate");
+            }
+            return true;
+        }),
+    check('startDate').exists({ checkFalsy: true })
+        .withMessage("startDate is required")
+        .bail()
+        .isDate()
+        .withMessage("startDate is an invalid date"),
+  handleValidationErrors
+];
+
 //create a review for a spot
 router.post('/:id/reviews', requireAuth, validateReview, async (req, res, next) => {
     const userId = req.user.id;
@@ -76,13 +97,58 @@ router.post('/:id/reviews', requireAuth, validateReview, async (req, res, next) 
 router.post('/:id/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const userId = req.user.id;
     const spotId = +req.params.id;
-    const { startDate, endDate } = req.body;
+    let { startDate, endDate } = req.body;
 
     const spotByID = await Spot.findByPk(spotId);
     if(!spotByID){
         const err = new Error("Spot couldn't be found");
         err.status = 404;
         return next(err);
+    }
+    if(spotByID.ownerId === userId){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        return next(err);
+    }
+
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+
+    if(endDate < startDate){
+        const err = new Error("endDate cannot be on or before startDate");
+        err.status = 404;
+        return next(err);
+    }
+    const bookingsBySpotId = await Booking.findAll({
+        where: { spotId }
+    });
+
+    for(let i = 0; i < bookingsBySpotId.length; i++){
+        let currSpot = bookingsBySpotId[i];
+        if(startDate <= currSpot.endDate && startDate >= currSpot.startDate){
+            const err = new Error("Sorry, this spot is already booked for the specified dates");
+            err.status = 403;
+            err.errors = [
+                "Start date conflicts with an existing booking"
+            ];
+            return next(err);
+        }
+        if(endDate <= currSpot.endDate && endDate >= currSpot.startDate){
+            const err = new Error("Sorry, this spot is already booked for the specified dates");
+            err.status = 403;
+            err.errors = [
+                "End date conflicts with an existing booking"
+            ];
+            return next(err);
+        }
+        if(endDate >= currSpot.endDate && startDate <= currSpot.startDate){
+            const err = new Error("Sorry, this spot is already booked for the specified dates");
+            err.status = 403;
+            err.errors = [
+                "End date conflicts with an existing booking"
+            ];
+            return next(err);
+        }
     }
 
     const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
