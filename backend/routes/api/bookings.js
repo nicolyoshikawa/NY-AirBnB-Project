@@ -157,13 +157,11 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
     const userId = req.user.id;
     const bookingId = +req.params.id;
     let today = new Date();
-    today.toLocaleString('en-US', { timeZone: "UTC" });
 
     const bookingByID = await Booking.findByPk(bookingId, {
         where: { userId },
         include: {
-            model: Spot,
-            attributes: []
+            model: Spot
         }
     });
 
@@ -172,24 +170,25 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
-    if(userId !== bookingByID.userId || userId !== bookingByID.Spot.ownerId){
+    if(userId === bookingByID.userId || userId === bookingByID.Spot.ownerId){
+        if(today >= bookingByID.startDate){
+            const err = new Error("Bookings that have been started can't be deleted");
+            err.status = 403;
+            return next(err);
+        }
+
+        await bookingByID.destroy();
+        res.status(200);
+
+        return res.json({
+            message: "Successfully deleted",
+            statusCode: 200
+        });
+    } else {
         const err = new Error("Forbidden");
         err.status = 403;
         return next(err);
     }
-    // if(today >= startDate){
-    //     const err = new Error("Bookings that have been started can't be deleted");
-    //     err.status = 403;
-    //     return next(err);
-    // }
-
-    res.json(bookingByID)
-    // await bookingByID.destroy();
-    res.status(200);
-    return res.json({
-        message: "Successfully deleted",
-        statusCode: 200
-    });
 });
 
 module.exports = router;
