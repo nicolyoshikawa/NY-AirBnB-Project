@@ -20,8 +20,14 @@ const validateSpots = [
     check('country').exists({ checkFalsy: true })
         .withMessage("Country is required"),
     check('lat').exists({ checkFalsy: true })
+        .withMessage("Latitude is required")
+        .bail()
+        .isFloat({ min: -90,max: 90 })
         .withMessage("Latitude is not valid"),
     check('lng').exists({ checkFalsy: true })
+        .withMessage("Longitude is required")
+        .bail()
+        .isFloat({ min: -180, max: 180 })
         .withMessage("Longitude is not valid"),
     check('name').exists({ checkFalsy: true })
         .withMessage("Name is required")
@@ -41,7 +47,7 @@ const validateReview = [
     check('stars').exists({ checkFalsy: true })
         .withMessage("Stars must be an integer from 1 to 5")
         .bail()
-        .isLength({ min: 1,max: 5 })
+        .isInt({ min: 1, max: 5 })
         .withMessage('Stars must be an integer from 1 to 5'),
   handleValidationErrors
 ];
@@ -178,7 +184,7 @@ router.post('/:id/bookings', requireAuth, validateBooking, async (req, res, next
 });
 
 //get all review by spot ID
-router.get('/:id/reviews', requireAuth, async (req, res, next) => {
+router.get('/:id/reviews', async (req, res, next) => {
     const spotId = +req.params.id;
     const allReviews = {};
     const spotByID = await Spot.findByPk(spotId);
@@ -278,7 +284,7 @@ router.get('/', validateQueryParameter, async (req, res) => {
                 [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
             ]
         },
-        group: ['Spot.id'],
+        group: ['Spot.id', 'SpotImages.id'],
         subQuery: false,
         ...pagination
 
@@ -328,7 +334,7 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
                 [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
             ]
         },
-        group: ['Spot.id']
+        group: ['Spot.id', 'SpotImages.id']
     });
 
     let spotsList = [];
