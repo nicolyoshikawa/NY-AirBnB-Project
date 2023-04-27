@@ -78,9 +78,7 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
     const userId = req.user.id;
     const { url } = req.body;
     const image = {};
-    const reviewByID = await Review.findOne({
-        where: { id: reviewId }
-    });
+    const reviewByID = await Review.findByPk(reviewId);
 
     if(!reviewByID){
         const err = new Error("Review couldn't be found");
