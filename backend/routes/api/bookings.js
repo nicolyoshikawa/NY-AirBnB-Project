@@ -50,7 +50,7 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
         ]
     })
 
-    let obj = [];
+    let arr = [];
     userBookings.forEach(booked => {
         let bookingsObj = booked.toJSON();
 
@@ -69,10 +69,10 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
         }
 
         delete spotObj.SpotImages;
-        obj.push(bookingsObj);
+        arr.push(bookingsObj);
     });
 
-    bookings.Bookings = obj;
+    bookings.Bookings = arr;
     res.json(bookings);
 
 });
