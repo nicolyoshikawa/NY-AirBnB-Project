@@ -78,13 +78,13 @@ const validateQueryParameter = [
         .withMessage("Page must be greater than or equal to 0"),
     query('size').optional().isInt({ min: 0})
         .withMessage("Size must be greater than or equal to 0"),
-    query('minLat').optional().isDecimal()
+    query('minLat').optional().isFloat({ min: -90,max: 90 })
         .withMessage("Minimum latitude is invalid"),
-    query('maxLat').optional().isDecimal()
+    query('maxLat').optional().isFloat({ min: -90,max: 90 })
         .withMessage("Maximum latitude is invalid"),
-    query('minLng').optional().isDecimal()
+    query('minLng').optional().isFloat({ min: -180, max: 180 })
         .withMessage("Minimum longitude is invalid"),
-    query('maxLng').optional().isDecimal()
+    query('maxLng').optional().isFloat({ min: -180, max: 180 })
         .withMessage("Maximum longitude is invalid"),
     query('minPrice').optional().isFloat({ min: 0})
         .withMessage("Minimum price must be greater than or equal to 0"),
@@ -225,7 +225,7 @@ router.get('/:id/bookings', requireAuth, async (req, res, next) => {
     }
     if(spotByID.ownerId === userId){
         const ownerBookingByID = await Booking.findAll({
-            where: { spotId, userId },
+            where: { spotId },
             include: {
                 model: User,
                 attributes: ['id', 'firstName', 'lastName']
@@ -239,7 +239,7 @@ router.get('/:id/bookings', requireAuth, async (req, res, next) => {
             attributes: ['spotId', "startDate", "endDate"]
         });
         allBookings.Bookings = notOwnerBookingByID;
-        res.json(allBookings);
+        return res.json(allBookings);
     }
 });
 
