@@ -257,7 +257,11 @@ router.get('/', validateQueryParameter, async (req, res) => {
     if(size > 20) size = 20;
 
     pagination.limit = size;
-    pagination.offset = size * (page - 1);
+    if(page === 0) {
+        pagination.offset = 0
+    } else {
+        pagination.offset = size * (page - 1);
+    }
 
     let where = {};
     if(minLat) where.lat = {[Op.gte]: minLat};
