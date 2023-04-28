@@ -340,12 +340,9 @@ router.get('/', validateQueryParameter, async (req, res) => {
 
         const allReviews = await Review.findAll({
             where: { spotId: spotJSON.id },
-            attributes: {
-                include: [
-                    [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
-                ]
-            },
-            group: ['Review.id']
+            attributes: [
+                [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
+            ]
         })
 
         let avg = allReviews[0].toJSON();
@@ -428,12 +425,9 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
 
         const allReviews = await Review.findAll({
             where: { spotId: spotJSON.id },
-            attributes: {
-                include: [
-                    [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
-                ]
-            },
-            group: ['Review.id']
+            attributes: [
+                [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
+            ]
         })
 
         let avg = allReviews[0].toJSON();
