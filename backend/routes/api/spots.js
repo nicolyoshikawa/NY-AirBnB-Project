@@ -345,7 +345,7 @@ router.get('/', validateQueryParameter, async (req, res) => {
                     [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
                 ]
             },
-            group: ['spotId']
+            group: ['Review.id']
         })
 
         let avg = allReviews[0].toJSON();
@@ -433,7 +433,7 @@ router.get('/currentUser', requireAuth, async (req, res, next) => {
                     [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
                 ]
             },
-            group: ['spotId']
+            group: ['Review.id']
         })
 
         let avg = allReviews[0].toJSON();
