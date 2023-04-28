@@ -257,11 +257,8 @@ router.get('/', validateQueryParameter, async (req, res) => {
     if(size > 20) size = 20;
 
     pagination.limit = size;
-    if(page === 0) {
-        pagination.offset = 0
-    } else {
-        pagination.offset = size * (page - 1);
-    }
+    pagination.offset = size * page;
+
 
     let where = {};
     if(minLat) where.lat = {[Op.gte]: minLat};
@@ -272,46 +269,90 @@ router.get('/', validateQueryParameter, async (req, res) => {
     if(maxPrice) where.price = {[Op.lte]: maxPrice};
 
     const all = {};
+    // const allSpots = await Spot.findAll({
+    //     where,
+    //     include: [
+    //         {
+    //             model: Review,
+    //             attributes: []
+    //         },
+    //         {
+    //             model: SpotImage
+    //         },
+    //     ],
+    //     attributes: {
+    //         include: [
+    //             [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
+    //         ]
+    //     },
+    //     group: ['Spot.id', 'SpotImages.id'],
+    //     subQuery: false,
+    //     ...pagination
+
+    // });
+
+    // let spotsList = [];
+    // allSpots.forEach( spot  => {
+    //     spotsList.push(spot.toJSON());
+    // });
+    // spotsList.forEach( spot => {
+    //     spot.SpotImages.forEach(image => {
+    //         if(image.preview === true){
+    //             spot.previewImage = image.url
+    //         }
+    //     });
+    //     if(!spot.previewImage){
+    //         spot.previewImage = "no image found"
+    //     }
+
+    //     delete spot.SpotImages;
+    // })
+    // all.Spots = spotsList;
+
+    // all.page = page;
+    // all.size = size;
+
+    // res.json(all);
+
     const allSpots = await Spot.findAll({
         where,
-        include: [
-            {
-                model: Review,
-                attributes: []
-            },
-            {
-                model: SpotImage
-            },
-        ],
-        attributes: {
-            include: [
-                [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-            ]
-        },
-        group: ['Spot.id', 'SpotImages.id'],
-        subQuery: false,
         ...pagination
-
     });
 
     let spotsList = [];
-    allSpots.forEach( spot  => {
-        spotsList.push(spot.toJSON());
-    });
-    spotsList.forEach( spot => {
-        spot.SpotImages.forEach(image => {
+
+    for(let i = 0; i < allSpots.length; i++){
+        let currentSpot = allSpots[i];
+        let spotJSON = currentSpot.toJSON();
+
+        const allSpotImages = await SpotImage.findAll({
+            where: { spotId: spotJSON.id, preview: true}
+        });
+
+        allSpotImages.forEach(image => {
             if(image.preview === true){
-                spot.previewImage = image.url
+                spotJSON.previewImage = image.url
             }
         });
-        if(!spot.previewImage){
-            spot.previewImage = "no image found"
+        if(!spotJSON.previewImage){
+            spotJSON.previewImage = "no image found"
         }
 
-        delete spot.SpotImages;
-    })
-    all.Spots = spotsList;
+        const allReviews = await Review.findAll({
+            where: { spotId: spotJSON.id },
+            attributes: {
+                include: [
+                    [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
+                ]
+            }
+        })
 
+        let avg = allReviews[0].toJSON();
+        spotJSON.avgRating = avg.avgRating;
+        spotsList.push(spotJSON)
+    }
+
+    all.Spots = spotsList;
     all.page = page;
     all.size = size;
 
@@ -322,43 +363,84 @@ router.get('/', validateQueryParameter, async (req, res) => {
 router.get('/currentUser', requireAuth, async (req, res, next) => {
     const ownerId = req.user.id;
     const ownedSpot = {};
+    // const spotOwnedByUser = await Spot.findAll({
+    //     where: { ownerId },
+    //     include: [
+    //         {
+    //             model: Review,
+    //             attributes: []
+    //         },
+    //         {
+    //             model: SpotImage
+    //         },
+    //     ],
+    //     attributes: {
+    //         include: [
+    //             [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
+    //         ]
+    //     },
+    //     group: ['Spot.id', 'SpotImages.id'],
+    //     subQuery: false,
+    // });
+
+    // let spotsList = [];
+    // spotOwnedByUser.forEach( spot  => {
+    //     spotsList.push(spot.toJSON());
+    // });
+
+    // spotsList.forEach( spot => {
+    //     spot.SpotImages.forEach(image => {
+    //         if(image.preview === true){
+    //             spot.previewImage = image.url
+    //         }
+    //     });
+    //     if(!spot.previewImage){
+    //         spot.previewImage = "no image found"
+    //     }
+
+    //     delete spot.SpotImages;
+    // })
+    // ownedSpot.Spots = spotsList;
+    // res.json(ownedSpot);
+
     const spotOwnedByUser = await Spot.findAll({
-        where: { ownerId },
-        include: [
-            {
-                model: Review,
-                attributes: []
-            },
-            {
-                model: SpotImage
-            },
-        ],
-        attributes: {
-            include: [
-                [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-            ]
-        },
-        group: ['Spot.id', 'SpotImages.id']
+        where: { ownerId }
     });
-
     let spotsList = [];
-    spotOwnedByUser.forEach( spot  => {
-        spotsList.push(spot.toJSON());
-    });
 
-    spotsList.forEach( spot => {
-        spot.SpotImages.forEach(image => {
+    for(let i = 0; i < spotOwnedByUser.length; i++){
+        let currentSpot = spotOwnedByUser[i];
+        let spotJSON = currentSpot.toJSON();
+
+        const allSpotImages = await SpotImage.findAll({
+            where: { spotId: spotJSON.id, preview: true}
+        });
+
+        allSpotImages.forEach(image => {
             if(image.preview === true){
-                spot.previewImage = image.url
+                spotJSON.previewImage = image.url
             }
         });
-        if(!spot.previewImage){
-            spot.previewImage = "no image found"
+        if(!spotJSON.previewImage){
+            spotJSON.previewImage = "no image found"
         }
 
-        delete spot.SpotImages;
-    })
+        const allReviews = await Review.findAll({
+            where: { spotId: spotJSON.id },
+            attributes: {
+                include: [
+                    [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
+                ]
+            }
+        })
+
+        let avg = allReviews[0].toJSON();
+        spotJSON.avgRating = avg.avgRating;
+        spotsList.push(spotJSON)
+    }
+
     ownedSpot.Spots = spotsList;
+
     res.json(ownedSpot);
 
 });
