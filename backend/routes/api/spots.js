@@ -272,50 +272,6 @@ router.get('/', validateQueryParameter, async (req, res) => {
     if(maxPrice) arr.push({price: {[Op.lte]: maxPrice}});
 
     const all = {};
-    // const allSpots = await Spot.findAll({
-    //     where,
-    //     include: [
-    //         {
-    //             model: Review,
-    //             attributes: []
-    //         },
-    //         {
-    //             model: SpotImage
-    //         },
-    //     ],
-    //     attributes: {
-    //         include: [
-    //             [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-    //         ]
-    //     },
-    //     group: ['Spot.id', 'SpotImages.id'],
-    //     subQuery: false,
-    //     ...pagination
-
-    // });
-
-    // let spotsList = [];
-    // allSpots.forEach( spot  => {
-    //     spotsList.push(spot.toJSON());
-    // });
-    // spotsList.forEach( spot => {
-    //     spot.SpotImages.forEach(image => {
-    //         if(image.preview === true){
-    //             spot.previewImage = image.url
-    //         }
-    //     });
-    //     if(!spot.previewImage){
-    //         spot.previewImage = "no image found"
-    //     }
-
-    //     delete spot.SpotImages;
-    // })
-    // all.Spots = spotsList;
-
-    // all.page = page;
-    // all.size = size;
-
-    // res.json(all);
 
     const allSpots = await Spot.findAll({
         where,
@@ -364,45 +320,6 @@ router.get('/', validateQueryParameter, async (req, res) => {
 router.get('/currentUser', requireAuth, async (req, res, next) => {
     const ownerId = req.user.id;
     const ownedSpot = {};
-    // const spotOwnedByUser = await Spot.findAll({
-    //     where: { ownerId },
-    //     include: [
-    //         {
-    //             model: Review,
-    //             attributes: []
-    //         },
-    //         {
-    //             model: SpotImage
-    //         },
-    //     ],
-    //     attributes: {
-    //         include: [
-    //             [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-    //         ]
-    //     },
-    //     group: ['Spot.id', 'SpotImages.id'],
-    //     subQuery: false,
-    // });
-
-    // let spotsList = [];
-    // spotOwnedByUser.forEach( spot  => {
-    //     spotsList.push(spot.toJSON());
-    // });
-
-    // spotsList.forEach( spot => {
-    //     spot.SpotImages.forEach(image => {
-    //         if(image.preview === true){
-    //             spot.previewImage = image.url
-    //         }
-    //     });
-    //     if(!spot.previewImage){
-    //         spot.previewImage = "no image found"
-    //     }
-
-    //     delete spot.SpotImages;
-    // })
-    // ownedSpot.Spots = spotsList;
-    // res.json(ownedSpot);
 
     const spotOwnedByUser = await Spot.findAll({
         where: { ownerId }
