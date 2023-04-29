@@ -259,14 +259,17 @@ router.get('/', validateQueryParameter, async (req, res) => {
     pagination.limit = size;
     pagination.offset = size * page;
 
+    let arr = [];
+    let where = {
+        [Op.and]: arr
+    };
 
-    let where = {};
-    if(minLat) where.lat = {[Op.gte]: minLat};
-    if(maxLat) where.lat = {[Op.lte]: maxLat};
-    if(minLng) where.lng = {[Op.gte]: minLng};
-    if(maxLng) where.lng = {[Op.lte]: maxLng};
-    if(minPrice) where.price = {[Op.gte]: minPrice};
-    if(maxPrice) where.price = {[Op.lte]: maxPrice};
+    if(minLat) arr.push({lat: {[Op.gte]: minLat}});
+    if(maxLat) arr.push({lat: {[Op.lte]: maxLat}});
+    if(minLng) arr.push({lng: {[Op.gte]: minLng}});
+    if(maxLng) arr.push({lng: {[Op.lte]: maxLng}});
+    if(minPrice) arr.push({price: {[Op.gte]: minPrice}});
+    if(maxPrice) arr.push({price: {[Op.lte]: maxPrice}});
 
     const all = {};
     // const allSpots = await Spot.findAll({
