@@ -87,9 +87,7 @@ router.put('/:id', requireAuth, validateBooking, async (req, res, next) => {
     startDate = new Date(startDate);
     endDate = new Date(endDate);
 
-    const bookingByID = await Booking.findByPk(bookingId, {
-        where: { userId }
-    });
+    const bookingByID = await Booking.findByPk(bookingId);
 
     if(!bookingByID){
         const err = new Error("Booking couldn't be found");
@@ -159,7 +157,6 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
     let today = new Date();
 
     const bookingByID = await Booking.findByPk(bookingId, {
-        where: { userId },
         include: {
             model: Spot
         }
