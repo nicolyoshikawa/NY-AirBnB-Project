@@ -1,0 +1,9 @@
+html, body, input, textarea, button, select, a {
+    font-family: 'Open Sans';
+    font-size: 16px;
+}
+
+.errors {
+    color: red;
+    font-weight: bold;
+}
