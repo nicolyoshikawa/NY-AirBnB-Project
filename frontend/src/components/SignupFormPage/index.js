@@ -1,3 +1,5 @@
+// users
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -14,14 +16,23 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [disableSignUpButton, setDisableSignUpButton] = useState([]);
 
     useEffect(() => {
         const errors = {};
+        const disableButton = [];
         if (email && !email.includes("@")) errors["email"] = ("Invalid email");
+        if(!email) disableButton.push("email");
         if (username && username.length < 4) errors["username"] = ("Please provide a username with at least 4 characters.");
+        if(!username) disableButton.push("username");
+        if(!firstName) disableButton.push("firstName");
+        if(!lastName) disableButton.push("lastName");
         if (password && password.length < 6) errors["password"] = ("Password must be 6 characters or more.");
+        if(!password) disableButton.push("password");
         if (password !== confirmPassword) errors["confirmPassword"] = ("Confirm Password field must be the same as the Password field");
+        if(!confirmPassword) disableButton.push("confirmPassword");
         setErrors(errors);
+        setDisableSignUpButton(disableButton);
     }, [email, username, firstName, lastName, password, confirmPassword]);
 
   if (sessionUser) return <Redirect to="/" />;
@@ -131,7 +142,7 @@ function SignupFormPage() {
                 <div key={el} className="errors">{el}</div>
             ))}
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={disableSignUpButton.length > 0}>Sign Up</button>
       </form>
     </>
   );
