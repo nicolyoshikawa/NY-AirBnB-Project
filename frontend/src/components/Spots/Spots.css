@@ -1,0 +1,13 @@
+.allSpots {
+    margin: 5px;
+    justify-content:space-between;
+    display: flex;
+    padding: 20px;
+}
+
+.spotTile {
+    margin: 5px;
+    width: 500px;
+    height: 500px;
+    display: block;
+}
