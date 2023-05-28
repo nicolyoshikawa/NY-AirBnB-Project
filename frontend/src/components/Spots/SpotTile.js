@@ -16,6 +16,7 @@ const SpotTile = ({spot}) => {
                     <i class="fa-sharp fa-solid fa-star"/>
                     {avgRating}
                 </div>
+
             </div>
         </>
     )

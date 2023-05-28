@@ -10,4 +10,6 @@
     width: 500px;
     height: 500px;
     display: block;
+    border: black solid .5px;
+    text-decoration: none;
 }
