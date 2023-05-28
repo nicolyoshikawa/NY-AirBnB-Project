@@ -8,9 +8,9 @@ const SpotDetails = () => {
     const spot = spotsObj[spotId];
     return (
         <>
-            <h1>{spot.name}</h1>
-            <div>{spot.city}, {spot.state}, {spot.country}</div>
-            <div>{spot.description}</div>
+            <h1 className="allSpots">{spot.name}</h1>
+            <div className="allSpots">{spot.city}, {spot.state}, {spot.country}</div>
+            <div className="allSpots">{spot.description}</div>
         </>
     )
 };

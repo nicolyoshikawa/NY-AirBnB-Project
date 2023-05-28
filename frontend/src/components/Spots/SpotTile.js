@@ -10,13 +10,14 @@ const SpotTile = ({spot}) => {
                 <Link to={`/spots/${spot.id}`}>
                     <img key={spot.id} src={`${spot?.previewImage}`} alt={spot.description} title={spot.name} />
                 </Link>
-                <div>{spot.city}, {spot.state}</div>
-                <div>${spot.price} night</div>
-                <div>
-                    <i class="fa-sharp fa-solid fa-star"/>
-                    {avgRating}
+                <div className="spotTileDetail">
+                    <div className="location">{spot.city}, {spot.state}</div>
+                    <div className="price">${spot.price} night</div>
+                    <div className="rating">
+                        <i class="fa-sharp fa-solid fa-star"/>
+                        {avgRating}
+                    </div>
                 </div>
-
             </div>
         </>
     )
