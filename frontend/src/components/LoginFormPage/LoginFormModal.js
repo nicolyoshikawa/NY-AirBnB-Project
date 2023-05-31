@@ -1,15 +1,12 @@
-// import { NavLink } from 'react-router-dom';
 import Modal from 'react-modal';
-// import * as React from 'react';
-import LoginFormPage from "../LoginFormPage"
+import LoginFormPage from "./index.js";
+import "./LoginForm.css";
 
 const LoginFormModal = () => {
-    console.log("Login Form Modal")
-    return (
+    return(
         <Modal isOpen={true}>
             <LoginFormPage/>
         </Modal>
     )
 }
-
 export default LoginFormModal;

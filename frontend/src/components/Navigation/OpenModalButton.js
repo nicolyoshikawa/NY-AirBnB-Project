@@ -1,16 +1,12 @@
-import LoginFormModal from "./LoginFormModal";
-import SignupFormModal from "./SignupFormModal";
+import { useState } from "react";
 
 const OpenModalButton = ({buttonText, modalComponent}) => {
-    const clickHandler = () => {
-        const modal = modalComponent.type.name
-        console.log(modal)
-        return
-    }
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <button onClick={clickHandler}>{buttonText}</button>
+            <button onClick={()=>setShowModal(true)}>{buttonText}</button>
+            {showModal && modalComponent}
         </>
     )
 }
