@@ -7,3 +7,15 @@ html, body, input, textarea, button, select, a {
     color: red;
     font-weight: bold;
 }
+
+.Modal {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 200px;
+}

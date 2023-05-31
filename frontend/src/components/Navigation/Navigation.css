@@ -14,7 +14,7 @@ ul {
 }
 
 .profile {
-    display: flex;
+    /* display: flex; */
     justify-content:flex-end;
     margin: 5px;
 }
