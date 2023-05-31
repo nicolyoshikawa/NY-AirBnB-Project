@@ -1,6 +1,8 @@
 .home {
-    display: flex;
+    /* display: flex; */
     justify-content: left;
+    text-decoration: none;
+    margin: 5px;
 }
 
 ul {
@@ -13,6 +15,18 @@ ul {
 
 .profile {
     display: flex;
-    justify-content: right;
+    justify-content:flex-end;
     margin: 5px;
+}
+
+.profileButton {
+    background-color: white;
+    border: none;
+    display: flex;
+}
+
+.navbar {
+    display: flex;
+    justify-content:space-between;
+    padding: 20px;
 }
