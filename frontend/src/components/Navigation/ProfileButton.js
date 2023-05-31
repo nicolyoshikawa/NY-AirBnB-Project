@@ -40,25 +40,26 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
+      <button onClick={openMenu} >
         <i className="fa-solid fa-bars profile"/>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
+
         {user ? (
-          <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-          </>
+          <div className="dropdown-content">
+              <li>{user.username}</li>
+              <li>{user.firstName} {user.lastName}</li>
+              <li>{user.email}</li>
+              <li>
+                <button onClick={logout}>Log Out</button>
+              </li>
+          </div>
         ) : (
-          <>
-            <LoginFormModal />
-            <SignupFormModal />
-          </>
+          <div className="dropdown-content">
+            <SignupFormModal onButtonClick={closeMenu}/>
+            <LoginFormModal onButtonClick={closeMenu}/>
+          </div>
         )}
       </ul>
     </>

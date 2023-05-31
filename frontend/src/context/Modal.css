@@ -19,4 +19,5 @@
 #modal-content {
     position: absolute;
     background-color:white;
+    padding: 10px;
 }
