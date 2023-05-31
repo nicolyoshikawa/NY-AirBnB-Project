@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/nicolyoshikawa/NY-AirBnB-Project/issues"
   },
-  "homepage": "https://github.com/nicolyoshikawa/NY-AirBnB-Project#readme"
+  "homepage": "https://github.com/nicolyoshikawa/NY-AirBnB-Project#readme",
+  "dependencies": {
+    "react-modal": "^3.16.1"
+  }
 }

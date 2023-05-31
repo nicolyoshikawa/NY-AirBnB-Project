@@ -1,9 +1,10 @@
 // session
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import DemoUser from "./DemoUser";
 import "./LoginForm.css";
 
 function LoginFormPage() {
@@ -32,6 +33,7 @@ function LoginFormPage() {
 
   return (
     <>
+    {errors.length > 0 && <p className="errors">The provided credentials were invalid.</p>}
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -56,9 +58,8 @@ function LoginFormPage() {
             />
             </label>
         </div>
-
-        {errors.length > 0 && <p className="errors">{errors}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+        <div><DemoUser/></div>
       </form>
     </>
   );

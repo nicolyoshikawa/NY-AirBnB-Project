@@ -1,5 +1,4 @@
 .home {
-    /* display: flex; */
     justify-content: left;
     text-decoration: none;
     margin: 5px;
@@ -14,7 +13,6 @@ ul {
 }
 
 .profile {
-    display: flex;
     justify-content:flex-end;
     margin: 5px;
 }
@@ -29,4 +27,28 @@ ul {
     display: flex;
     justify-content:space-between;
     padding: 20px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    padding-left: 0;
+}
+.dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    right: 0;
+}
+
+.dropdown-content button {
+    display: block;
+    padding: 3px;
+    margin: 5px;
+    border: none
 }
