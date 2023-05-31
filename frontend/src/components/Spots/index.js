@@ -15,7 +15,7 @@ const Allspots = () => {
     return(
         <>
             <div className="allSpots">
-                {allSpots.map(el => (<SpotTile spot={el}/>))}
+                {allSpots.map(el => (<SpotTile key={el.id} spot={el}/>))}
             </div>
         </>
     )

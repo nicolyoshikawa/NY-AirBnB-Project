@@ -1,54 +1,84 @@
-// import React, { useState, useEffect, useRef } from "react";
-// import { useDispatch } from 'react-redux';
-// import * as sessionActions from '../../store/session';
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from 'react-redux';
+import * as sessionActions from '../../store/session';
+import OpenModalButton from './OpenModalButton';
+import LoginFormModal from '../LoginFormPage/LoginFormModal';
+import SignupFormModal from '../SignupFormPage/SignupFormModal';
 
-// function ProfileButton({ user }) {
-//   const dispatch = useDispatch();
-//   const [showMenu, setShowMenu] = useState(false);
-//   const ulRef = useRef();
+function ProfileButton({ user }) {
+  const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
+  const ulRef = useRef();
 
-//   const openMenu = () => {
-//     if (showMenu) return;
-//     setShowMenu(true);
-//   };
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
 
-//   useEffect(() => {
-//     if (!showMenu) return;
-//     const closeMenu = (e) => {
-//         if (!ulRef.current.contains(e.target)) {
-//             setShowMenu(false);
-//         }
-//     };
-//     document.addEventListener('click', closeMenu);
-//     return () => document.removeEventListener("click", closeMenu);
-//   }, [showMenu]);
+  useEffect(() => {
+    if (!showMenu) return;
 
-//   const logout = (e) => {
-//     e.preventDefault();
-//     dispatch(sessionActions.logout());
-//   };
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
 
-//   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+    document.addEventListener('click', closeMenu);
 
-//   return (
-//     <>
-//       <button onClick={openMenu} className="profileButton">
-//         <i className="fa-solid fa-bars profile"/>
-//         <i className="fas fa-user-circle profile"/>
-//       </button>
-//       <ul className={ulClassName} ref={ulRef}>
-//         <li>{user.username}</li>
-//         <li>{user.firstName} {user.lastName}</li>
-//         <li>{user.email}</li>
-//         <li>
-//           <button onClick={logout}>Log Out</button>
-//         </li>
-//       </ul>
-//     </>
-//   );
-// }
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
 
-// export default ProfileButton;
+  const closeMenu = () => setShowMenu(false);
+
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.logout());
+    closeMenu();
+  };
+
+  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
+  return (
+    <>
+      <button onClick={openMenu}>
+        <i className="fa-solid fa-bars profile"/>
+        <i className="fas fa-user-circle" />
+      </button>
+      <ul className={ulClassName} ref={ulRef}>
+        {user ? (
+          <>
+            <li>{user.username}</li>
+            <li>{user.firstName} {user.lastName}</li>
+            <li>{user.email}</li>
+            <li>
+              <button onClick={logout}>Log Out</button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <OpenModalButton
+                buttonText="Log In"
+                onButtonClick={closeMenu}
+                modalComponent={<LoginFormModal />}
+              />
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText="Sign Up"
+                onButtonClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+            </li>
+          </>
+        )}
+      </ul>
+    </>
+  );
+}
+
+export default ProfileButton;
 
 // import React, { useState, useEffect, useRef } from "react";
 // import { useDispatch } from 'react-redux';
@@ -125,79 +155,4 @@
 //   );
 // }
 
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session';
-import OpenModalButton from './OpenModalButton';
-import LoginFormModal from '../LoginFormPage/LoginFormModal';
-import SignupFormModal from './SignupFormModal';
-
-function ProfileButton({ user }) {
-  const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
-
-  const openMenu = () => {
-    if (showMenu) return;
-    setShowMenu(true);
-  };
-
-  useEffect(() => {
-    if (!showMenu) return;
-
-    const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
-    };
-
-    document.addEventListener('click', closeMenu);
-
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
-
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-  };
-
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-
-  return (
-    <>
-      <button onClick={openMenu}>
-        <i className="fa-solid fa-bars profile"/>
-        <i className="fas fa-user-circle" />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <OpenModalButton
-                buttonText="Log In"
-                modalComponent={<LoginFormModal />}
-              />
-            </li>
-            <li>
-              <OpenModalButton
-                buttonText="Sign Up"
-                modalComponent={<SignupFormModal />}
-              />
-            </li>
-          </>
-        )}
-      </ul>
-    </>
-  );
-}
-
-export default ProfileButton;
+// export default ProfileButton;
