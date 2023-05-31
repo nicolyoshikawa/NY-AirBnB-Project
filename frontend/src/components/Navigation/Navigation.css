@@ -45,3 +45,10 @@ ul {
     z-index: 1;
     right: 0;
 }
+
+.dropdown-content button {
+    display: block;
+    padding: 3px;
+    margin: 5px;
+    border: none
+}
