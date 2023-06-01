@@ -336,7 +336,7 @@ Returns the details of a spot specified by its id.
 * Require Authentication: false
 * Request
   * Method: `GET`
-  * URL: `/spot/:id`
+  * URL: `/spots/:id`
   * Body: none
 
 * Successful Response
@@ -612,7 +612,7 @@ Deletes an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: `DELETE`
-  * URL: `/spot/:id`
+  * URL: `/spots/:id`
   * Body: none
 
 * Successful Response

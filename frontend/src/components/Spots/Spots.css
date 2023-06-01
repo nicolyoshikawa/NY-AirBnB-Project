@@ -39,3 +39,9 @@ img {
     display: flex;
     justify-content:flex-end;
 }
+
+.callOutBox{
+    border: solid;
+    border-radius: 10px;
+    padding: 5px
+}
