@@ -1,7 +1,15 @@
 .reviewList {
-    margin: 15px
+    margin: 5px;
+    padding: 20px;
 }
 
 .date {
     font-weight: lighter;
+}
+
+.reviewAvg {
+    display: inline-flex;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
 }
