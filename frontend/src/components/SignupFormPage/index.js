@@ -16,23 +16,20 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [disableSignUpButton, setDisableSignUpButton] = useState([]);
+  const [disableSignUpButton, setDisableSignUpButton] = useState(true);
 
     useEffect(() => {
         const errors = {};
-        const disableButton = [];
         if (email && !email.includes("@")) errors["email"] = ("Invalid email");
-        if(!email) disableButton.push("email");
         if (username && username.length < 4) errors["username"] = ("Please provide a username with at least 4 characters.");
-        if(!username) disableButton.push("username");
-        if(!firstName) disableButton.push("firstName");
-        if(!lastName) disableButton.push("lastName");
         if (password && password.length < 6) errors["password"] = ("Password must be 6 characters or more.");
-        if(!password) disableButton.push("password");
         if (password !== confirmPassword) errors["confirmPassword"] = ("Confirm Password field must be the same as the Password field");
-        if(!confirmPassword) disableButton.push("confirmPassword");
+        if(!email || !username || !firstName || !lastName || !password || !confirmPassword || Object.values(errors).length > 0) {
+          setDisableSignUpButton(true)
+        } else {
+          setDisableSignUpButton(false)
+        }
         setErrors(errors);
-        setDisableSignUpButton(disableButton);
     }, [email, username, firstName, lastName, password, confirmPassword]);
 
   if (sessionUser) return <Redirect to="/" />;
@@ -66,83 +63,95 @@ function SignupFormPage() {
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <div>
-            <label>
-            Email:
-            <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-            />
-            </label>
+            {errors.length > 0 && errors.map(el => (
+                <div key={el} className="errors">{el}</div>
+            ))}
         </div>
-        {errors.email && <p className="errors">{errors.email}</p>}
         <div>
             <label>
-            Username:
-            <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-            />
-            </label>
-        </div>
-        {errors.username && <p className="errors">{errors.username}</p>}
-        <div>
-            <label>
-            First Name:
-            <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-            />
+            First Name
+              <div>
+                <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                />
+              </div>
             </label>
         </div>
         {errors.firstName && <p className="errors">{errors.firstName}</p>}
         <div>
             <label>
-            Last Name:
-            <input
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-            />
+            Last Name
+              <div>
+                <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                />
+              </div>
             </label>
         </div>
         {errors.lastName && <p className="errors">{errors.lastName}</p>}
         <div>
+          <label>
+          Email
+            <div>
+              <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+              />
+            </div>
+          </label>
+        </div>
+        {errors.email && <p className="errors">{errors.email}</p>}
+        <div>
             <label>
-            Password:
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-            />
+            Username
+              <div>
+                <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+              </div>
+            </label>
+        </div>
+        {errors.username && <p className="errors">{errors.username}</p>}
+        <div>
+            <label>
+            Password
+              <div>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+              </div>
             </label>
         </div>
         {errors.password && <p className="errors">{errors.password}</p>}
         <div>
             <label>
-            Confirm Password:
-            <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-            />
+            Confirm Password
+              <div>
+                <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+              </div>
             </label>
         </div>
         <div>{errors.confirmPassword && <p className="errors">{errors.confirmPassword}</p>}</div>
-        <div>
-            {errors.length > 0 && errors.map(el => (
-                <div key={el} className="errors">{el}</div>
-            ))}
-        </div>
-        <button type="submit" disabled={disableSignUpButton.length > 0}>Sign Up</button>
+        <button type="submit" disabled={disableSignUpButton}>Sign Up</button>
       </form>
     </>
   );
