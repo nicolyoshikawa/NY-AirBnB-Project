@@ -1,7 +1,6 @@
 import { csrfFetch } from "./csrf";
 
 const LOAD_REVIEWS = "spots/LOAD_REVIEWS";
-// const REMOVE_USER = "session/removeUser";
 
 export const loadReviews = (reviews) => ({
     type: LOAD_REVIEWS,
@@ -28,10 +27,6 @@ const reviewsReducer = (state = initialState, action) => {
             newState[review.id] = review;
         });
         return newState;
-    // case REMOVE_USER:
-    //   newState = Object.assign({}, state);
-    //   newState.user = null;
-    //   return newState;
     default:
       return newState;
   }
