@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
+import CreateNewSpot from '../Spots/NewSpot';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
@@ -13,9 +14,14 @@ function Navigation({ isLoaded }){
         <NavLink exact to="/" className="home"><i className="fa-solid fa-house"/> Home Sweet Home</NavLink>
       </li>
       {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
+        <>
+          <li>
+            <CreateNewSpot/>
+          </li>
+          <li>
+            <ProfileButton user={sessionUser} />
+          </li>
+        </>
       )}
     </ul>
   );

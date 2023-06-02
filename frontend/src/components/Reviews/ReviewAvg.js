@@ -6,15 +6,13 @@ const ReviewAvg = ({spot}) => {
     if(spot.numReviews === 1){
         reviewLine = (
             <>
-                <i className="fa-solid fa-circle fa-2xs"></i>
-                <div className="reviewAvg">{spot.numReviews} review</div>
+                <div className="reviewAvg"> · {spot.numReviews} review</div>
             </>
         )
     } else if (spot.numReviews > 1) {
         reviewLine = (
             <>
-                <i className="fa-solid fa-circle fa-2xs"></i>
-                <div className="reviewAvg">{spot.numReviews} reviews</div>
+                <div className="reviewAvg"> · {spot.numReviews} reviews</div>
             </>
         )
     } else {
