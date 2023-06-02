@@ -41,7 +41,7 @@ export const loadSpotById = (id) => async (dispatch) => {
 };
 
 export const createNewSpot = (payload) => async (dispatch) => {
-  const response = await csrfFetch('/api/spots/', {
+  const response = await csrfFetch('/api/spots', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
