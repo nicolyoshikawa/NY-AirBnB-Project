@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as spotActions from "../../store/spots";
-// import SpotImages from "../Images/SpotImage.js";
 import "./Spots.css";
 
 const CreateNewSpot = () => {
     const user = useSelector(state => state.session.user);
+    const history = useHistory();
     const [country, setCountry] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -17,11 +17,11 @@ const CreateNewSpot = () => {
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
 
-    // const [previewImage, setPreviewImage] = useState("");
-    // const [image1, setImage1] = useState("");
-    // const [image2, setImage2] = useState("");
-    // const [image3, setImage3] = useState("");
-    // const [image4, setImage4] = useState("");
+    const [previewImage, setPreviewImage] = useState("");
+    const [image1, setImage1] = useState("");
+    const [image2, setImage2] = useState("");
+    const [image3, setImage3] = useState("");
+    const [image4, setImage4] = useState("");
 
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
@@ -34,26 +34,49 @@ const CreateNewSpot = () => {
         if(!state) errors["state"] = "State is required";
         if(!name) errors["name"] = "Name is required";
         if(!price) errors["price"] = "Price is required";
+        if(!lat) errors["lat"] = "Latitude is required";
+        if(!lng) errors["price"] = "Longitude is required";
+        if(!description) errors["description"] = "Description is required";
+
+        if(!previewImage) errors["previewImage"] = "Preview image is required";
+        if(previewImage && (!previewImage.endsWith(".png") &&
+            !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
+            errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+        if(image1 && (!image1.endsWith(".png") &&
+            !image1.endsWith(".jpg") && !image1.endsWith(".jpeg"))) {
+            errors["image1"] = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+        if(image2 && (!image2.endsWith(".png") &&
+            !image2.endsWith(".jpg") && !image2.endsWith(".jpeg"))) {
+            errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+        if(image3 && (!image3.endsWith(".png") &&
+            !image3.endsWith(".jpg") && !image3.endsWith(".jpeg"))) {
+            errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+        if(image4 && (!image4.endsWith(".png") &&
+            !image4.endsWith(".jpg") && !image4.endsWith(".jpeg"))) {
+            errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+
         setErrors(errors);
-    }, [address, city, state, country, lat, lng, name, description, price]);
+    }, [address, city, state, country, lat, lng, name, description, price, previewImage, image1, image2, image3, image4]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newSpot = {address, city, state, country, lat, lng, name, description, price, ownerId: user.id};
-        // console.log(newSpot)
         setErrors({});
         const spot = await dispatch(spotActions.createNewSpot(newSpot))
         .catch(async (res) => {
             const data = await res.json();
-            console.log("data", data)
             if (data && data.errors) {
                 setErrors(data.errors);
             }
         });
         if(spot){
-            console.log("spot", spot)
             reset();
-            <Redirect to={`/spots/${spot.id}`}/>;
+            history.push(`/spots/${spot.id}`);
         };
     };
 
@@ -132,6 +155,7 @@ const CreateNewSpot = () => {
                         </div>
                     </label>
                     <label>Latitude
+                        {errors.lat && <div className="errors">{errors.lat}</div>}
                         <div>
                             <input
                                 type='text'
@@ -144,6 +168,7 @@ const CreateNewSpot = () => {
                         </div>
                     </label>
                     <label>Longitude
+                        {errors.lng && <div className="errors">{errors.lng}</div>}
                         <div>
                             <input
                                 type='text'
@@ -159,7 +184,7 @@ const CreateNewSpot = () => {
 
                 <div className="section">
                 <h3>Describe your place to guests</h3>
-                    <p>Mention the best features of your space, any special amentities
+                    <p>Mention the best features of your space, any special amenities
                         like fast wifi or parking, and what you love about the neighborhood.</p>
                         <textarea
                             value={description}
@@ -198,9 +223,55 @@ const CreateNewSpot = () => {
                     </label>
                 </div>
                 <div className="section">
-                    {/* <SpotImages/> */}
+                <h3>Liven up your spot with photos</h3>
+                    <p>Submit a link to at least one photo to publish your spot.</p>
+                    <input
+                        type='text'
+                        onChange={(e) => setPreviewImage(e.target.value)}
+                        value={previewImage}
+                        placeholder='Preview Image URL'
+                        name='image'
+                        className="input-box"
+                    />
+                    {errors.previewImage && <div className="errors">{errors.previewImage}</div>}
+                    <input
+                        type='text'
+                        onChange={(e) => setImage1(e.target.value)}
+                        value={image1}
+                        placeholder='Image URL'
+                        name='image'
+                        className="input-box"
+                    />
+                    {errors.image1 && <div className="errors">{errors.image1}</div>}
+                    <input
+                        type='text'
+                        onChange={(e) => setImage2(e.target.value)}
+                        value={image2}
+                        placeholder='Image URL'
+                        name='image'
+                        className="input-box"
+                    />
+                    {errors.image2 && <div className="errors">{errors.image2}</div>}
+                    <input
+                        type='text'
+                        onChange={(e) => setImage3(e.target.value)}
+                        value={image3}
+                        placeholder='Image URL'
+                        name='image'
+                        className="input-box"
+                    />
+                    {errors.image3 && <div className="errors">{errors.image3}</div>}
+                    <input
+                        type='text'
+                        onChange={(e) => setImage4(e.target.value)}
+                        value={image4}
+                        placeholder='Image URL'
+                        name='image'
+                        className="input-box"
+                    />
+                    {errors.image4 && <div className="errors">{errors.image4}</div>}
                 </div>
-            <button type='submit' className="createSpotButton">Create Spot</button>
+            <button type='submit' className="createSpotButton" disabled={Object.values(errors).length > 0}>Create Spot</button>
             </form>
         </div>
     )
