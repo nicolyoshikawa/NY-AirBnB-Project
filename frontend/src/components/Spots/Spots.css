@@ -45,3 +45,30 @@ img {
     border-radius: 10px;
     padding: 5px
 }
+
+.newSpotFormPage {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.newSpotForm {
+    grid-column-start: 2;
+}
+
+.input-box {
+    background: rgb(226, 226, 246);
+    width: 100%
+}
+
+.createSpotButton {
+    background: #e61e4d;
+    color: white;
+    margin: 5px;
+    padding: 5px
+}
+
+.section {
+    border-bottom: 2px solid black;
+    margin: 2px;
+    padding: 2px
+}
