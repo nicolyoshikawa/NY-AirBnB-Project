@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as spotActions from "../../store/spots";
+import * as imageActions from "../../store/images";
 import "./Spots.css";
 
 const CreateNewSpot = () => {
     const user = useSelector(state => state.session.user);
     const history = useHistory();
+    const dispatch = useDispatch();
+
     const [country, setCountry] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -22,9 +25,8 @@ const CreateNewSpot = () => {
     const [image2, setImage2] = useState("");
     const [image3, setImage3] = useState("");
     const [image4, setImage4] = useState("");
-
     const [errors, setErrors] = useState({});
-    const dispatch = useDispatch();
+    const imgArr = [];
 
     useEffect(() => {
         const errors = {};
@@ -59,13 +61,20 @@ const CreateNewSpot = () => {
             !image4.endsWith(".jpg") && !image4.endsWith(".jpeg"))) {
             errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
         }
-
         setErrors(errors);
     }, [address, city, state, country, lat, lng, name, description, price, previewImage, image1, image2, image3, image4]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newSpot = {address, city, state, country, lat, lng, name, description, price, ownerId: user.id};
+        const images = [];
+
+        if(previewImage) images.push({ url: previewImage, preview: true });
+        if(image1) images.push({ url: image1, preview: false });
+        if(image2) images.push({ url: image2, preview: false });
+        if(image3) images.push({ url: image3, preview: false });
+        if(image4) images.push({ url: image4, preview: false });
+
         setErrors({});
         const spot = await dispatch(spotActions.createNewSpot(newSpot))
         .catch(async (res) => {
@@ -74,7 +83,20 @@ const CreateNewSpot = () => {
                 setErrors(data.errors);
             }
         });
-        if(spot){
+
+        for( let i = 0; i < images.length; i++){
+            const img = images[i]
+            const newImg = await dispatch(imageActions.newSpotImage(spot, img))
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) {
+                    setErrors(data.errors);
+                }
+            })
+            imgArr.push(newImg)
+        }
+
+        if(spot && imgArr.length === images.length){
             reset();
             history.push(`/spots/${spot.id}`);
         };
