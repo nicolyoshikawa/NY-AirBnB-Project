@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as reviewActions from "../../store/reviews.js";
 import ReviewList from "./ReviewList.js";
 import ReviewAvg from "./ReviewAvg.js";
+import ReviewFormModal from "../Reviews/ReviewModal";
 import "./Review.css";
 
 const Reviews = ({spot}) => {
@@ -14,6 +15,7 @@ const Reviews = ({spot}) => {
         if(review.spotId === spotId) return true;
         return false;
     }));
+    console.log("allReviews", allReviews)
     useEffect(()=> {
         dispatch(reviewActions.loadAllReviews(spotId))
         .then(()=>setIsLoaded(true))
@@ -29,9 +31,14 @@ const Reviews = ({spot}) => {
                         <ReviewAvg spot={spot}/>
                     </div>
                     {(user && allReviews.length === 0 && user.id !== spot.Owner.id) ? (
-                        <div>Be the first to review!</div>
+                        <>
+                            <div>Be the first to review!</div>
+                            { <ReviewFormModal user={user} spot={spot}/> }
+                        </>
                     ) : (
-                        <>{sorted.map(el => <ReviewList key={el.id} reviewObj={el}/>)}</>
+                        <>
+                            {sorted.map(el => <ReviewList key={el.id} reviewObj={el}/>)}
+                        </>
                     )}
                 </>
             )}

@@ -8,7 +8,7 @@ const ReviewList = ({reviewObj}) => {
     return (
         <div className="reviewList">
             <>
-                <div>{reviewObj.User.firstName}</div>
+                <div>{reviewObj.User?.firstName}</div>
                 <div className="date">{month} {year}</div>
                 <div>{reviewObj.createdAt}</div>
                 <div>{reviewObj.review}</div>

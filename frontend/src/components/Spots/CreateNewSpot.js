@@ -112,6 +112,7 @@ const CreateNewSpot = () => {
         setName('');
         setDescription('');
         setPrice('');
+        setErrors({});
     };
 
     return (
