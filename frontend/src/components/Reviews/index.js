@@ -59,25 +59,7 @@ const Reviews = ({spot}) => {
         <>
             {isLoaded && (
                 <>
-                <div>
-                    {/* <ReviewAvg spot={spot}/> */}
-                </div>
                     {reviewPage}
-                    {/*{(user && allReviews.length === 0 && user.id !== spot.Owner.id) ? (
-                        <>
-                            <ReviewAvg spot={spot}/>
-                            <div>Be the first to review!</div>
-                            { <ReviewFormModal user={user} spot={spot}/> }
-                        </>
-                     ) : (
-                        <>
-                        <div>
-                            <ReviewAvg spot={spot}/>
-                        </div>
-                            {sorted.map(el => <ReviewList key={el.id} reviewObj={el} spot={spot}/>)}
-                        </>
-                    )}
-                     */}
                 </>
 
             )}
