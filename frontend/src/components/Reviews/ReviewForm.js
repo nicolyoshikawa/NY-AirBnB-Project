@@ -15,9 +15,7 @@ function ReviewForm({user, spot}) {
     useEffect(() => {
         const errors = [];
         if (review && review.length < 10) errors.push("Please enter at least 10 characters");
-        if (!review) setDisableSignUpButton(true);
-        if (stars === 0) setDisableSignUpButton(true);
-        if(Object.values(errors).length > 0) {
+        if(Object.values(errors).length > 0 || stars === 0 || !review) {
           setDisableSignUpButton(true)
         } else {
           setDisableSignUpButton(false)

@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { loadSpotById } from "./spots";
 
 const LOAD_REVIEWS = "reviews/LOAD_REVIEWS";
 const POST_A_REVIEW = "reviews/POST_A_REVIEW";
@@ -33,6 +34,8 @@ export const postAReview = (spotId, review) => async (dispatch) => {
   if (response.ok) {
     const newReview = await response.json();
     dispatch(postReview(newReview));
+    dispatch(loadSpotById(spotId));
+    dispatch(loadAllReviews(spotId));
     return newReview;
   }
 };

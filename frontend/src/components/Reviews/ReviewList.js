@@ -1,6 +1,6 @@
 import "./Review.css";
 
-const ReviewList = ({reviewObj}) => {
+const ReviewList = ({reviewObj, spot}) => {
     const date = new Date(reviewObj.createdAt)
     const month = date.toLocaleString('default', {month: "long"});
     const year = date.getFullYear()
