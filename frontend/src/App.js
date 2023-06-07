@@ -8,6 +8,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotDetails from "./components/Spots/SpotDetails.js";
 import CreateNewSpot from "./components/Spots/CreateNewSpot.js";
+import ReviewForm from "./components/Reviews/ReviewForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function App() {
             <SpotDetails/>
           </Route>
           <Route>
-            <h1>Page Not Found</h1>
+              <h1>Page Not Found</h1>
           </Route>
         </Switch>
       )}
