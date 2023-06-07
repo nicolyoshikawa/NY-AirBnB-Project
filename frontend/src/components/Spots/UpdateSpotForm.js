@@ -5,7 +5,7 @@ import * as spotActions from "../../store/spots";
 import * as imageActions from "../../store/images";
 import "./Spots.css";
 
-const SpotForm = () => {
+const UpdateSpotForm = () => {
     const { spotId } = useParams();
     const user = useSelector(state => state.session.user);
     const spotsObj = useSelector(state => state.spots);
@@ -31,12 +31,20 @@ const SpotForm = () => {
     const imgArr = [];
     let spot;
 
-    if(spotId){
-        console.log(spotsObj)
-        spot = spotsObj[spotId];
-        // ({address, city, state, country, lat, lng, name, description, price, ownerId} = spot);
-        console.log(spot)
-    }
+    useEffect(()=> {
+        if(spotId) dispatch(spotActions.loadSpotById(spotId));
+        setCountry(spot.country);
+        setAddress(spot.address);
+        setCity(spot.city);
+        setState(spot.state);
+        setLat(spot.lat);
+        setLng(spot.lng);
+        setName(spot.name);
+        setDescription(spot.description);
+        setPrice(spot.price);
+    },[dispatch, spotId, spot?.country, spot?.address, spot?.city, spot?.state, spot?.lat, spot?.lng, spot?.name, spot?.description, spot?.price ]);
+
+    spot = spotsObj[spotId];
 
     useEffect(() => {
         const errors = {};
@@ -50,7 +58,7 @@ const SpotForm = () => {
         if(!lng) errors["price"] = "Longitude is required";
         if(!description) errors["description"] = "Description is required";
 
-        if(!previewImage) errors["previewImage"] = "Preview image is required";
+        // if(!previewImage) errors["previewImage"] = "Preview image is required";
         if(previewImage && (!previewImage.endsWith(".png") &&
             !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
             errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
@@ -76,9 +84,8 @@ const SpotForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newSpot = {address, city, state, country, lat, lng, name, description, price, ownerId: user.id};
+        const updatedSpot = {address, city, state, country, lat, lng, name, description, price, ownerId: user.id, id: +spotId};
         const images = [];
-
         if(previewImage) images.push({ url: previewImage, preview: true });
         if(image1) images.push({ url: image1, preview: false });
         if(image2) images.push({ url: image2, preview: false });
@@ -86,7 +93,7 @@ const SpotForm = () => {
         if(image4) images.push({ url: image4, preview: false });
 
         setErrors({});
-        const spot = await dispatch(spotActions.createNewSpot(newSpot))
+        const spot = await dispatch(spotActions.updateASpot(updatedSpot))
         .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
@@ -94,7 +101,8 @@ const SpotForm = () => {
             }
         });
 
-        for( let i = 0; i < images.length; i++){
+        if(images.length > 0){
+            for( let i = 0; i < images.length; i++){
             const img = images[i]
             const newImg = await dispatch(imageActions.newSpotImage(spot, img))
             .catch(async (res) => {
@@ -104,6 +112,7 @@ const SpotForm = () => {
                 }
             })
             imgArr.push(newImg)
+            }
         }
 
         if(spot && imgArr.length === images.length){
@@ -128,6 +137,7 @@ const SpotForm = () => {
     return (
         <div className="newSpotFormPage">
             <form onSubmit={handleSubmit} className="newSpotForm form">
+            <h2 className="newSpotForm">Update Your Spot</h2>
                 {errors.length > 0 && errors.map(el => (
                     <div key={el} className="errors">{el}</div>
                 ))}
@@ -303,10 +313,10 @@ const SpotForm = () => {
                     />
                     {errors.image4 && <div className="errors">{errors.image4}</div>}
                 </div>
-            <button type='submit' className="createSpotButton" disabled={Object.values(errors).length > 0}>Create Spot</button>
+            <button type='submit' className="createSpotButton" disabled={Object.values(errors).length > 0}>Update Your Spot</button>
             </form>
         </div>
     )
 };
 
-export default SpotForm;
+export default UpdateSpotForm;

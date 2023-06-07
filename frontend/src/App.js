@@ -9,7 +9,7 @@ import Navigation from "./components/Navigation";
 import SpotDetails from "./components/Spots/SpotDetails.js";
 import CreateNewSpot from "./components/Spots/CreateNewSpot.js";
 import ManageSpots from "./components/Spots/ManageSpots.js";
-import UpdateASpot from "./components/Spots/UpdateASpot.js";
+import UpdateSpotForm from "./components/Spots/UpdateSpotForm.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ function App() {
             <ManageSpots />
           </Route>
           <Route exact path="/spots/:spotId/edit">
-            <UpdateASpot />
+            <UpdateSpotForm />
           </Route>
           <Route exact path="/spots/:spotId">
             <SpotDetails/>
