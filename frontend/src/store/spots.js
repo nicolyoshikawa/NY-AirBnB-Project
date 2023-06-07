@@ -82,7 +82,7 @@ export const loadSpotsByOwner = () => async (dispatch) => {
 };
 
 export const updateASpot = (spot) => async dispatch => {
-  const response = await fetch(`/api/spots/${spot.id}`, {
+  const response = await csrfFetch(`/api/spots/${spot.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(spot)
@@ -96,7 +96,7 @@ export const updateASpot = (spot) => async dispatch => {
 };
 
 export const deleteSpot = (spotId) => async (dispatch) => {
-  const response = await fetch(`/api/spots/${spotId}`, {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'DELETE'
   });
 
