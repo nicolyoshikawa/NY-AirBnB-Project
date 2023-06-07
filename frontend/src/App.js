@@ -8,7 +8,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotDetails from "./components/Spots/SpotDetails.js";
 import CreateNewSpot from "./components/Spots/CreateNewSpot.js";
-import ReviewForm from "./components/Reviews/ReviewForm";
+import ManageSpots from "./components/Spots/ManageSpots.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +33,9 @@ function App() {
           </Route>
           <Route path="/spots/new">
             <CreateNewSpot />
+          </Route>
+          <Route path="/spots/current">
+            <ManageSpots />
           </Route>
           <Route path="/spots/:spotId">
             <SpotDetails/>
