@@ -1,21 +1,50 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import DeleteASpot from "./DeleteASpot.js";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as spotActions from "../../store/spots";
 
 function DeleteFormModal({spot}) {
-    const [showModal, setShowModal] = useState(false);
-    const onClickHandler = () => {
-      setShowModal(true);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [errors, setErrors] = useState({});
+  const [showModal, setShowModal] = useState(false);
+
+  const deleteClickHandler = async () => {
+    const spotDeleted = await dispatch(spotActions.deleteSpot(spot.id))
+    .catch(async (res) => {
+        const data = await res.json();
+          if (data && data.message) {
+              setErrors(data.message);
+          };
+    });
+
+    if (spotDeleted) {
+        history.push("/spots/current");
     };
+  }
+
+  const keepClickHandler = () => {
+    setShowModal(false);
+  }
+  const onClickHandler = () => {
+    setShowModal(true);
+  };
 
     return (
       <>
         <button onClick={onClickHandler}>Delete</button>
         {showModal && (
           <>
-          <Modal onClose={() => setShowModal(false)}>
-            <DeleteASpot spot={spot}/>
-          </Modal>
+            <Modal onClose={() => setShowModal(false)}>
+              <>
+                <h1>Confirm Delete</h1>
+                {errors.length > 0 && <p className="errors">{errors}</p>}
+                <div>Are you sure you want to remove this spot from the listings?</div>
+                <button onClick={deleteClickHandler}>Yes (Delete Spot)</button>
+                <button onClick={keepClickHandler}>No (Keep Spot)</button>
+              </>
+            </Modal>
           </>
         )}
       </>
