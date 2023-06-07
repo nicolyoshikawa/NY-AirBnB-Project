@@ -38,6 +38,10 @@ function ProfileButton({ user }) {
     closeMenu();
     history.push("/");
   };
+  const manageSpots = () => {
+    closeMenu();
+    history.push("/spots/current");
+  }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
@@ -53,6 +57,9 @@ function ProfileButton({ user }) {
           <div className="dropdown-content">
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
+              <li>
+                <button onClick={manageSpots}>Manage Spots</button>
+              </li>
               <li>
                 <button onClick={logout}>Log Out</button>
               </li>
