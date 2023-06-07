@@ -3,13 +3,15 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import * as spotActions from "../../store/spots";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import DeleteFormModal from "./DeleteModal.js";
+// import UpdateASpot from "./UpdateSpot.js";
 import "./Spots.css";
 
 const ManageSpots = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch();
+    const history = useHistory();
     const allSpots = useSelector(state => state.spots);
     const spotOwnedByUser = Object.values(allSpots);
 
@@ -17,6 +19,10 @@ const ManageSpots = () => {
         dispatch(spotActions.loadSpotsByOwner())
         .then(()=>setIsLoaded(true))
     },[dispatch]);
+
+    const updateClickHandler = (spot) => {
+        history.push(`/spots/${spot.id}/edit`);
+    }
 
     return(
         <>
@@ -29,7 +35,7 @@ const ManageSpots = () => {
                                 return (
                                     <>
                                         <SpotTile key={`spotTile_${el.id}`} spot={el}/>
-                                        {/* <button onClick={updateClickHandler}>Update</button> */}
+                                        <button onClick={()=>updateClickHandler(el)}>Update</button>
                                         <DeleteFormModal key={`delete_${el.id}`} spot={el}/>
                                     </>
                                 )
