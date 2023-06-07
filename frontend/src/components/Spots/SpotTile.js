@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./Spots.css";
 
 const SpotTile = ({spot}) => {
-    const avgRating = spot.avgRating ? spot.avgRating.toFixed(2) : "New";
+    const avgRating = spot.avgRating ? Number(spot.avgRating).toFixed(2) : "New";
 
     return (
         <>
