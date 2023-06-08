@@ -3,6 +3,7 @@ import { Modal } from '../../context/Modal';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as reviewActions from "../../store/reviews.js";
+import "./Review.css";
 
 function DeleteReviewModal({spot, review}) {
   const dispatch = useDispatch();
@@ -40,9 +41,9 @@ function DeleteReviewModal({spot, review}) {
               <>
                 <h1>Confirm Delete</h1>
                 {errors.length > 0 && <p className="errors">{errors}</p>}
-                <div>Are you sure you want to delete this review?</div>
-                <button onClick={deleteClickHandler}>Yes (Delete Review)</button>
-                <button onClick={keepClickHandler}>No (Keep Review)</button>
+                <div className='question'>Are you sure you want to delete this review?</div>
+                <button onClick={deleteClickHandler} className="deleteButton">Yes (Delete Review)</button>
+                <button onClick={keepClickHandler} className="keepButton">No (Keep Review)</button>
               </>
             </Modal>
           </>

@@ -5,11 +5,11 @@ const CallOutBox = ({spot}) => {
         alert("Feature coming soon...")
     }
     return(
-        <>
+        <form className="form">
             <div>${spot.price} night</div>
             <div><ReviewAvg spot={spot}/></div>
             <button onClick={clickHandler}>Reserve</button>
-        </>
+        </form>
     )
 };
 
