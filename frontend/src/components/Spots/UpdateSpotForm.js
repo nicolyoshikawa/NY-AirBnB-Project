@@ -58,7 +58,6 @@ const UpdateSpotForm = () => {
         if(!lng) errors["price"] = "Longitude is required";
         if(!description) errors["description"] = "Description is required";
 
-        // if(!previewImage) errors["previewImage"] = "Preview image is required";
         if(previewImage && (!previewImage.endsWith(".png") &&
             !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
             errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";

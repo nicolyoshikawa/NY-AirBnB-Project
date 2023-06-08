@@ -13,9 +13,9 @@ function ReviewFormModal({user, spot}) {
         <button onClick={onClickHandler}>Post Review</button>
         {showModal && (
           <>
-          <Modal onClose={() => setShowModal(false)}>
-            <ReviewForm user={user} spot={spot}/>
-          </Modal>
+            <Modal onClose={() => setShowModal(false)}>
+              <ReviewForm user={user} spot={spot}/>
+            </Modal>
           </>
         )}
       </>
