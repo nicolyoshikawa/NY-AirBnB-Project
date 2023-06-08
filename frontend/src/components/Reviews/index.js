@@ -4,6 +4,7 @@ import * as reviewActions from "../../store/reviews.js";
 import ReviewList from "./ReviewList.js";
 import ReviewAvg from "./ReviewAvg.js";
 import ReviewFormModal from "../Reviews/ReviewModal";
+import DeleteReviewModal from "./DeleteReviewModal.js";
 import "./Review.css";
 
 const Reviews = ({spot}) => {
