@@ -60,7 +60,7 @@ function SignupFormPage() {
   return (
     <>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <div>
             {errors.length > 0 && errors.map(el => (
                 <div key={el} className="errors">{el}</div>

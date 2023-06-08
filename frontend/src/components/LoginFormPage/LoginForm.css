@@ -8,14 +8,9 @@ html, body, input, textarea, button, select, a {
     font-weight: bold;
 }
 
-.Modal {
-    position: fixed;
-    top: 40px;
-    left: 40px;
-    right: 40px;
-    bottom: 40px;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 200px;
-}
+/* button {
+    margin: 5px;
+    background: #e61e4d;
+    color: white;
+    width: 100%
+} */
