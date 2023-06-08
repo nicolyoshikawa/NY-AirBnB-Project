@@ -10,7 +10,7 @@ function ReviewFormModal({user, spot}) {
 
     return (
       <>
-        <button onClick={onClickHandler}>Post Review</button>
+        <button onClick={onClickHandler} className='modalButton'>Post Review</button>
         {showModal && (
           <>
             <Modal onClose={() => setShowModal(false)}>

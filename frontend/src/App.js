@@ -10,6 +10,7 @@ import SpotDetails from "./components/Spots/SpotDetails.js";
 import CreateNewSpot from "./components/Spots/CreateNewSpot.js";
 import ManageSpots from "./components/Spots/ManageSpots.js";
 import UpdateSpotForm from "./components/Spots/UpdateSpotForm.js";
+import './index.css';
 
 function App() {
   const dispatch = useDispatch();

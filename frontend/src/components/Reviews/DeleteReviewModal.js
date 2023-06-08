@@ -34,7 +34,7 @@ function DeleteReviewModal({spot, review}) {
 
     return (
       <>
-        <button onClick={onClickHandler}>Delete</button>
+        <button onClick={onClickHandler} className='modalButton'>Delete</button>
         {showModal && (
           <>
             <Modal onClose={() => setShowModal(false)}>

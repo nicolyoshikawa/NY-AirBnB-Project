@@ -34,7 +34,7 @@ const ManageSpots = () => {
                                 return (
                                     <>
                                         <SpotTile key={`spotTile_${el.id}`} spot={el}/>
-                                        <button onClick={()=>updateClickHandler(el)}>Update</button>
+                                        <button onClick={()=>updateClickHandler(el)} className="modalButton">Update</button>
                                         <DeleteFormModal key={`delete_${el.id}`} spot={el}/>
                                     </>
                                 )

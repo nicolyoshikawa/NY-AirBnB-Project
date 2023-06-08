@@ -61,7 +61,7 @@ function ProfileButton({ user }) {
                 <button onClick={manageSpots}>Manage Spots</button>
               </li>
               <li>
-                <button onClick={logout}>Log Out</button>
+                <button onClick={logout} className="modalButton">Log Out</button>
               </li>
           </div>
         ) : (
