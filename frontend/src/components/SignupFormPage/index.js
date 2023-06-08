@@ -54,9 +54,7 @@ function SignupFormPage() {
       if (newUser){
         history.push("/");
       };
-    } else {
-      setErrors({confirmPassword: "Confirm Password field must be the same as the Password field"})
-    };
+    }
   };
 
   return (
