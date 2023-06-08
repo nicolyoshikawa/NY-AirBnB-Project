@@ -1,16 +1,4 @@
-html, body, input, textarea, button, select, a {
-    font-family: 'Open Sans';
-    font-size: 16px;
+.DemoUser {
+    padding: 10px;
+    text-align: center;
 }
-
-.errors {
-    color: red;
-    font-weight: bold;
-}
-
-/* button {
-    margin: 5px;
-    background: #e61e4d;
-    color: white;
-    width: 100%
-} */

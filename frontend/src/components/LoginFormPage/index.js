@@ -60,7 +60,7 @@ function LoginFormPage() {
             </div>
         </div>
         <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
-        <div><DemoUser/></div>
+        <div className="DemoUser"><DemoUser/></div>
       </form>
     </>
   );

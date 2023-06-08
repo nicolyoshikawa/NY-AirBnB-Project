@@ -33,7 +33,8 @@ div {
 }
 
 input {
-    width: 100%
+    width: 100%;
+    background: rgb(226, 226, 246);
 }
 
 .form > button{
@@ -51,4 +52,12 @@ button:disabled{
     border: 0.15rem solid grey;
     box-shadow: 2px 2px 2px grey;
     color: grey;
+}
+
+.errors {
+    color: red;
+    font-weight: bold;
+}
+.required {
+    color: red;
 }

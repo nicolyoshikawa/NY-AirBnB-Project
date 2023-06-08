@@ -1,4 +1,4 @@
-html, body, input, textarea, button, select, a {
+/* html, body, input, textarea, button, select, a {
     font-family: 'Open Sans';
     font-size: 16px;
 }
@@ -12,11 +12,4 @@ html, body, input, textarea, button, select, a {
 }
 div > label {
     color: black;
-}
-
-/* button {
-    margin: 5px;
-    background: #e61e4d;
-    color: white;
-    width: 100%
 } */
