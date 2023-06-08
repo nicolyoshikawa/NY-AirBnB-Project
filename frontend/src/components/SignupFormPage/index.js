@@ -15,16 +15,16 @@ function SignupFormPage() {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState([]);
   const [disableSignUpButton, setDisableSignUpButton] = useState(true);
 
     useEffect(() => {
-        const errors = {};
-        if (email && !email.includes("@")) errors["email"] = ("Invalid email");
-        if (username && username.length < 4) errors["username"] = ("Please provide a username with at least 4 characters.");
-        if (password && password.length < 6) errors["password"] = ("Password must be 6 characters or more.");
-        if (password !== confirmPassword) errors["confirmPassword"] = ("Confirm Password field must be the same as the Password field");
-        if(!email || !username || !firstName || !lastName || !password || !confirmPassword || Object.values(errors).length > 0) {
+        const errors = [];
+        if (email && !email.includes("@")) errors.push("Invalid email");
+        if (username && username.length < 4) errors.push("Please provide a username with at least 4 characters.");
+        if (password && password.length < 6) errors.push("Password must be 6 characters or more.");
+        if (password !== confirmPassword) errors.push("Confirm Password field must be the same as the Password field");
+        if(!email || !username || !firstName || !lastName || !password || !confirmPassword || (errors).length > 0) {
           setDisableSignUpButton(true)
         } else {
           setDisableSignUpButton(false)
@@ -35,7 +35,7 @@ function SignupFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      setErrors({});
+      setErrors([]);
       const newUser = await dispatch(
         sessionActions.signup({
           email,
@@ -54,9 +54,7 @@ function SignupFormPage() {
       if (newUser){
         history.push("/");
       };
-    } else {
-      setErrors({confirmPassword: "Confirm Password field must be the same as the Password field"})
-    };
+    }
   };
 
   return (
@@ -81,7 +79,6 @@ function SignupFormPage() {
               </div>
             </label>
         </div>
-        {errors.firstName && <p className="errors">{errors.firstName}</p>}
         <div>
             <label>
             Last Name
@@ -95,7 +92,6 @@ function SignupFormPage() {
               </div>
             </label>
         </div>
-        {errors.lastName && <p className="errors">{errors.lastName}</p>}
         <div>
           <label>
           Email
@@ -109,7 +105,6 @@ function SignupFormPage() {
             </div>
           </label>
         </div>
-        {errors.email && <p className="errors">{errors.email}</p>}
         <div>
             <label>
             Username
@@ -123,7 +118,6 @@ function SignupFormPage() {
               </div>
             </label>
         </div>
-        {errors.username && <p className="errors">{errors.username}</p>}
         <div>
             <label>
             Password
@@ -137,7 +131,6 @@ function SignupFormPage() {
               </div>
             </label>
         </div>
-        {errors.password && <p className="errors">{errors.password}</p>}
         <div>
             <label>
             Confirm Password
@@ -151,7 +144,6 @@ function SignupFormPage() {
               </div>
             </label>
         </div>
-        <div>{errors.confirmPassword && <p className="errors">{errors.confirmPassword}</p>}</div>
         <button type="submit" disabled={disableSignUpButton}>Sign Up</button>
       </form>
     </>

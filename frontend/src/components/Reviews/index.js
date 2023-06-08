@@ -4,7 +4,6 @@ import * as reviewActions from "../../store/reviews.js";
 import ReviewList from "./ReviewList.js";
 import ReviewAvg from "./ReviewAvg.js";
 import ReviewFormModal from "../Reviews/ReviewModal";
-import DeleteReviewModal from "./DeleteReviewModal.js";
 import "./Review.css";
 
 const Reviews = ({spot}) => {
@@ -23,7 +22,6 @@ const Reviews = ({spot}) => {
         dispatch(reviewActions.loadAllReviews(spotId))
         .then(()=>setIsLoaded(true))
     },[dispatch, spotId]);
-
 
     const sorted = allReviews.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
     const userReviews = allReviews.filter((review) => {
@@ -62,7 +60,6 @@ const Reviews = ({spot}) => {
                 <>
                     {reviewPage}
                 </>
-
             )}
         </>
     )
