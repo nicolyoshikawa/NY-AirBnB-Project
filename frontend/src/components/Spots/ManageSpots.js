@@ -5,7 +5,6 @@ import { useState } from "react";
 import * as spotActions from "../../store/spots";
 import { NavLink, useHistory } from 'react-router-dom';
 import DeleteFormModal from "./DeleteModal.js";
-// import UpdateASpot from "./UpdateSpot.js";
 import "./Spots.css";
 
 const ManageSpots = () => {
