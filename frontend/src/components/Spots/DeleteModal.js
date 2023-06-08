@@ -33,16 +33,16 @@ function DeleteFormModal({spot}) {
 
     return (
       <>
-        <button onClick={onClickHandler}>Delete</button>
+        <button onClick={onClickHandler} className='modalButton'>Delete</button>
         {showModal && (
           <>
             <Modal onClose={() => setShowModal(false)}>
               <>
                 <h1>Confirm Delete</h1>
                 {errors.length > 0 && <p className="errors">{errors}</p>}
-                <div>Are you sure you want to remove this spot from the listings?</div>
-                <button onClick={deleteClickHandler}>Yes (Delete Spot)</button>
-                <button onClick={keepClickHandler}>No (Keep Spot)</button>
+                <div className='question'>Are you sure you want to remove this spot from the listings?</div>
+                <button onClick={deleteClickHandler} className='deleteButton'>Yes (Delete Spot)</button>
+                <button onClick={keepClickHandler} className="keepButton">No (Keep Spot)</button>
               </>
             </Modal>
           </>

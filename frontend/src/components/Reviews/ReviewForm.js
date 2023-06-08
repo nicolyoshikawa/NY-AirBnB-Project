@@ -48,7 +48,7 @@ function ReviewForm({user, spot}) {
   return (
     <>
       <h1>How was your stay?</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <div>
             {errors.length > 0 && errors.map(el => (
                 <div key={el} className="errors">{el}</div>
@@ -61,6 +61,7 @@ function ReviewForm({user, spot}) {
                     onChange={(e) => setReview(e.target.value)}
                     required
                     placeholder="Leave your review here..."
+                    className="postreviewInput"
                 />
         </div>
         <div className="rate">
@@ -74,10 +75,9 @@ function ReviewForm({user, spot}) {
             <label htmlFor="star2"></label>
             <input type="radio" id="star1" name="rate" value={1} onChange={(e) => setStars(e.target.value)}/>
             <label htmlFor="star1"></label>
+            <div>Stars</div>
         </div>
-        <div>
             <button type="submit" disabled={disableSignUpButton}>Submit Your Review</button>
-        </div>
       </form>
     </>
   );

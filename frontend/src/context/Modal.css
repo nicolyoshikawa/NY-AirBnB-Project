@@ -20,4 +20,77 @@
     position: absolute;
     background-color:white;
     padding: 10px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin: 5px
+}
+
+input {
+    width: 100%;
+    background: rgb(226, 226, 246);
+    object-fit: contain;
+    height: auto;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.form > button{
+    background: #e61e4d;
+    border: 0.15rem solid black;
+    color: white;
+    width: 100%;
+    box-shadow: 2px 2px 2px black;
+    object-fit: contain;
+    height: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button:disabled{
+    background-color: white;
+    border: 0.15rem solid grey;
+    box-shadow: 2px 2px 2px grey;
+    color: grey;
+}
+
+.errors {
+    color: red;
+    font-weight: bold;
+}
+.required {
+    color: red;
+}
+
+.deleteButton{
+    background: #e61e4d;
+    border: 0.15rem solid black;
+    color: white;
+    width: 100%;
+    box-shadow: 2px 2px 2px black;
+    object-fit: contain;
+    height: auto;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.keepButton {
+    background: grey;
+    border: 0.15rem solid black;
+    color: white;
+    width: 100%;
+    box-shadow: 2px 2px 2px black;
+    object-fit: contain;
+    height: auto;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.question {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
