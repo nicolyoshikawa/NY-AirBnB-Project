@@ -36,31 +36,31 @@ function LoginFormPage() {
     <>
     {errors.length > 0 && <p className="errors">The provided credentials were invalid.</p>}
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <div>
-            <label>
-            Username or Email
-            <input
-                type="text"
-                value={credential}
-                onChange={(e) => setCredential(e.target.value)}
-                required
-            />
-            </label>
+            <label>Username or Email</label>
+            <div>
+              <input
+                  type="text"
+                  value={credential}
+                  onChange={(e) => setCredential(e.target.value)}
+                  required
+              />
+            </div>
         </div>
         <div>
-            <label>
-            Password
-            <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-            />
-            </label>
+            <label>Password</label>
+            <div>
+              <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+              />
+            </div>
         </div>
         <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
-        <div><DemoUser/></div>
+        <div className="DemoUser"><DemoUser/></div>
       </form>
     </>
   );
