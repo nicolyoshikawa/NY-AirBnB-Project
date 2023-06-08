@@ -23,7 +23,6 @@ const Reviews = ({spot}) => {
         .then(()=>setIsLoaded(true))
     },[dispatch, spotId]);
 
-
     const sorted = allReviews.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
     const userReviews = allReviews.filter((review) => {
         return (review.userId === user?.id);
