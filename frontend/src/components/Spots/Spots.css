@@ -41,7 +41,8 @@ img {
 }
 
 .callOutBox{
-    border: solid;
+    border: 0.1rem solid lightgray;
+    box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.2);
     border-radius: 10px;
     padding: 5px
 }
@@ -56,12 +57,13 @@ img {
 }
 
 .input-box {
-    background: rgb(226, 226, 246);
+    background: white;
+    padding: 5px;
     width: 100%
 }
 
 .section {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid lightgrey;
     margin: 5px;
     object-fit: contain;
     box-sizing: border-box;

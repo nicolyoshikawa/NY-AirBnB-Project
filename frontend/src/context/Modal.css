@@ -30,7 +30,8 @@ h1 {
 
 input {
     width: 100%;
-    background: rgb(226, 226, 246);
+    border-radius: 5px;
+    border: 0.1rem solid grey;
     object-fit: contain;
     height: auto;
     box-sizing: border-box;
@@ -39,10 +40,10 @@ input {
 
 .form > button{
     background: #e61e4d;
-    border: 0.15rem solid black;
+    border: 0.1rem solid;
     color: white;
     width: 100%;
-    box-shadow: 2px 2px 2px black;
+    border-radius: 10px;
     object-fit: contain;
     height: auto;
     padding: 10px;
@@ -51,8 +52,8 @@ input {
 
 button:disabled{
     background-color: white;
-    border: 0.15rem solid grey;
-    box-shadow: 2px 2px 2px grey;
+    border: 0.1rem solid grey;
+    border-radius: 10px;
     color: grey;
 }
 
@@ -66,10 +67,10 @@ button:disabled{
 
 .deleteButton{
     background: #e61e4d;
-    border: 0.15rem solid black;
+    border: 0.1rem solid;
     color: white;
     width: 100%;
-    box-shadow: 2px 2px 2px black;
+    border-radius: 10px;
     object-fit: contain;
     height: auto;
     padding: 10px;
@@ -79,10 +80,10 @@ button:disabled{
 
 .keepButton {
     background: grey;
-    border: 0.15rem solid black;
+    border: 0.1rem solid;
     color: white;
     width: 100%;
-    box-shadow: 2px 2px 2px black;
+    border-radius: 10px;
     object-fit: contain;
     height: auto;
     padding: 10px;
