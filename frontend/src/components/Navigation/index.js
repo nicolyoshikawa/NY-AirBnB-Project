@@ -10,20 +10,20 @@ function Navigation({ isLoaded }){
   return (
     <ul className='navbar'>
       <li className="home">
-        <NavLink exact to="/" className="home"><i className="fa-solid fa-house"/> Home Sweet Home</NavLink>
+        <NavLink exact to="/" className="home logo"><i className="fa-solid fa-house"/> Home Sweet Home</NavLink>
       </li>
 
-      {isLoaded && sessionUser &&(
-        <>
-          <NavLink exact to="/spots/new" className="home">Create a new spot</NavLink>
-        </>
-      )}
       {isLoaded && (
         <>
           <li>
             <ProfileButton user={sessionUser} />
           </li>
         </>
+      )}
+       {isLoaded && sessionUser &&(
+        <li>
+          <NavLink exact to="/spots/new" className="createSpot">Create a new spot</NavLink>
+        </li>
       )}
     </ul>
   );
