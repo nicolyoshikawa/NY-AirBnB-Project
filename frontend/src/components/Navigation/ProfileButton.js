@@ -47,7 +47,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu} >
+      <button onClick={openMenu} className="dropdown">
         <i className="fa-solid fa-bars profile"/>
         <i className="fas fa-user-circle" />
       </button>
@@ -55,19 +55,23 @@ function ProfileButton({ user }) {
 
         {user ? (
           <div className="dropdown-content">
-              <li>Hello, {user.firstName}</li>
-              <li>{user.email}</li>
+              <li className="loggedIn">Hello, {user.firstName}</li>
+              <li className="loggedIn bottonBorder">{user.email}</li>
               <li>
-                <button onClick={manageSpots}>Manage Spots</button>
+                <button onClick={manageSpots} className="bottonBorder">Manage Spots</button>
               </li>
               <li>
-                <button onClick={logout} className="modalButton">Log Out</button>
+                <button onClick={logout} className="loggoutButton">Log Out</button>
               </li>
           </div>
         ) : (
           <div className="dropdown-content">
-            <SignupFormModal onButtonClick={closeMenu}/>
-            <LoginFormModal onButtonClick={closeMenu}/>
+            <div>
+              <SignupFormModal onButtonClick={closeMenu}/>
+            </div>
+            <div>
+              <LoginFormModal onButtonClick={closeMenu}/>
+            </div>
           </div>
         )}
       </ul>

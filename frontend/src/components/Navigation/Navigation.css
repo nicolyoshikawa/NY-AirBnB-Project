@@ -1,11 +1,27 @@
 .home {
-    justify-content: left;
+    /* justify-content: left; */
+    text-decoration: none;
+    /* margin: 5px; */
+    float: left
+}
+
+.logo{
+    color:#e61e4d;
+    font-weight: bold;
+}
+
+.createSpot{
+    color: black;
     text-decoration: none;
     margin: 5px;
+    float: right
 }
 
 ul {
     list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 .hidden {
@@ -24,16 +40,18 @@ ul {
 }
 
 .navbar {
-    display: flex;
-    justify-content:space-between;
+    /* display: flex; */
+    /* justify-content:space-between; */
     padding: 20px;
+    border-bottom: 0.15rem solid lightgrey;
+
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
-    list-style: none;
-    padding-left: 0;
+    border: 0.15rem solid black;
+    border-radius: 10px;
+    background-color: white;
+    float: right
 }
 .dropdown-content {
     display: block;
@@ -41,14 +59,43 @@ ul {
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
     z-index: 1;
     right: 0;
+    border: 0.15rem solid black;
+    margin-right: 30px;
+    margin-top: 30px;
 }
 
 .dropdown-content button {
     display: block;
     padding: 3px;
     margin: 5px;
+    border: none;
+    background-color: white;
+}
+
+.dropdown-content .loggedIn {
+    display: block;
+    padding: 3px;
+    margin: 5px;
     border: none
+}
+
+.dropdown-content .loggoutButton {
+    background: grey;
+    border: 0.15rem solid black;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+    object-fit: contain;
+    height: auto;
+    border-radius: 15px;
+    padding: 5px;
+
+}
+
+.dropdown-content .bottonBorder {
+    border-bottom: 0.15rem solid black;
+    object-fit: contain;
+    box-sizing: border-box;
+    width: 100%;
 }
