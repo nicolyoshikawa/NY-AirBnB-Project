@@ -11,3 +11,7 @@
 * {
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
 }
+
+img {
+    border-radius: 15px;
+}

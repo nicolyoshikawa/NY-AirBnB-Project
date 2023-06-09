@@ -60,15 +60,9 @@ img {
     width: 100%
 }
 
-.createSpotButton {
-    background: #e61e4d;
-    color: white;
-    margin: 5px;
-    padding: 5px;
-}
-
 .section {
     border-bottom: 2px solid black;
-    margin: 2px;
-    padding: 2px
+    margin: 5px;
+    object-fit: contain;
+    box-sizing: border-box;
 }

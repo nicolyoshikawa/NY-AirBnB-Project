@@ -29,6 +29,7 @@ const SpotDetails = () => {
                     <div className="callOutBox"><CallOutBox spot={spot}/></div>
                     <div className="allSpots">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</div>
                     <p className="allSpots">{spot.description}</p>
+                    <div className="section"></div>
                     <div><Reviews spot={spot}/></div>
                 </>
             )}
