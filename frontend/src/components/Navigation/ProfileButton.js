@@ -56,12 +56,14 @@ function ProfileButton({ user }) {
         {user ? (
           <div className="dropdown-content">
               <li className="loggedIn">Hello, {user.firstName}</li>
-              <li className="loggedIn bottonBorder">{user.email}</li>
-              <li>
-                <button onClick={manageSpots} className="bottonBorder">Manage Spots</button>
+              <li className="loggedIn">{user.email}</li>
+              <div className="bottonBorder"></div>
+              <li  className="loggedIn">
+                <button onClick={manageSpots}>Manage Spots</button>
               </li>
-              <li>
-                <button onClick={logout} className="loggoutButton">Log Out</button>
+              <div className="bottonBorder"></div>
+              <li className="logout">
+                <button onClick={logout} className="logoutButton">Log Out</button>
               </li>
           </div>
         ) : (

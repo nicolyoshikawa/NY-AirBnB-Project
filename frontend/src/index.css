@@ -7,3 +7,7 @@
     height: auto;
     margin: 5px
 }
+
+* {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}

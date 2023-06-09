@@ -1,7 +1,5 @@
 .home {
-    /* justify-content: left; */
     text-decoration: none;
-    /* margin: 5px; */
     float: left
 }
 
@@ -34,14 +32,12 @@ ul {
 }
 
 .profileButton {
-    background-color: white;
+    background-color: #f9f9f9;
     border: none;
     display: flex;
 }
 
 .navbar {
-    /* display: flex; */
-    /* justify-content:space-between; */
     padding: 20px;
     border-bottom: 0.15rem solid lightgrey;
 
@@ -50,7 +46,7 @@ ul {
 .dropdown {
     border: 0.15rem solid black;
     border-radius: 10px;
-    background-color: white;
+    background-color: #f9f9f9;
     float: right
 }
 .dropdown-content {
@@ -64,24 +60,23 @@ ul {
     border: 0.15rem solid black;
     margin-right: 30px;
     margin-top: 30px;
+    padding: 5px
 }
 
 .dropdown-content button {
     display: block;
     padding: 3px;
-    margin: 5px;
     border: none;
-    background-color: white;
+    background-color: #f9f9f9;
 }
 
 .dropdown-content .loggedIn {
     display: block;
-    padding: 3px;
-    margin: 5px;
+    margin-left: 10px;
     border: none
 }
 
-.dropdown-content .loggoutButton {
+.dropdown-content .logoutButton {
     background: grey;
     border: 0.15rem solid black;
     color: white;
@@ -97,5 +92,11 @@ ul {
     border-bottom: 0.15rem solid black;
     object-fit: contain;
     box-sizing: border-box;
-    width: 100%;
+    padding-top: 3px;
+    margin: 5px;
+}
+.logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
