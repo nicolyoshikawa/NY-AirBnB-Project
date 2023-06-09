@@ -15,9 +15,10 @@
 }
 .rate {
     height: 46px;
-    padding: 0 10px;
-    margin-bottom: 10px;
-    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 .rate:not(:checked) > input {
     position:absolute;
@@ -54,4 +55,19 @@
     height: 100px;
     margin-bottom: 10px;
     margin-top: 10px;
+}
+
+.ratings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.StarLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
 }

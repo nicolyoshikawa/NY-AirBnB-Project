@@ -7,6 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 #modal-background {
     position: fixed;
@@ -21,6 +22,7 @@
     background-color:white;
     padding: 10px;
     border-radius: 10px;
+    width: 300px
 }
 
 h1 {
