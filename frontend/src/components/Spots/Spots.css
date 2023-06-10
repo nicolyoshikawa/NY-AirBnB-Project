@@ -156,8 +156,9 @@ img {
     }
 }
 
-@media screen and (max-width: 1000px) {
-    /* .spotImageDetailPage {
-
-    } */
+@media screen and (min-width: 1000px) {
+    .spotDetailPage {
+        width: 1000px;
+        margin: auto;
+    }
 }
