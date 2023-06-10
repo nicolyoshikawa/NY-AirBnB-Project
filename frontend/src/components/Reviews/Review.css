@@ -1,10 +1,19 @@
 .reviewList {
-    margin: 5px;
-    padding: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .date {
-    font-weight: lighter;
+    font-weight: 100;
+}
+
+.firstName {
+    font-weight:500
+}
+.lighterFontWeight {
+    font-weight: 300;
 }
 
 .reviewAvg {
@@ -18,6 +27,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row-reverse;
 
 }
 .rate:not(:checked) > input {
@@ -25,7 +35,6 @@
     top:-9999px;
 }
 .rate:not(:checked) > label {
-    float:right;
     width:1em;
     overflow:hidden;
     white-space:nowrap;

@@ -1,20 +1,20 @@
 .allSpots {
-    margin: 5px;
-    padding: 20px;
+    margin: 10px;
+    display: grid;
+    row-gap: 2em;
+    column-gap: 1em;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)
 }
 
 .spotTile {
-    margin: 5px;
-    width: 300px;
-    height: 300px;
-    display:inline-block;
     border: none;
-    text-decoration: none;
+    display: grid;
+    grid-template-rows: 80% 20%;
 }
 
 img {
-    object-fit: contain;
-    height: auto;
+    object-fit: cover;
+    max-height: 100%;
     width: 100%;
 }
 
@@ -44,7 +44,8 @@ img {
     border: 0.1rem solid lightgray;
     box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.2);
     border-radius: 10px;
-    padding: 5px
+    padding: 10px;
+    break-inside: avoid;
 }
 
 .newSpotFormPage {
@@ -67,4 +68,27 @@ img {
     margin: 5px;
     object-fit: contain;
     box-sizing: border-box;
+}
+.spotDetailContainer{
+    display: grid;
+    grid-template-columns: 75% 25%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.spotDetailPage {
+    margin: 5px;
+    padding: 5px;
+}
+
+.heading {
+    margin-bottom: 10px;
+}
+.manageSpotDetailContainer{
+    display: grid;
+    grid-template-rows: 80% 20%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /* object-fit: contain;
+    max-height: 100%;
+    width: 100%; */
 }

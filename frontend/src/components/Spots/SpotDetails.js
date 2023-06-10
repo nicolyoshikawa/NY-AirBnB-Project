@@ -22,16 +22,20 @@ const SpotDetails = () => {
     return (
         <>
             {isLoaded && (
-                <>
-                    <h1 className="allSpots">{spot.name}</h1>
-                    <div className="allSpots">{spot.city}, {spot.state}, {spot.country}</div>
-                    <div className="allSpots"><SpotImages spot={spot}/></div>
-                    <div className="callOutBox"><CallOutBox spot={spot}/></div>
-                    <div className="allSpots">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</div>
-                    <p className="allSpots">{spot.description}</p>
+                <div className="spotDetailPage">
+                    <div className="heading">
+                        <h2 >{spot.name}</h2>
+                        <div >{spot.city}, {spot.state}, {spot.country}</div>
+                    </div>
+                    <div ><SpotImages spot={spot}/></div>
+                    <div className="spotDetailContainer">
+                        <div className="firstName">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</div>
+                        <div className="callOutBox"><CallOutBox spot={spot}/></div>
+                        <p className="lighterFontWeight">{spot.description}</p>
+                    </div>
                     <div className="section"></div>
                     <div><Reviews spot={spot}/></div>
-                </>
+                </div>
             )}
         </>
     )
