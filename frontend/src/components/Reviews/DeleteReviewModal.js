@@ -3,6 +3,7 @@ import { Modal } from '../../context/Modal';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as reviewActions from "../../store/reviews.js";
+import * as spotActions from "../../store/spots.js";
 import "./Review.css";
 
 function DeleteReviewModal({spot, review}) {
@@ -21,7 +22,8 @@ function DeleteReviewModal({spot, review}) {
     });
 
     if (reviewDeleted) {
-        history.push(`/spots/${spot.id}`);
+        // history.push(`/spots/${spot.id}`);
+        dispatch(spotActions.loadSpotById(spot.id))
     };
   }
 
