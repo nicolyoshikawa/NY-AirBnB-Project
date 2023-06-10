@@ -2,7 +2,7 @@ import "./Spots.css";
 
 const SpotImages = ({spot}) => {
     let count = 1;
-    console.log(spot.SpotImages)
+    // console.log(spot.SpotImages)
     return (
         <div className="spotImageDetailPage">
             {spot.SpotImages.map(el => (
