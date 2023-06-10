@@ -1,18 +1,20 @@
 import "./Review.css";
 
 const ReviewAvg = ({spot}) => {
+    console.log(spot)
     const avgRating = spot.avgStarRating ? Number(spot.avgStarRating).toFixed(2) : "New";
+    const numReviews = spot.numReviews ? Number(spot.numReviews) : 0;
     let reviewLine;
-    if(spot.numReviews === 1){
+    if(numReviews === 1){
         reviewLine = (
             <>
-                <div className="reviewAvg"> · {spot.numReviews} review</div>
+                <div className="reviewAvg"> · {numReviews} review</div>
             </>
         )
-    } else if (spot.numReviews > 1) {
+    } else if (numReviews > 1) {
         reviewLine = (
             <>
-                <div className="reviewAvg"> · {spot.numReviews} reviews</div>
+                <div className="reviewAvg"> · {numReviews} reviews</div>
             </>
         )
     } else {
