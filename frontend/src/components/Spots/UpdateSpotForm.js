@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory,useParams } from "react-router-dom";
 import * as spotActions from "../../store/spots";
 import * as imageActions from "../../store/images";
-import "./Spots.css";
+import "./SpotForm.css";
 
 const UpdateSpotForm = () => {
     const { spotId } = useParams();
@@ -28,6 +28,7 @@ const UpdateSpotForm = () => {
     const [image4, setImage4] = useState("");
 
     const [errors, setErrors] = useState({});
+    const [hasSubmitted, setHasSubmitted] = useState(false);
     const imgArr = [];
     let spot;
 
@@ -42,47 +43,51 @@ const UpdateSpotForm = () => {
         setName(spot.name);
         setDescription(spot.description);
         setPrice(spot.price);
-    },[dispatch, spotId, spot?.country, spot?.address, spot?.city, spot?.state, spot?.lat, spot?.lng, spot?.name, spot?.description, spot?.price ]);
+        setPreviewImage(spot.previewImage)
+    },[dispatch, spotId, spot?.country, spot?.address, spot?.city, spot?.state, spot?.lat, spot?.lng, spot?.name, spot?.description, spot?.price, spot?.previewImage]);
 
     spot = spotsObj[spotId];
 
     useEffect(() => {
-        const errors = {};
-        if(!country) errors["country"] = "Country is required";
-        if(!address) errors["address"] = "Address is required";
-        if(!city) errors["city"] = "City is required";
-        if(!state) errors["state"] = "State is required";
-        if(!name) errors["name"] = "Name is required";
-        if(!price) errors["price"] = "Price is required";
-        if(!lat) errors["lat"] = "Latitude is required";
-        if(!lng) errors["price"] = "Longitude is required";
-        if(!description) errors["description"] = "Description is required";
+        if(hasSubmitted){
+            const errors = {};
+            if(!country) errors["country"] = "Country is required";
+            if(!address) errors["address"] = "Address is required";
+            if(!city) errors["city"] = "City is required";
+            if(!state) errors["state"] = "State is required";
+            if(!name) errors["name"] = "Name is required";
+            if(!price) errors["price"] = "Price is required";
+            if(!lat) errors["lat"] = "Latitude is required";
+            if(!lng) errors["price"] = "Longitude is required";
+            if(!description) errors["description"] = "Description is required";
 
-        if(previewImage && (!previewImage.endsWith(".png") &&
-            !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
-            errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
+            if(previewImage && (!previewImage.endsWith(".png") &&
+                !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
+                errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image1 && (!image1.endsWith(".png") &&
+                !image1.endsWith(".jpg") && !image1.endsWith(".jpeg"))) {
+                errors["image1"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image2 && (!image2.endsWith(".png") &&
+                !image2.endsWith(".jpg") && !image2.endsWith(".jpeg"))) {
+                errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image3 && (!image3.endsWith(".png") &&
+                !image3.endsWith(".jpg") && !image3.endsWith(".jpeg"))) {
+                errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image4 && (!image4.endsWith(".png") &&
+                !image4.endsWith(".jpg") && !image4.endsWith(".jpeg"))) {
+                errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            setErrors(errors);
         }
-        if(image1 && (!image1.endsWith(".png") &&
-            !image1.endsWith(".jpg") && !image1.endsWith(".jpeg"))) {
-            errors["image1"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        if(image2 && (!image2.endsWith(".png") &&
-            !image2.endsWith(".jpg") && !image2.endsWith(".jpeg"))) {
-            errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        if(image3 && (!image3.endsWith(".png") &&
-            !image3.endsWith(".jpg") && !image3.endsWith(".jpeg"))) {
-            errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        if(image4 && (!image4.endsWith(".png") &&
-            !image4.endsWith(".jpg") && !image4.endsWith(".jpeg"))) {
-            errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        setErrors(errors);
-    }, [address, city, state, country, lat, lng, name, description, price, previewImage, image1, image2, image3, image4]);
+    }, [address, city, state, country, lat, lng, name, description, price, previewImage, image1, image2, image3, image4, hasSubmitted]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setHasSubmitted(true);
         const updatedSpot = {address, city, state, country, lat, lng, name, description, price, ownerId: user.id, id: +spotId};
         const images = [];
         if(previewImage) images.push({ url: previewImage, preview: true });
@@ -90,34 +95,36 @@ const UpdateSpotForm = () => {
         if(image2) images.push({ url: image2, preview: false });
         if(image3) images.push({ url: image3, preview: false });
         if(image4) images.push({ url: image4, preview: false });
+        if(Object.values(errors).length <= 0){
 
-        setErrors({});
-        const spot = await dispatch(spotActions.updateASpot(updatedSpot))
-        .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) {
-                setErrors(data.errors);
-            }
-        });
-
-        if(images.length > 0){
-            for( let i = 0; i < images.length; i++){
-            const img = images[i]
-            const newImg = await dispatch(imageActions.newSpotImage(spot, img))
+            const spot = await dispatch(spotActions.updateASpot(updatedSpot))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) {
                     setErrors(data.errors);
                 }
-            })
-            imgArr.push(newImg)
-            }
-        }
+            });
 
-        if(spot && imgArr.length === images.length){
-            reset();
-            history.push(`/spots/${spot.id}`);
-        };
+            if(images.length > 0){
+                for( let i = 0; i < images.length; i++){
+                const img = images[i]
+                const newImg = await dispatch(imageActions.newSpotImage(spot, img))
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setErrors(data.errors);
+                    }
+                })
+                imgArr.push(newImg)
+                }
+            }
+
+            if(spot && imgArr.length === images.length){
+                reset();
+                history.push(`/spots/${spot.id}`);
+                setErrors({});
+            };
+        }
     };
 
     const reset = () => {
@@ -137,14 +144,14 @@ const UpdateSpotForm = () => {
         <div className="newSpotFormPage">
             <form onSubmit={handleSubmit} className="newSpotForm form">
             <h2 className="newSpotForm">Update Your Spot</h2>
-                {errors.length > 0 && errors.map(el => (
+                {hasSubmitted && errors.length > 0 && errors.map(el => (
                     <div key={el} className="errors">{el}</div>
                 ))}
-                <div className="section">
+
                     <h3>Where's your place located?</h3>
                     <p>Guests will only get your exact address once they booked a reservation.</p>
                     <label>Country
-                    {errors.country && <div className="errors">{errors.country}</div>}
+                    {hasSubmitted && errors.country && <div className="errors">{errors.country}</div>}
                         <div>
                             <input
                                 type='text'
@@ -157,7 +164,7 @@ const UpdateSpotForm = () => {
                         </div>
                     </label>
                     <label>Street Address
-                    {errors.address && <div className="errors">{errors.address}</div>}
+                    {hasSubmitted && errors.address && <div className="errors">{errors.address}</div>}
                         <div>
                             <input
                                 type='text'
@@ -170,7 +177,7 @@ const UpdateSpotForm = () => {
                         </div>
                     </label>
                     <label>City
-                    {errors.city && <div className="errors">{errors.city}</div>}
+                    {hasSubmitted && errors.city && <div className="errors">{errors.city}</div>}
                         <div>
                             <input
                                 type='text'
@@ -183,7 +190,7 @@ const UpdateSpotForm = () => {
                         </div>
                     </label>
                     <label>State
-                    {errors.state && <div className="errors">{errors.state}</div>}
+                    {hasSubmitted && errors.state && <div className="errors">{errors.state}</div>}
                         <div>
                             <input
                                 type='text'
@@ -196,7 +203,7 @@ const UpdateSpotForm = () => {
                         </div>
                     </label>
                     <label>Latitude
-                        {errors.lat && <div className="errors">{errors.lat}</div>}
+                        {hasSubmitted && errors.lat && <div className="errors">{errors.lat}</div>}
                         <div>
                             <input
                                 type='text'
@@ -209,7 +216,7 @@ const UpdateSpotForm = () => {
                         </div>
                     </label>
                     <label>Longitude
-                        {errors.lng && <div className="errors">{errors.lng}</div>}
+                        {hasSubmitted && errors.lng && <div className="errors">{errors.lng}</div>}
                         <div>
                             <input
                                 type='text'
@@ -221,9 +228,9 @@ const UpdateSpotForm = () => {
                             />
                         </div>
                     </label>
-                </div>
+                {/* </div> */}
 
-                <div className="section">
+                <div className="section"></div>
                 <h3>Describe your place to guests</h3>
                     <p>Mention the best features of your space, any special amenities
                         like fast wifi or parking, and what you love about the neighborhood.</p>
@@ -234,9 +241,9 @@ const UpdateSpotForm = () => {
                             placeholder='Please write at least 30 characters'
                             className="input-box"
                         />
-                        {errors.description && <div className="errors">{errors.description}</div>}
-                </div>
-                <div className="section">
+                        {hasSubmitted && errors.description && <div className="errors">{errors.description}</div>}
+                {/* </div> */}
+                <div className="section"></div>
                 <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
                     <input
@@ -247,9 +254,9 @@ const UpdateSpotForm = () => {
                         name='name'
                         className="input-box"
                     />
-                    {errors.name && <div className="errors">{errors.name}</div>}
-                </div>
-                <div className="section">
+                    {hasSubmitted && errors.name && <div className="errors">{errors.name}</div>}
+                {/* </div> */}
+                <div className="section"></div>
                 <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                     <label>$
@@ -262,8 +269,8 @@ const UpdateSpotForm = () => {
                             className="input-box"
                         />
                     </label>
-                </div>
-                <div className="section">
+                {/* </div> */}
+                <div className="section"></div>
                 <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>
                     <input
@@ -274,7 +281,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {errors.previewImage && <div className="errors">{errors.previewImage}</div>}
+                    {hasSubmitted && errors.previewImage && <div className="errors">{errors.previewImage}</div>}
                     <input
                         type='text'
                         onChange={(e) => setImage1(e.target.value)}
@@ -283,7 +290,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {errors.image1 && <div className="errors">{errors.image1}</div>}
+                    {hasSubmitted && errors.image1 && <div className="errors">{errors.image1}</div>}
                     <input
                         type='text'
                         onChange={(e) => setImage2(e.target.value)}
@@ -292,7 +299,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {errors.image2 && <div className="errors">{errors.image2}</div>}
+                    {hasSubmitted && errors.image2 && <div className="errors">{errors.image2}</div>}
                     <input
                         type='text'
                         onChange={(e) => setImage3(e.target.value)}
@@ -301,7 +308,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {errors.image3 && <div className="errors">{errors.image3}</div>}
+                    {hasSubmitted && errors.image3 && <div className="errors">{errors.image3}</div>}
                     <input
                         type='text'
                         onChange={(e) => setImage4(e.target.value)}
@@ -310,9 +317,10 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {errors.image4 && <div className="errors">{errors.image4}</div>}
-                </div>
-            <button type='submit' className="createSpotButton" disabled={Object.values(errors).length > 0}>Update Your Spot</button>
+                    {hasSubmitted && errors.image4 && <div className="errors">{errors.image4}</div>}
+                {/* </div> */}
+            <div className="section"></div>
+            <button type='submit' /*disabled={Object.values(errors).length > 0}*/>Update Your Spot</button>
             </form>
         </div>
     )
