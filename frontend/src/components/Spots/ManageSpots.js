@@ -32,19 +32,15 @@ const ManageSpots = () => {
                         {spotOwnedByUser.length > 0 ? (
                             spotOwnedByUser.map(el => {
                                 return (
-                                    // <div>
-                                        <div className="manageSpotDetailContainer">
-                                            <div className="manageSpotGridA">
-                                                <SpotTile key={`spotTile_${el.id}`} spot={el}/>
-                                            </div>
-                                            <div className="manageSpotGridB">
-                                                <button onClick={()=>updateClickHandler(el)} className="modalButton">Update</button>
-                                            {/* </div>
-                                            <div className="manageSpotGridB"> */}
-                                                <DeleteFormModal key={`delete_${el.id}`} spot={el}/>
-                                            </div>
+                                    <div className="manageSpotDetailContainer">
+                                        <div className="manageSpotGridA">
+                                            <SpotTile key={`spotTile_${el.id}`} spot={el}/>
                                         </div>
-                                    // </div>
+                                        <div className="manageSpotGridB">
+                                            <button onClick={()=>updateClickHandler(el)} className="modalButton">Update</button>
+                                            <DeleteFormModal key={`delete_${el.id}`} spot={el}/>
+                                        </div>
+                                    </div>
                                 )
                             })
                         ) : (

@@ -29,9 +29,11 @@ const SpotDetails = () => {
                     </div>
                     <div ><SpotImages spot={spot}/></div>
                     <div className="spotDetailContainer">
-                        <div className="firstName">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</div>
+                        <div className="description">
+                            <div className="firstName">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</div>
+                            <p className="lighterFontWeight">{spot.description}</p>
+                        </div>
                         <div className="callOutBox"><CallOutBox spot={spot}/></div>
-                        <p className="lighterFontWeight">{spot.description}</p>
                     </div>
                     <div className="section"></div>
                     <div><Reviews spot={spot}/></div>

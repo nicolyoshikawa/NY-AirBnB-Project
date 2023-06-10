@@ -55,7 +55,7 @@ function ReviewForm({user, spot}) {
             ))}
         </div>
         <div>
-                <input
+                <textarea
                     type="textarea"
                     value={review}
                     onChange={(e) => setReview(e.target.value)}

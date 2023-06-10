@@ -17,17 +17,6 @@ img {
     border-radius: 15px;
 }
 
-/* @media screen and (min-width: 550px) {
-    .allSpots {
-        display: grid;
-        grid-template-columns: 1fr
-        grid-template-columns: 1fr 1fr;
-    }
-} */
-
-/* @media screen and (max-width: 599px) {
-    body {
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-} */
+button {
+    cursor: pointer;
+}
