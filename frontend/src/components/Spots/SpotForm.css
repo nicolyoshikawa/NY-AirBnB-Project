@@ -22,36 +22,25 @@
 }
 .country {
     grid-area: country;
-    /* margin-right: 5px; */
 }
 .address {
     grid-area: address;
 }
 .cityState {
-    grid-area: cityState;
-    display: flex;
-    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 65% 5% 30%;
 }
 .latLng {
-    grid-area: latLng;
-    display: flex;
-    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 47.5% 5% 47.5%;
 }
-.latitude {
-    /* display: flex; */
-    flex: 1 1 auto
-}
-.longitude {
-    /* display: flex; */
-    flex: 1 1 auto
-}
+
 .comma {
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
     padding-bottom: 10px;
     margin: 5px;
-    flex: 1 auto 0
 }
 
 textarea {

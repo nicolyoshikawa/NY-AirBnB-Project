@@ -138,7 +138,7 @@ const UpdateSpotForm = () => {
         setPrice('');
         setErrors({});
     };
-console.log("error", errors)
+
     return (
         <div className="newSpotFormPage">
             <form onSubmit={handleSubmit} className="newSpotForm form">
@@ -208,7 +208,7 @@ console.log("error", errors)
                     <div className="latLng">
                         <label>Latitude
                             {hasSubmitted && errors.lat && <span className="errors">{errors.lat}</span>}
-                            <div className="latitude">
+                            <div>
                                 <input
                                     type='text'
                                     onChange={(e) => setLat(e.target.value)}
@@ -222,7 +222,7 @@ console.log("error", errors)
                         <div className="latLng comma">,</div>
                         <label>Longitude
                             {hasSubmitted && errors.lng && <span className="errors">{errors.lng}</span>}
-                            <div className="longitude">
+                            <div>
                                 <input
                                     type='text'
                                     onChange={(e) => setLng(e.target.value)}
@@ -248,7 +248,6 @@ console.log("error", errors)
                             className="input-box"
                         />
                         {hasSubmitted && errors.description && <span className="errors">{errors.description}</span>}
-                {/* </div> */}
                 <div className="section"></div>
                 <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
@@ -261,7 +260,6 @@ console.log("error", errors)
                         className="input-box"
                     />
                     {hasSubmitted && errors.name && <span className="errors">{errors.name}</span>}
-                {/* </div> */}
                 <div className="section"></div>
                 <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
@@ -325,9 +323,8 @@ console.log("error", errors)
                         className="input-box"
                     />
                     {hasSubmitted && errors.image4 && <span className="errors">{errors.image4}</span>}
-                {/* </div> */}
             <div className="section"></div>
-            <button type='submit' /*disabled={Object.values(errors).length > 0}*/>Update Your Spot</button>
+            <button type='submit'>Update Your Spot</button>
             </form>
         </div>
     )
