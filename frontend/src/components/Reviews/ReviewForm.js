@@ -55,7 +55,7 @@ function ReviewForm({user, spot}) {
             ))}
         </div>
         <div>
-                <input
+                <textarea
                     type="textarea"
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
@@ -64,6 +64,7 @@ function ReviewForm({user, spot}) {
                     className="postreviewInput"
                 />
         </div>
+        <div className="ratings">
         <div className="rate">
             <input type="radio" id="star5" name="rate" value={5} onChange={(e) => setStars(e.target.value)}/>
             <label htmlFor="star5"></label>
@@ -75,7 +76,10 @@ function ReviewForm({user, spot}) {
             <label htmlFor="star2"></label>
             <input type="radio" id="star1" name="rate" value={1} onChange={(e) => setStars(e.target.value)}/>
             <label htmlFor="star1"></label>
-            <div>Stars</div>
+        </div>
+        <div className="ratings StarLabel">
+          <label>Stars</label>
+        </div>
         </div>
             <button type="submit" disabled={disableSignUpButton}>Submit Your Review</button>
       </form>

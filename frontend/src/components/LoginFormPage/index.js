@@ -34,8 +34,8 @@ function LoginFormPage() {
 
   return (
     <>
-    {errors.length > 0 && <p className="errors">The provided credentials were invalid.</p>}
       <h1>Log In</h1>
+      {errors.length > 0 && <p className="errors">The provided credentials were invalid.</p>}
       <form onSubmit={handleSubmit} className="form">
         <div>
             <label>Username or Email</label>

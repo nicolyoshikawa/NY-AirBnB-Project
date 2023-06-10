@@ -1,13 +1,22 @@
 .modalButton {
     background: grey;
-    border: 0.15rem solid black;
+    border: 0.1rem solid black;
     color: white;
-    box-shadow: 2px 2px 2px black;
+    border-radius: 10px;
     object-fit: contain;
     height: auto;
-    margin: 5px
+    margin: 5px;
+    padding: 5px
 }
 
 * {
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}
+
+img {
+    border-radius: 15px;
+}
+
+button {
+    cursor: pointer;
 }

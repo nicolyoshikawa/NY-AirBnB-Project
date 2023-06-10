@@ -122,7 +122,7 @@ const CreateNewSpot = () => {
                 {errors.length > 0 && errors.map(el => (
                     <div key={el} className="errors">{el}</div>
                 ))}
-                <div className="section">
+
                     <h3>Where's your place located?</h3>
                     <p>Guests will only get your exact address once they booked a reservation.</p>
                     <label>Country
@@ -203,9 +203,9 @@ const CreateNewSpot = () => {
                             />
                         </div>
                     </label>
-                </div>
 
-                <div className="section">
+
+                <div className="section"></div>
                 <h3>Describe your place to guests</h3>
                     <p>Mention the best features of your space, any special amenities
                         like fast wifi or parking, and what you love about the neighborhood.</p>
@@ -217,8 +217,8 @@ const CreateNewSpot = () => {
                             className="input-box"
                         />
                         {errors.description && <div className="errors">{errors.description}</div>}
-                </div>
-                <div className="section">
+
+                <div className="section"></div>
                 <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
                     <input
@@ -230,8 +230,8 @@ const CreateNewSpot = () => {
                         className="input-box"
                     />
                     {errors.name && <div className="errors">{errors.name}</div>}
-                </div>
-                <div className="section">
+
+                <div className="section"></div>
                 <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                     <label>$
@@ -244,8 +244,7 @@ const CreateNewSpot = () => {
                             className="input-box"
                         />
                     </label>
-                </div>
-                <div className="section">
+                <div className="section"></div>
                 <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>
                     <input
@@ -293,8 +292,8 @@ const CreateNewSpot = () => {
                         className="input-box"
                     />
                     {errors.image4 && <div className="errors">{errors.image4}</div>}
-                </div>
-            <button type='submit' className="createSpotButton" disabled={Object.values(errors).length > 0}>Create Spot</button>
+            <div className="section"></div>
+            <button type='submit' disabled={Object.values(errors).length > 0}>Create Spot</button>
             </form>
         </div>
     )
