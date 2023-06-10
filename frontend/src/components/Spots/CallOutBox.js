@@ -1,4 +1,5 @@
 import ReviewAvg from "../Reviews/ReviewAvg.js";
+import "./Spots.css"
 
 const CallOutBox = ({spot}) => {
     const clickHandler = (e) => {
@@ -7,8 +8,10 @@ const CallOutBox = ({spot}) => {
     }
     return(
         <form className="form">
-            <div>${spot.price} night</div>
-            <div><ReviewAvg spot={spot}/></div>
+            <div className="callOut">
+                <div>${spot.price} night</div>
+                <div><ReviewAvg spot={spot}/></div>
+            </div>
             <button onClick={clickHandler}>Reserve</button>
         </form>
     )

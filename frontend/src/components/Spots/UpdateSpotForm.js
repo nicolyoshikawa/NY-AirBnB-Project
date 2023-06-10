@@ -33,23 +33,24 @@ const UpdateSpotForm = () => {
     let spot;
 
     useEffect(()=> {
-        if(spotId) dispatch(spotActions.loadSpotById(spotId));
-        setCountry(spot.country);
-        setAddress(spot.address);
-        setCity(spot.city);
-        setState(spot.state);
-        setLat(spot.lat);
-        setLng(spot.lng);
-        setName(spot.name);
-        setDescription(spot.description);
-        setPrice(spot.price);
-        setPreviewImage(spot.previewImage)
+        dispatch(spotActions.loadSpotById(spotId))
+        .then((spotObj)=>{
+            setCountry(spotObj.country);
+            setAddress(spotObj.address);
+            setCity(spotObj.city);
+            setState(spotObj.state);
+            setLat(spotObj.lat);
+            setLng(spotObj.lng);
+            setName(spotObj.name);
+            setDescription(spotObj.description);
+            setPrice(spotObj.price);
+            setPreviewImage(spotObj.previewImage)
+        })
     },[dispatch, spotId, spot?.country, spot?.address, spot?.city, spot?.state, spot?.lat, spot?.lng, spot?.name, spot?.description, spot?.price, spot?.previewImage]);
 
     spot = spotsObj[spotId];
 
     useEffect(() => {
-        if(hasSubmitted){
             const errors = {};
             if(!country) errors["country"] = "Country is required";
             if(!address) errors["address"] = "Address is required";
@@ -58,9 +59,8 @@ const UpdateSpotForm = () => {
             if(!name) errors["name"] = "Name is required";
             if(!price) errors["price"] = "Price is required";
             if(!lat) errors["lat"] = "Latitude is required";
-            if(!lng) errors["price"] = "Longitude is required";
+            if(!lng) errors["lng"] = "Longitude is required";
             if(!description) errors["description"] = "Description is required";
-
             if(previewImage && (!previewImage.endsWith(".png") &&
                 !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
                 errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
@@ -82,7 +82,6 @@ const UpdateSpotForm = () => {
                 errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
             }
             setErrors(errors);
-        }
     }, [address, city, state, country, lat, lng, name, description, price, previewImage, image1, image2, image3, image4, hasSubmitted]);
 
     const handleSubmit = async (e) => {
@@ -95,8 +94,8 @@ const UpdateSpotForm = () => {
         if(image2) images.push({ url: image2, preview: false });
         if(image3) images.push({ url: image3, preview: false });
         if(image4) images.push({ url: image4, preview: false });
-        if(Object.values(errors).length <= 0){
 
+        if(Object.values(errors).length === 0){
             const spot = await dispatch(spotActions.updateASpot(updatedSpot))
             .catch(async (res) => {
                 const data = await res.json();
@@ -145,13 +144,14 @@ const UpdateSpotForm = () => {
             <form onSubmit={handleSubmit} className="newSpotForm form">
             <h2 className="newSpotForm">Update Your Spot</h2>
                 {hasSubmitted && errors.length > 0 && errors.map(el => (
-                    <div key={el} className="errors">{el}</div>
+                    <span key={el} className="errors">{el}</span>
                 ))}
 
                     <h3>Where's your place located?</h3>
                     <p>Guests will only get your exact address once they booked a reservation.</p>
-                    <label>Country
-                    {hasSubmitted && errors.country && <div className="errors">{errors.country}</div>}
+                <div className="section1">
+                    <label className="country">Country
+                    {hasSubmitted && errors.country && <span className="errors">{errors.country}</span>}
                         <div>
                             <input
                                 type='text'
@@ -163,8 +163,8 @@ const UpdateSpotForm = () => {
                             />
                         </div>
                     </label>
-                    <label>Street Address
-                    {hasSubmitted && errors.address && <div className="errors">{errors.address}</div>}
+                    <label className="address">Street Address
+                    {hasSubmitted && errors.address && <span className="errors">{errors.address}</span>}
                         <div>
                             <input
                                 type='text'
@@ -176,59 +176,65 @@ const UpdateSpotForm = () => {
                             />
                         </div>
                     </label>
-                    <label>City
-                    {hasSubmitted && errors.city && <div className="errors">{errors.city}</div>}
-                        <div>
-                            <input
-                                type='text'
-                                onChange={(e) => setCity(e.target.value)}
-                                value={city}
-                                placeholder='City'
-                                name='city'
-                                className="input-box"
-                            />,
-                        </div>
-                    </label>
-                    <label>State
-                    {hasSubmitted && errors.state && <div className="errors">{errors.state}</div>}
-                        <div>
-                            <input
-                                type='text'
-                                onChange={(e) => setState(e.target.value)}
-                                value={state}
-                                placeholder='STATE'
-                                name='state'
-                                className="input-box"
-                            />
-                        </div>
-                    </label>
-                    <label>Latitude
-                        {hasSubmitted && errors.lat && <div className="errors">{errors.lat}</div>}
-                        <div>
-                            <input
-                                type='text'
-                                onChange={(e) => setLat(e.target.value)}
-                                value={lat}
-                                placeholder='Latitude'
-                                name='latitude'
-                                className="input-box"
-                            />,
-                        </div>
-                    </label>
-                    <label>Longitude
-                        {hasSubmitted && errors.lng && <div className="errors">{errors.lng}</div>}
-                        <div>
-                            <input
-                                type='text'
-                                onChange={(e) => setLng(e.target.value)}
-                                value={lng}
-                                placeholder='Longitude'
-                                name='longitude'
-                                className="input-box"
-                            />
-                        </div>
-                    </label>
-                {/* </div> */}
+                    <div className="cityState">
+                        <label>City
+                        {hasSubmitted && errors.city && <span className="errors">{errors.city}</span>}
+                            <div>
+                                <input
+                                    type='text'
+                                    onChange={(e) => setCity(e.target.value)}
+                                    value={city}
+                                    placeholder='City'
+                                    name='city'
+                                    className="input-box"
+                                />
+                            </div>
+                        </label>
+                        <div className="cityState comma">,</div>
+                        <label>State
+                        {hasSubmitted && errors.state && <span className="errors">{errors.state}</span>}
+                            <div>
+                                <input
+                                    type='text'
+                                    onChange={(e) => setState(e.target.value)}
+                                    value={state}
+                                    placeholder='STATE'
+                                    name='state'
+                                    className="input-box"
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div className="latLng">
+                        <label>Latitude
+                            {hasSubmitted && errors.lat && <span className="errors">{errors.lat}</span>}
+                            <div>
+                                <input
+                                    type='text'
+                                    onChange={(e) => setLat(e.target.value)}
+                                    value={lat}
+                                    placeholder='Latitude'
+                                    name='latitude'
+                                    className="input-box"
+                                />
+                            </div>
+                        </label>
+                        <div className="latLng comma">,</div>
+                        <label>Longitude
+                            {hasSubmitted && errors.lng && <span className="errors">{errors.lng}</span>}
+                            <div>
+                                <input
+                                    type='text'
+                                    onChange={(e) => setLng(e.target.value)}
+                                    value={lng}
+                                    placeholder='Longitude'
+                                    name='longitude'
+                                    className="input-box"
+                                />
+                            </div>
+                        </label>
+                    </div>
+                </div>
 
                 <div className="section"></div>
                 <h3>Describe your place to guests</h3>
@@ -241,8 +247,7 @@ const UpdateSpotForm = () => {
                             placeholder='Please write at least 30 characters'
                             className="input-box"
                         />
-                        {hasSubmitted && errors.description && <div className="errors">{errors.description}</div>}
-                {/* </div> */}
+                        {hasSubmitted && errors.description && <span className="errors">{errors.description}</span>}
                 <div className="section"></div>
                 <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
@@ -254,22 +259,22 @@ const UpdateSpotForm = () => {
                         name='name'
                         className="input-box"
                     />
-                    {hasSubmitted && errors.name && <div className="errors">{errors.name}</div>}
-                {/* </div> */}
+                    {hasSubmitted && errors.name && <span className="errors">{errors.name}</span>}
                 <div className="section"></div>
                 <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                    <label>$
-                        <input
-                            type='text'
-                            onChange={(e) => setPrice(e.target.value)}
-                            value={price}
-                            placeholder='Price per night (USD)'
-                            name='price'
-                            className="input-box"
-                        />
-                    </label>
-                {/* </div> */}
+                    <div className="priceInput">
+                        <div className="comma">$</div>
+                            <input
+                                type='text'
+                                onChange={(e) => setPrice(e.target.value)}
+                                value={price}
+                                placeholder='Price per night (USD)'
+                                name='price'
+                                className="input-box"
+                            />
+                        {hasSubmitted && errors.price && <span className="errors">{errors.price}</span>}
+                    </div>
                 <div className="section"></div>
                 <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>
@@ -281,7 +286,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {hasSubmitted && errors.previewImage && <div className="errors">{errors.previewImage}</div>}
+                    {hasSubmitted && errors.previewImage && <span className="errors">{errors.previewImage}</span>}
                     <input
                         type='text'
                         onChange={(e) => setImage1(e.target.value)}
@@ -290,7 +295,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {hasSubmitted && errors.image1 && <div className="errors">{errors.image1}</div>}
+                    {hasSubmitted && errors.image1 && <span className="errors">{errors.image1}</span>}
                     <input
                         type='text'
                         onChange={(e) => setImage2(e.target.value)}
@@ -299,7 +304,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {hasSubmitted && errors.image2 && <div className="errors">{errors.image2}</div>}
+                    {hasSubmitted && errors.image2 && <span className="errors">{errors.image2}</span>}
                     <input
                         type='text'
                         onChange={(e) => setImage3(e.target.value)}
@@ -308,7 +313,7 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {hasSubmitted && errors.image3 && <div className="errors">{errors.image3}</div>}
+                    {hasSubmitted && errors.image3 && <span className="errors">{errors.image3}</span>}
                     <input
                         type='text'
                         onChange={(e) => setImage4(e.target.value)}
@@ -317,10 +322,9 @@ const UpdateSpotForm = () => {
                         name='image'
                         className="input-box"
                     />
-                    {hasSubmitted && errors.image4 && <div className="errors">{errors.image4}</div>}
-                {/* </div> */}
+                    {hasSubmitted && errors.image4 && <span className="errors">{errors.image4}</span>}
             <div className="section"></div>
-            <button type='submit' /*disabled={Object.values(errors).length > 0}*/>Update Your Spot</button>
+            <button type='submit'>Update Your Spot</button>
             </form>
         </div>
     )
