@@ -1,12 +1,16 @@
 .modalButton {
-    background: grey;
+    background: white;
     border: 0.1rem solid black;
-    color: white;
+    color: black;
     border-radius: 10px;
     object-fit: contain;
     height: auto;
     margin: 5px;
     padding: 5px
+}
+
+.modalButton:hover {
+    background-color: lightgrey;
 }
 
 * {
