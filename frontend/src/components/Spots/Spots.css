@@ -117,7 +117,13 @@ img {
 
 .previewImg {
     grid-area: previewImg;
+    object-fit: cover;
+    /* height: 100%; */
+    /* width: 100%; */
+    height: auto;
+    /* width: auto; */
 }
+
 .img1 {
     grid-area: img1;
 }
