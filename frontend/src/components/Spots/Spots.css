@@ -1,19 +1,21 @@
 .allSpots {
     --num-cols: 4;
+    --row-height: 300px;
     margin: 10px;
     row-gap: 2em;
     column-gap: 1em;
     box-sizing: border-box;
 
     display: grid;
-    grid-template-columns: repeat(var(--num-cols),1fr)
-
+    grid-template-columns: repeat(var(--num-cols),1fr);
+    grid-auto-rows: var(--row-height);
 }
 
 .spotTile {
     border: none;
     display: grid;
     grid-template-rows: 80% 20%;
+    height: 100%
 }
 
 img {
@@ -77,6 +79,7 @@ img {
     display: grid;
     grid-template-columns: 75% 25%;
     margin-bottom: 5px;
+    margin-top: 10px;
     grid-template-areas:
     "a c"
     "a d";
@@ -88,17 +91,17 @@ img {
 }
 .spotDetailPage {
     margin: 5px;
-    row-gap: 2em;
-    column-gap: 1em;
+    /* row-gap: 2em;
+    column-gap: 1em; */
     box-sizing: border-box;
 
-    display: grid;
-    grid-template-columns: repeat(var(--num-cols),1fr)
+    /* display: grid; */
 }
 
 .heading {
     margin-bottom: 10px;
 }
+
 .manageSpotDetailContainer{
     display: grid;
     grid-template-rows: 80% 20%;
@@ -109,6 +112,7 @@ img {
 .spotImageDetailPage {
     display: grid;
     gap: 5px;
+    margin: 5px;
     box-sizing: border-box;
     grid-template-areas:
     "previewImg previewImg img1 img3"
@@ -137,20 +141,15 @@ img {
     grid-area: img4;
 }
 
-/* .spotImageDetailPage > img {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-} */
-
 @media screen and (max-width: 1024px) {
     .allSpots {
-        --num-cols: 1
+        --num-cols: 1;
+        /* --row-height: 200px */
     }
 }
 
 @media screen and (max-width: 1000px) {
-    .spotImageDetailPage {
-        --num-cols: 1
-    }
+    /* .spotImageDetailPage {
+
+    } */
 }
