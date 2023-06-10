@@ -39,7 +39,7 @@ const CreateNewSpot = () => {
             if(!name) errors["name"] = "Name is required";
             if(!price) errors["price"] = "Price is required";
             if(!lat) errors["lat"] = "Latitude is required";
-            if(!lng) errors["price"] = "Longitude is required";
+            if(!lng) errors["lng"] = "Longitude is required";
             if(!description) errors["description"] = "Description is required";
 
             if(!previewImage) errors["previewImage"] = "Preview image is required";
@@ -227,7 +227,6 @@ const CreateNewSpot = () => {
                             className="input-box"
                         />
                         {hasSubmitted && errors.description && <div className="errors">{errors.description}</div>}
-                {/* </div> */}
                 <div className="section"></div>
                 <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
@@ -240,7 +239,6 @@ const CreateNewSpot = () => {
                         className="input-box"
                     />
                     {hasSubmitted && errors.name && <div className="errors">{errors.name}</div>}
-                {/* </div> */}
                 <div className="section"></div>
                 <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
@@ -254,6 +252,7 @@ const CreateNewSpot = () => {
                                 name='price'
                                 className="input-box"
                             />
+                        {hasSubmitted && errors.price && <div className="errors">{errors.price}</div>}
                     </div>
                 <div className="section"></div>
                 <h3>Liven up your spot with photos</h3>
@@ -303,8 +302,10 @@ const CreateNewSpot = () => {
                         className="input-box"
                     />
                     {hasSubmitted && errors.image4 && <div className="errors">{errors.image4}</div>}
-                {/* </div> */}
             <div className="section"></div>
+
+
+
                 {/* {errors.length > 0 && errors.map(el => (
                     <div key={el} className="errors">{el}</div>
                 ))}
