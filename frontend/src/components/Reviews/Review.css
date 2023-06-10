@@ -1,10 +1,19 @@
 .reviewList {
-    margin: 5px;
-    padding: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .date {
-    font-weight: lighter;
+    font-weight: 100;
+}
+
+.firstName {
+    font-weight:500
+}
+.lighterFontWeight {
+    font-weight: 300;
 }
 
 .reviewAvg {
@@ -15,16 +24,17 @@
 }
 .rate {
     height: 46px;
-    padding: 0 10px;
-    margin-bottom: 10px;
-    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+
 }
 .rate:not(:checked) > input {
     position:absolute;
     top:-9999px;
 }
 .rate:not(:checked) > label {
-    float:right;
     width:1em;
     overflow:hidden;
     white-space:nowrap;
@@ -54,4 +64,21 @@
     height: 100px;
     margin-bottom: 10px;
     margin-top: 10px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.ratings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.StarLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
 }

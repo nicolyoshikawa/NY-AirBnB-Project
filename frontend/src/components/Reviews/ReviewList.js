@@ -10,10 +10,9 @@ const ReviewList = ({reviewObj, spot}) => {
     return (
         <div className="reviewList">
             <>
-                <div>{reviewObj.User?.firstName}</div>
+                <div className="firstName">{reviewObj.User?.firstName}</div>
                 <div className="date">{month} {year}</div>
-                <div>{reviewObj.createdAt}</div>
-                <div>{reviewObj.review}</div>
+                <div className="lighterFontWeight">{reviewObj.review}</div>
                 {(reviewObj.userId === user?.id) ? (
                     <div>
                         <DeleteReviewModal spot={spot} review={reviewObj}/>

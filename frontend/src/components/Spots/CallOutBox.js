@@ -1,7 +1,8 @@
 import ReviewAvg from "../Reviews/ReviewAvg.js";
 
 const CallOutBox = ({spot}) => {
-    const clickHandler = () => {
+    const clickHandler = (e) => {
+        e.preventDefault();
         alert("Feature coming soon...")
     }
     return(
