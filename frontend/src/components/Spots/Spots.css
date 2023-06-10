@@ -1,7 +1,11 @@
 .allSpots {
     --num-cols: 4;
     /* --row-height: 300px; */
-    margin: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    /* margin:auto; */
     row-gap: 2em;
     column-gap: 1em;
     box-sizing: border-box;
@@ -9,14 +13,22 @@
     display: grid;
     grid-template-columns: repeat(var(--num-cols),1fr);
     /* grid-auto-rows: var(--row-height); */
-    grid-auto-rows: 1fr
+    grid-auto-rows: 1fr;
+    /* place-items: center; */
 }
 
 .spotTile {
     border: none;
     display: grid;
     grid-template-rows: 80% 20%;
-    height: 100%
+    height: 100%;
+    /* height: 343px;
+    width: 256.75px */
+    max-width: 300px;
+    max-height: 350px;
+    /* align-content: center;
+    justify-content: center; */
+    /* place-self: center; */
 }
 
 img {
@@ -78,7 +90,7 @@ img {
 }
 .spotDetailContainer{
     display: grid;
-    grid-template-columns: 75% 25%;
+    grid-template-columns: 70% 30%;
     margin-bottom: 5px;
     margin-top: 10px;
     grid-template-areas:
@@ -149,16 +161,65 @@ img {
     max-height: 198px;
 }
 
+.callOut {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: row wrap
+}
+
 @media screen and (max-width: 1024px) {
     .allSpots {
         --num-cols: 1;
+        /* display: grid; */
+        /* width: 1024px; */
+        margin-left: auto;
+        margin-right: auto;
+        /* display: block; */
+        /* display: inline-block; */
+        margin-left: 362px;
+        margin-right: 362px;
+        /* row-gap: 0; */
+        /* justify-self: center; */
+        margin-top: 20px;
+        margin-bottom: 20px;
+        /* width: 100%; */
+        /* display: flex; */
+        /* flex-direction: column;*/
+        /* justify-content: center; */
+        /* row-gap: 2px; */
+        /* justify-items: center; */
+        /* align-items: center; */
+        /* align-content: center; */
+        /* place-items: center; */
+        /* place-content: center; */
         /* --row-height: 200px */
     }
+    /* .spotTile {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        margin-left: auto;
+        margin-right: auto;
+    } */
 }
 
 @media screen and (min-width: 1000px) {
     .spotDetailPage {
         width: 1000px;
         margin: auto;
+    }
+}
+
+@media screen and (min-width: 1275px) {
+    .allSpots {
+        width: 1275px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 }
