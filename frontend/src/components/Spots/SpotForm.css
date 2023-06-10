@@ -8,5 +8,61 @@
 .input-box {
     background: white;
     padding: 5px;
-    width: 100%
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.section1 {
+    display: grid;
+    grid-template-areas:
+    "country"
+    "address"
+    "cityState"
+    "latLng";
+}
+.country {
+    grid-area: country;
+    /* margin-right: 5px; */
+}
+.address {
+    grid-area: address;
+}
+.cityState {
+    grid-area: cityState;
+    display: flex;
+    box-sizing: border-box;
+}
+.latLng {
+    grid-area: latLng;
+    display: flex;
+    box-sizing: border-box;
+}
+.latitude {
+    /* display: flex; */
+    flex: 1 1 auto
+}
+.longitude {
+    /* display: flex; */
+    flex: 1 1 auto
+}
+.comma {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    padding-bottom: 10px;
+    margin: 5px;
+    flex: 1 auto 0
+}
+
+textarea {
+    border-radius: 10px;
+}
+.priceInput {
+    display: flex;
+    box-sizing: border-box;
+}
+
+span {
+    margin-left: 5px;
+    margin-right: 5px;
 }
