@@ -133,32 +133,46 @@ img {
     "previewImg previewImg img2 img4";
 }
 
+.spotImageContainer {
+    height: 500px;
+    width: 1000px;
+}
+
 .previewImg {
     grid-area: previewImg;
     object-fit: cover;
     /* height: 100%; */
     /* width: 100%; */
     /* max-height: 100%; */
-    max-height: 400px;
+    /* max-height: 400px; */
+    max-height: 500px;
     height: auto;
     /* width: auto; */
 }
 
 .img1 {
     grid-area: img1;
-    max-height: 198px;
+    /* max-height: 232px; */
+    height: 220px;
+    width: 220px;
 }
 .img2 {
     grid-area: img2;
-    max-height: 198px;
+    height: 220px;
+    width: 220px;
+    /* max-height: 232px; */
 }
 .img3 {
     grid-area: img3;
-    max-height: 198px;
+    height: 220px;
+    width: 220px;
+    /* max-height: 232px; */
 }
 .img4 {
     grid-area: img4;
-    max-height: 198px;
+    height: 220px;
+    width: 220px;
+    /* max-height: 232px; */
 }
 
 .callOut {

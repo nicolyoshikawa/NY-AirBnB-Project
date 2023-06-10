@@ -27,7 +27,7 @@ const SpotDetails = () => {
                         <h2 >{spot.name}</h2>
                         <div >{spot.city}, {spot.state}, {spot.country}</div>
                     </div>
-                    <div ><SpotImages spot={spot}/></div>
+                    <div className="spotImageContainer"><SpotImages spot={spot}/></div>
                     <div className="spotDetailContainer">
                         <div className="description">
                             <div className="firstName">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</div>
