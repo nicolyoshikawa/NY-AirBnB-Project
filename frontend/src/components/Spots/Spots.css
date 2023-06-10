@@ -55,20 +55,20 @@ img {
     grid-area: c;
 }
 
-.newSpotFormPage {
+/* .newSpotFormPage {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-}
+} */
 
-.newSpotForm {
+/* .newSpotForm {
     grid-column-start: 2;
-}
+} */
 
-.input-box {
+/* .input-box {
     background: white;
     padding: 5px;
     width: 100%
-}
+} */
 
 .section {
     border-bottom: 2px solid lightgrey;

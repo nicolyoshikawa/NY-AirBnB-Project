@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as spotActions from "../../store/spots";
 import * as imageActions from "../../store/images";
-import "./Spots.css";
+import "./SpotForm.css";
+// import "./Spots.css"
 
 const CreateNewSpot = () => {
     const user = useSelector(state => state.session.user);
@@ -26,46 +27,50 @@ const CreateNewSpot = () => {
     const [image3, setImage3] = useState("");
     const [image4, setImage4] = useState("");
     const [errors, setErrors] = useState({});
+    const [hasSubmitted, setHasSubmitted] = useState(false);
     const imgArr = [];
 
     useEffect(() => {
-        const errors = {};
-        if(!country) errors["country"] = "Country is required";
-        if(!address) errors["address"] = "Address is required";
-        if(!city) errors["city"] = "City is required";
-        if(!state) errors["state"] = "State is required";
-        if(!name) errors["name"] = "Name is required";
-        if(!price) errors["price"] = "Price is required";
-        if(!lat) errors["lat"] = "Latitude is required";
-        if(!lng) errors["price"] = "Longitude is required";
-        if(!description) errors["description"] = "Description is required";
+        if(hasSubmitted){
+            const errors = {};
+            if(!country) errors["country"] = "Country is required";
+            if(!address) errors["address"] = "Address is required";
+            if(!city) errors["city"] = "City is required";
+            if(!state) errors["state"] = "State is required";
+            if(!name) errors["name"] = "Name is required";
+            if(!price) errors["price"] = "Price is required";
+            if(!lat) errors["lat"] = "Latitude is required";
+            if(!lng) errors["price"] = "Longitude is required";
+            if(!description) errors["description"] = "Description is required";
 
-        if(!previewImage) errors["previewImage"] = "Preview image is required";
-        if(previewImage && (!previewImage.endsWith(".png") &&
-            !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
-            errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
+            if(!previewImage) errors["previewImage"] = "Preview image is required";
+            if(previewImage && (!previewImage.endsWith(".png") &&
+                !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
+                errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image1 && (!image1.endsWith(".png") &&
+                !image1.endsWith(".jpg") && !image1.endsWith(".jpeg"))) {
+                errors["image1"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image2 && (!image2.endsWith(".png") &&
+                !image2.endsWith(".jpg") && !image2.endsWith(".jpeg"))) {
+                errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image3 && (!image3.endsWith(".png") &&
+                !image3.endsWith(".jpg") && !image3.endsWith(".jpeg"))) {
+                errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            if(image4 && (!image4.endsWith(".png") &&
+                !image4.endsWith(".jpg") && !image4.endsWith(".jpeg"))) {
+                errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
+            }
+            setErrors(errors);
         }
-        if(image1 && (!image1.endsWith(".png") &&
-            !image1.endsWith(".jpg") && !image1.endsWith(".jpeg"))) {
-            errors["image1"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        if(image2 && (!image2.endsWith(".png") &&
-            !image2.endsWith(".jpg") && !image2.endsWith(".jpeg"))) {
-            errors["image2"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        if(image3 && (!image3.endsWith(".png") &&
-            !image3.endsWith(".jpg") && !image3.endsWith(".jpeg"))) {
-            errors["image3"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        if(image4 && (!image4.endsWith(".png") &&
-            !image4.endsWith(".jpg") && !image4.endsWith(".jpeg"))) {
-            errors["image4"] = "Image URL must end in .png, .jpg, or .jpeg";
-        }
-        setErrors(errors);
-    }, [address, city, state, country, lat, lng, name, description, price, previewImage, image1, image2, image3, image4]);
+    }, [address, city, state, country, lat, lng, name, description, price, previewImage, image1, image2, image3, image4, hasSubmitted]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setHasSubmitted(true);
         const newSpot = {address, city, state, country, lat, lng, name, description, price, ownerId: user.id};
         const images = [];
 
@@ -75,31 +80,34 @@ const CreateNewSpot = () => {
         if(image3) images.push({ url: image3, preview: false });
         if(image4) images.push({ url: image4, preview: false });
 
-        setErrors({});
-        const spot = await dispatch(spotActions.createNewSpot(newSpot))
-        .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) {
-                setErrors(data.errors);
-            }
-        });
-
-        for( let i = 0; i < images.length; i++){
-            const img = images[i]
-            const newImg = await dispatch(imageActions.newSpotImage(spot, img))
+        if(Object.values(errors).length <= 0){
+            const spot = await dispatch(spotActions.createNewSpot(newSpot))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) {
                     setErrors(data.errors);
                 }
-            })
-            imgArr.push(newImg)
-        }
+            });
 
-        if(spot && imgArr.length === images.length){
-            reset();
-            history.push(`/spots/${spot.id}`);
-        };
+            for( let i = 0; i < images.length; i++){
+                const img = images[i]
+                const newImg = await dispatch(imageActions.newSpotImage(spot, img))
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setErrors(data.errors);
+                    }
+                })
+                imgArr.push(newImg)
+            }
+
+
+            if(spot && imgArr.length === images.length){
+                reset();
+                history.push(`/spots/${spot.id}`);
+                setErrors({});
+            };
+        }
     };
 
     const reset = () => {
@@ -293,7 +301,7 @@ const CreateNewSpot = () => {
                     />
                     {errors.image4 && <div className="errors">{errors.image4}</div>}
             <div className="section"></div>
-            <button type='submit' disabled={Object.values(errors).length > 0}>Create Spot</button>
+            <button type='submit' /*disabled={Object.values(errors).length > 0}*/>Create Spot</button>
             </form>
         </div>
     )

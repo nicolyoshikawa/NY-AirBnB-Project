@@ -1,0 +1,12 @@
+.newSpotFormPage {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.newSpotForm {
+    grid-column-start: 2;
+}
+.input-box {
+    background: white;
+    padding: 5px;
+    width: 100%
+}
