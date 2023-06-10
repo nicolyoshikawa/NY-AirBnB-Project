@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import * as reviewActions from "../../store/reviews.js";
 import * as spotActions from "../../store/spots.js";
 import "./Review.css";
 
 function DeleteReviewModal({spot, review}) {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
 
