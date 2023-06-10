@@ -76,7 +76,6 @@ img {
 .spotDetailContainer{
     display: grid;
     grid-template-columns: 75% 25%;
-    /* margin-top: 5px; */
     margin-bottom: 5px;
     grid-template-areas:
     "a c"
@@ -110,18 +109,33 @@ img {
 .spotImageDetailPage {
     display: grid;
     gap: 5px;
-    /* --num-cols: 4; */
-
-    grid-template:
-    "1 1 2 4"
-    "1 1 3 5";
+    box-sizing: border-box;
+    grid-template-areas:
+    "previewImg previewImg img1 img3"
+    "previewImg previewImg img2 img4";
 }
 
-.spotImageDetailPage > img {
+.previewImg {
+    grid-area: previewImg;
+}
+.img1 {
+    grid-area: img1;
+}
+.img2 {
+    grid-area: img2;
+}
+.img3 {
+    grid-area: img3;
+}
+.img4 {
+    grid-area: img4;
+}
+
+/* .spotImageDetailPage > img {
     object-fit: cover;
     height: 100%;
     width: 100%;
-}
+} */
 
 @media screen and (max-width: 1024px) {
     .allSpots {
