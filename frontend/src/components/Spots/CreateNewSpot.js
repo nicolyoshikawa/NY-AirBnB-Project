@@ -258,8 +258,9 @@ const CreateNewSpot = () => {
                                 name='price'
                                 className="input-box"
                             />
-                        {hasSubmitted && errors.price && <span className="errors">{errors.price}</span>}
                     </div>
+                    {hasSubmitted && errors.price && <span className="errors">{errors.price}</span>}
+
                 <div className="section"></div>
                 <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>

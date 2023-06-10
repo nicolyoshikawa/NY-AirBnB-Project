@@ -61,6 +61,7 @@ const UpdateSpotForm = () => {
             if(!lat) errors["lat"] = "Latitude is required";
             if(!lng) errors["lng"] = "Longitude is required";
             if(!description) errors["description"] = "Description is required";
+            if(description && description.length > 255) errors["description"] = "Description must be 255 characters or less";
             if(previewImage && (!previewImage.endsWith(".png") &&
                 !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
                 errors["previewImage"] = "Image URL must end in .png, .jpg, or .jpeg";
@@ -273,8 +274,8 @@ const UpdateSpotForm = () => {
                                 name='price'
                                 className="input-box"
                             />
-                        {hasSubmitted && errors.price && <span className="errors">{errors.price}</span>}
                     </div>
+                    {hasSubmitted && errors.price && <span className="errors">{errors.price}</span>}
                 <div className="section"></div>
                 <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>
