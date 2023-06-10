@@ -41,7 +41,7 @@ const CreateNewSpot = () => {
             if(!lat) errors["lat"] = "Latitude is required";
             if(!lng) errors["lng"] = "Longitude is required";
             if(!description) errors["description"] = "Description is required";
-
+            if(description && description.length > 255) errors["description"] = "Description must be 255 characters or less";
             if(!previewImage) errors["previewImage"] = "Preview image is required";
             if(previewImage && (!previewImage.endsWith(".png") &&
                 !previewImage.endsWith(".jpg") && !previewImage.endsWith(".jpeg"))) {
@@ -77,10 +77,10 @@ const CreateNewSpot = () => {
         if(image2) images.push({ url: image2, preview: false });
         if(image3) images.push({ url: image3, preview: false });
         if(image4) images.push({ url: image4, preview: false });
-        if(!image1) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
-        if(!image2) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
-        if(!image3) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
-        if(!image4) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
+        // if(!image1) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
+        // if(!image2) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
+        // if(!image3) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
+        // if(!image4) images.push({ url: "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg", preview: false });
 
         if(Object.values(errors).length === 0){
             setErrors({});
@@ -258,8 +258,9 @@ const CreateNewSpot = () => {
                                 name='price'
                                 className="input-box"
                             />
-                        {hasSubmitted && errors.price && <span className="errors">{errors.price}</span>}
                     </div>
+                    {hasSubmitted && errors.price && <span className="errors">{errors.price}</span>}
+
                 <div className="section"></div>
                 <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot.</p>

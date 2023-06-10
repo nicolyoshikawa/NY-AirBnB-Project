@@ -1,7 +1,7 @@
 import "./Review.css";
 
 const ReviewAvg = ({spot}) => {
-    console.log(spot)
+    // console.log(spot)
     const avgRating = spot.avgStarRating ? Number(spot.avgStarRating).toFixed(2) : "New";
     const numReviews = spot.numReviews ? Number(spot.numReviews) : 0;
     let reviewLine;
