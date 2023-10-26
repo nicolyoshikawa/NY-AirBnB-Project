@@ -190,7 +190,7 @@ module.exports = {
         name: "Beach House",
         description: "Oasis stay with a private beach",
         price: 1230
-      }
+      },
     ], {});
   },
 
